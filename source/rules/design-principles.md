@@ -5,6 +5,7 @@ title: Design Principles
 description: >
   Functional core / imperative shell. Pure functions. Postpone side effects.
   Sinks not pipes. SOLID with LSP first (precondition + invariant + postcondition).
+  High cohesion, low coupling at module/API boundaries.
 applies_when:
   - any new module
   - any architectural decision
@@ -61,6 +62,16 @@ See skill:liskov-and-design-by-contract.
 
 Public surface tells truth about what module does. Internals hidden. Callers reason without reading source.
 
+## High Cohesion, Low Coupling
+
+**Cohesion:** what changes together lives together. One clear reason to change per unit.
+
+**Coupling:** pay only for dependencies that earn their keep. Hide incidental detail behind boundaries (FCIS + honest interfaces).
+
+**Afferent** (incoming): others reference you — high fan-in amplifies blast radius when internals or contract slip. **Efferent** (outgoing): you depend on others — high fan-out inherits their churn. Prefer volatile pieces **high efferent, low afferent** so fewer dependents shake when you refactor. Stable, widely referenced surfaces accrete afferent coupling — treat them as real contracts.
+
+[Deeper: afferente vs eferente](https://elemarjr.com/livros/arquiteturadesoftware/volume-1/entendendo-e-convivendo-com-o-acoplamento/#Acoplamento_aferente_e_eferente). Test strategy for high fan-in: skill:test-design. Package by feature (hex inside each slice): skill:hexagonal-architecture.
+
 ## Core Habits
 
 - **Simplicity first**: minimal change footprint.
@@ -100,3 +111,6 @@ DB call inside logic. Untestable without mocks. Effects mixed with computation.
 - Subclass that throws `NotImplementedError` for a base method.
 - Module's public function does five unrelated things.
 - One write triggers four invisible follow-on writes.
+- Unrelated responsibilities glued in one module (low cohesion).
+- Hub referenced by many, guarded only by shallow or interaction-only tests.
+- One feature forces coordinated edits across distant, unrelated packages.

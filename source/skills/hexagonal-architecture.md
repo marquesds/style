@@ -4,7 +4,8 @@ kind: skill
 title: Minimal Hexagonal Architecture
 description: >
   Domain core surrounded by adapters. Domain depends on nothing.
-  Adapters depend on domain ports. Describe responsibilities, not folder names.
+  Adapters depend on domain ports. Prefer packaging by feature;
+  describe responsibilities, not folder names.
 applies_when:
   - new module
   - new service
@@ -36,6 +37,19 @@ Core knows nothing. Adapters know core. Effects at the edge.
 | Driving side | HTTP handlers, CLI, jobs | application |
 
 Folder names per project. Responsibilities universal. See skill:functional-core-imperative-shell for the same idea zoomed-in.
+
+## Package by feature
+
+**Primary cut:** top-level packages by **feature** (vertical slices — user-visible capability or cohesive capability you ship as a unit). Not by technical layer only (`domain/` everywhere, `services/` dumping ground). Larger systems: a feature bundle may map cleanly to one bounded context; still name the tree for **what it delivers**, not which layer folder it is.
+
+**Inside each feature:** same hexagon — domain, ports, application, driving adapters — dependency direction below applies **per feature**.
+
+**Between features:** explicit seams only — anticorruption layer, published language, events/APIs, shared kernel only when genuinely shared. No “grab their adapter/model because it saved typing.”
+
+```text
+GOOD (sketch): checkout/{domain,ports,application,adapters}, pricing/{...}
+BAD: src/domain/{orders,invoicing,wms,everything_else}
+```
 
 ## Dependency Direction
 
@@ -94,3 +108,5 @@ Substitute adapters with in-memory fakes. Domain tests run in microseconds with 
 - Use case touches three repositories AND publishes events AND sends emails.
 - Port surfaces leak SQL syntax, HTTP status codes, or Kafka offsets.
 - "Service" classes that are actually god objects.
+- Single global `domain/` mixing multiple unrelated aggregates or languages.
+- Feature B imports Feature A's adapter or internal DTO “for convenience.”
