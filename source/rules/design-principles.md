@@ -5,7 +5,8 @@ title: Design Principles
 description: >
   Functional core / imperative shell. Pure functions. Postpone side effects.
   Sinks not pipes. SOLID with LSP first (precondition + invariant + postcondition).
-  High cohesion, low coupling at module/API boundaries.
+  High cohesion, low coupling at module/API boundaries. Law of Demeter (least
+  knowledge). YAGNI.
 applies_when:
   - any new module
   - any architectural decision
@@ -70,7 +71,18 @@ Public surface tells truth about what module does. Internals hidden. Callers rea
 
 **Afferent** (incoming): others reference you — high fan-in amplifies blast radius when internals or contract slip. **Efferent** (outgoing): you depend on others — high fan-out inherits their churn. Prefer volatile pieces **high efferent, low afferent** so fewer dependents shake when you refactor. Stable, widely referenced surfaces accrete afferent coupling — treat them as real contracts.
 
+**Law of Demeter (least knowledge):** a unit talks only to **immediate collaborators** — no “friend of a friend” via long chains (`a.b().c().d()` train wrecks). Put traversal and disclosure behind the **owner** (method on aggregate, façade, port), not callers reaching through foreign internals. Reinforces low coupling and deep modules.
+
+```text
+GOOD: order.buyer_contact() → one collaborator
+BAD:  order.buyer().account().person().email() → chain owns your graph
+```
+
 [Deeper: afferente vs eferente](https://elemarjr.com/livros/arquiteturadesoftware/volume-1/entendendo-e-convivendo-com-o-acoplamento/#Acoplamento_aferente_e_eferente). Test strategy for high fan-in: skill:test-design. Package by feature (hex inside each slice): skill:hexagonal-architecture.
+
+## YAGNI
+
+**You Aren’t Gonna Need It:** implement **today’s** requirement — no speculative abstraction, configuration toggles, plugin tiers, or extra layers until **two concrete callers**, recurring churn, or a **measurable constraint** pulls them in. Prefer the smallest shape **until duplication hurts**. Fewer hypothetical futures ⇒ less coupling and less head load.
 
 ## Core Habits
 
@@ -114,3 +126,6 @@ DB call inside logic. Untestable without mocks. Effects mixed with computation.
 - Unrelated responsibilities glued in one module (low cohesion).
 - Hub referenced by many, guarded only by shallow or interaction-only tests.
 - One feature forces coordinated edits across distant, unrelated packages.
+- Train-wreck chains or getters exposed only so outsiders can keep navigating across boundaries.
+- Unused knobs, strategy branches, or interfaces maintained “for flexibility” nobody uses.
+- Alternate code paths exercised only by tests or mocks for hypothetical callers.
