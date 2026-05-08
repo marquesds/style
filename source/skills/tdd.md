@@ -4,8 +4,9 @@ kind: skill
 title: TDD
 description: >
   Write failing test first. Implementation second. Default test shape is the
-  Testing Trophy (static + thick integration + unit + few E2E). Tests are proof,
-  not afterthought.
+  Testing Trophy (static + thick integration + unit + few E2E). Prefer Chicago
+  school: state-based checks, real in-process collaborators, doubles only at
+  non-deterministic or external boundaries. Tests are proof, not afterthought.
 applies_when:
   - new logic
   - bug fix
@@ -75,7 +76,19 @@ Unit           ~some    pure logic, no I/O
 Static         ~broad   types, lint, contracts
 ```
 
+## Chicago school (default)
+
+Also called **Detroit** style. **Chicago:** drive tests through the **public**
+surface; use **real collaborators** in-process when practical; reserve fakes or
+mocks for **edges** (I/O, time, third-party APIs). Assert **outcomes and state**,
+not who called whom. **London** style — heavy doubles on every neighbor and
+interaction assertions — is **not** the default; use it sparingly where a port
+contract truly needs it (see skill:test-design). The trophy distribution above
+is Chicago school in practice.
+
 ## Good Tests
+
+These habits spell Chicago school in day-to-day work.
 
 - State, not interactions: assert outcome, not mock calls.
 - DAMP > DRY: each test reads as a complete spec.
