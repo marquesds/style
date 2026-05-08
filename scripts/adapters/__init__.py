@@ -12,6 +12,7 @@ from scripts.adapters.base import (
 from scripts.adapters.claude import ClaudeAdapter
 from scripts.adapters.codex import CodexAdapter
 from scripts.adapters.cursor import CursorAdapter
+from scripts.adapters.goose import GooseAdapter
 from scripts.adapters.openclaw import OpenClawAdapter
 from scripts.adapters.opencode import OpenCodeAdapter
 from scripts.adapters.pi import PiAdapter
@@ -21,6 +22,7 @@ ADAPTERS: dict[str, Adapter] = {
     "claude": ClaudeAdapter(),
     "cursor": CursorAdapter(),
     "codex": CodexAdapter(),
+    "goose": GooseAdapter(),
     "openclaw": OpenClawAdapter(),
     "opencode": OpenCodeAdapter(),
     "pi": PiAdapter(),

@@ -41,6 +41,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
               claude: { kind: rule }
               cursor: { kind: rule, glob: "**/*" }
               codex:  { section: rules }
+              goose:  { section: rules }
               openclaw: { section: rules }
               opencode: { kind: rule }
               pi:       { section: rules }
@@ -86,6 +87,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
               claude: { kind: skill }
               cursor: { kind: rule }
               codex:  { section: skills }
+              goose:  { section: skills }
               openclaw: { section: skills }
               opencode: { kind: skill }
               pi:       { section: skills }
@@ -126,6 +128,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
               claude: { kind: command }
               cursor: { kind: command }
               codex:  { section: commands }
+              goose:  { section: commands }
               openclaw: { section: commands }
               opencode: { kind: command }
               pi:       { section: commands }
@@ -296,6 +299,17 @@ def test_openclaw_merges_workspace_agents(fake_source_dir: Path, tmp_path: Path)
     sources = load_all(fake_source_dir)
     ADAPTERS["openclaw"].write_all(sources, target_root=out, dry_run=False)
     path = out / ".openclaw" / "workspace" / "AGENTS.md"
+    assert path.exists()
+    text = path.read_text(encoding="utf-8")
+    assert BEGIN_MARKER in text and END_MARKER in text
+    assert "Code Quality" in text
+
+
+def test_goose_merges_config_agents(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    sources = load_all(fake_source_dir)
+    ADAPTERS["goose"].write_all(sources, target_root=out, dry_run=False)
+    path = out / ".config" / "goose" / "AGENTS.md"
     assert path.exists()
     text = path.read_text(encoding="utf-8")
     assert BEGIN_MARKER in text and END_MARKER in text

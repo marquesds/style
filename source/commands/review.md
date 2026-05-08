@@ -9,6 +9,7 @@ agents:
   claude: { kind: command }
   cursor: { kind: command }
   codex:  { section: commands }
+  goose:  { section: commands }
   openclaw: { section: commands }
   opencode: { kind: command }
   pi:       { section: commands }

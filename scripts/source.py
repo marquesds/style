@@ -15,7 +15,7 @@ import yaml
 FRONTMATTER_DELIM = "---"
 ALLOWED_KINDS = frozenset({"rule", "skill", "command"})
 ALLOWED_AGENTS = frozenset(
-    {"claude", "cursor", "codex", "openclaw", "opencode", "pi", "vibe"}
+    {"claude", "cursor", "codex", "goose", "openclaw", "opencode", "pi", "vibe"}
 )
 REQUIRED_FIELDS = frozenset({"id", "kind", "title", "description", "agents"})
 

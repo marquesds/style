@@ -4,7 +4,7 @@ Date: 2026-05-07
 
 ## Context
 
-The same coding-style guidance has to land in multiple agents (Claude Code, Cursor, Codex, OpenClaw, OpenCode, Pi, Vibe), each of which has its own native file format and discovery rules. Duplicating the content per agent makes drift inevitable: a fix to the TDD skill in Claude lands days or weeks later in Cursor, and never lands in Codex. The other obvious option — writing in one agent's native format and converting from there — privileges whichever agent I pick as the source and leaves the others second-class.
+The same coding-style guidance has to land in multiple agents (Claude Code, Cursor, Codex, Goose, OpenClaw, OpenCode, Pi, Vibe), each of which has its own native file format and discovery rules. Duplicating the content per agent makes drift inevitable: a fix to the TDD skill in Claude lands days or weeks later in Cursor, and never lands in Codex. The other obvious option — writing in one agent's native format and converting from there — privileges whichever agent I pick as the source and leaves the others second-class.
 
 I also need to keep these documents short, structured, and lintable. Free-form Markdown without conventions invites inconsistencies in heading levels, missing examples, and silent breakage.
 
