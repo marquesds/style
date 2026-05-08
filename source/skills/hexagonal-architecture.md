@@ -44,7 +44,7 @@ Folder names per project. Responsibilities universal. See skill:functional-core-
 
 **Inside each feature:** same hexagon — domain, ports, application, driving adapters — dependency direction below applies **per feature**.
 
-**Between features:** explicit seams only — anticorruption layer, published language, events/APIs, shared kernel only when genuinely shared. No “grab their adapter/model because it saved typing.”
+**Between features:** explicit seams only — anticorruption layer, published language, events/APIs, shared kernel only when genuinely shared. No “grab their adapter/model because it saved typing.” Aggregate-scoped repos (not table DAOs) + cross-context translators: skill:bounded-context-mapping.
 
 ```text
 GOOD (sketch): checkout/{domain,ports,application,adapters}, pricing/{...}
