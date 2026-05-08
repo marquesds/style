@@ -34,6 +34,8 @@ Each gate: human confirms before next phase starts.
 
 ## Phase 1: SPECIFY
 
+Vague or high-impact ask → **skill:requirements-crushing** first (brief + Ready-to-Code gate); avoids bloating this phase with full crush template here.
+
 Surface assumptions immediately:
 
 ```text

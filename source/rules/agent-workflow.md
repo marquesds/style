@@ -28,6 +28,26 @@ Task 3+ steps OR architectural decision → plan mode. Goes sideways → STOP, r
 
 Spec upfront cuts ambiguity. Cheap model for exploration (haiku, flash, composer-2). Expensive model for the actual edit.
 
+## Planning: Product + Requirements
+
+User-facing, cross-team, or high-impact → plan step **surfaces product-relevant questions**: who affected, success metric, compliance, rollout, UX copy, edge users.
+
+**Refine requirements before implementation.** Spec/request incomplete or ambiguous → run **skill:requirements-crushing**; need **`Ready-to-Code: YES`** (or explicit human override) before large diffs.
+
+Pure engineering bug (wrong line, crash, perf regression) → still **autonomous root cause** below.
+
+Behavior / product / compliance uncertainty → questions belong **in planning**, not ticket hand-holding disguised as "which line broke?".
+
+**Staff+/owner lens.** In **plan mode**, planning output **must** include explicit **trade-offs** (we gain X / we pay Y—e.g. latency vs complexity, speed vs reversibility, build vs buy, scope vs timeline), not only a risk list, plus questions whose answers change whether the work is worth doing or how it is shaped:
+
+- Worst realistic failure: who absorbs the downside (users, support, liability, brand)?
+- Opportunity cost: next-best use of this effort?
+- Irreversible decisions: blast radius, rollback, who owns the failure mode?
+- Run rate or spend (infra, vendor, ops); $$ or SLA impact if we slip or guess wrong?
+- Contractual or regulatory exposure; incident and support burden if we ship?
+
+What would we measure to know we should revert?
+
 ## Stop The Line
 
 Test fails unexpectedly → stop. Diff bigger than expected → stop. Re-plan immediately. Half-fixed state worse than zero state.

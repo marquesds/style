@@ -41,6 +41,10 @@ Skip for obvious one-liners. Challenge own work before presenting.
 
 Iterator chains, comprehensions, pattern matching > nested conditionals + mutation. Logic flat. Data flow obvious.
 
+## Streaming / Bounded Memory
+
+Data can grow → default **lazy**: generators, iterator pipelines, chunked I/O, DB/server-side **cursor** iteration. Materialize `list` / `set` only when size bound proven or API demands concrete collection.
+
 ## GOOD
 
 ```python
@@ -53,7 +57,14 @@ def discount(order: Order) -> Price:
         case Tier.STANDARD: return order.price
 ```
 
-Small, single-purpose, no mutation. Reads like spec.
+```python
+def active_ids(conn):
+    cur = conn.execute("SELECT id FROM users WHERE active")
+    for row in cur:
+        yield row[0]
+```
+
+Small, single-purpose, no mutation. Reads like spec. Stream path: one row at a time, no giant `list(all_rows)`.
 
 ## BAD
 
@@ -79,7 +90,13 @@ def discount(order):
             ...
 ```
 
-Untyped. Mutable accumulator. Deep nesting. Branching too wide.
+```python
+def load_everything(conn):
+    rows = list(conn.execute("SELECT * FROM huge").fetchall())
+    return [r for r in rows if r["ok"]]
+```
+
+Untyped. Mutable accumulator. Deep nesting. Branching too wide. Full fetch + filter in memory when cursor + predicate stream would do.
 
 ## Red Flags
 
