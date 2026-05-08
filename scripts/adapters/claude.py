@@ -1,0 +1,92 @@
+"""Claude Code adapter.
+
+Layout:
+- Skills  -> <root>/.claude/skills/<id>/SKILL.md   (Claude's native skill format).
+- Rules   -> managed section in <root>/.claude/CLAUDE.md (rules merged inline).
+- Commands -> <root>/.claude/commands/<id>.md      (slash command prompts).
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+from scripts.adapters.base import (
+    FILE_MARKER_HTML,
+    AdapterReport,
+    WriteOp,
+    apply_op,
+    replace_managed_section,
+)
+from scripts.source import Source
+
+
+class ClaudeAdapter:
+    name = "claude"
+
+    def write_all(
+        self,
+        sources: list[Source],
+        target_root: Path,
+        dry_run: bool,
+    ) -> AdapterReport:
+        report = AdapterReport(agent=self.name)
+        root = target_root / ".claude"
+
+        for s in sources:
+            if "claude" not in s.agents:
+                continue
+            if s.kind == "skill":
+                op = self._skill_op(s, root)
+            elif s.kind == "command":
+                op = self._command_op(s, root)
+            elif s.kind == "rule":
+                continue
+            else:
+                continue
+            report.add(op)
+
+        rules = [s for s in sources if s.kind == "rule" and "claude" in s.agents]
+        if rules:
+            report.add(self._claude_md_op(rules, root))
+
+        if not dry_run:
+            for op in report.ops:
+                apply_op(op)
+        return report
+
+    def _skill_op(self, src: Source, root: Path) -> WriteOp:
+        path = root / "skills" / src.id / "SKILL.md"
+        content = (
+            "---\n"
+            f"name: {src.id}\n"
+            f"description: >\n  {src.description.replace(chr(10), chr(10) + '  ')}\n"
+            "---\n\n"
+            f"{FILE_MARKER_HTML}\n"
+            f"{src.body.lstrip()}"
+        )
+        return WriteOp(path=path, content=content)
+
+    def _command_op(self, src: Source, root: Path) -> WriteOp:
+        path = root / "commands" / f"{src.id}.md"
+        content = f"{FILE_MARKER_HTML}\n\n# /{src.id}\n\n{src.body.lstrip()}"
+        return WriteOp(path=path, content=content)
+
+    def _claude_md_op(self, rules: list[Source], root: Path) -> WriteOp:
+        path = root / "CLAUDE.md"
+        existing = path.read_text(encoding="utf-8") if path.exists() else ""
+        body_parts = [
+            "# Style Harness Rules",
+            "",
+            "Always-on guidance installed by `style-harness`.",
+            "",
+        ]
+        for r in rules:
+            body_parts.append(f"## {r.title}")
+            body_parts.append("")
+            body_parts.append(r.description)
+            body_parts.append("")
+            body_parts.append(r.body.strip())
+            body_parts.append("")
+        new_block = "\n".join(body_parts).rstrip() + "\n"
+        merged = replace_managed_section(existing, new_block)
+        return WriteOp(path=path, content=merged)
