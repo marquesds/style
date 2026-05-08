@@ -67,12 +67,12 @@ Bug → reproduction test → confirm fail → fix → confirm pass → run full
 
 ## Testing Trophy (Default)
 
-Broad **static** base (types, lint, contract checks). **Unit** for pure core — fast, narrow. **Integration** band **thick**: real DB / HTTP client / module wiring; fake **only** at true system edge. **E2E** few — critical user journeys only. More confidence from **integration** than from mocked-out “unit” that proves nothing about real seams. See skill:test-design for fan-in ports.
+Broad **static** base (types, lint, contract checks). **Unit** for pure core — fast, narrow. **No real I/O**: no disk, network, database, or subprocess; in-memory collaborators and fakes only. Incidental **stdout/stderr** (e.g. debug `print`) is fine — still **assert** outcomes. **Integration** band **thick**: real DB / HTTP client / module wiring; fake **only** at true system edge. **E2E** few — critical user journeys only. More confidence from **integration** than from mocked-out “unit” that proves nothing about real seams. See skill:test-design for fan-in ports.
 
 ```text
   E2E           ~few     critical paths only
 Integration    ~most    real deps; doubles at boundary
-Unit           ~some    pure logic, no I/O
+Unit           ~some    in-memory; no disk/net/db; print ok
 Static         ~broad   types, lint, contracts
 ```
 
@@ -80,7 +80,8 @@ Static         ~broad   types, lint, contracts
 
 Also called **Detroit** style. **Chicago:** drive tests through the **public**
 surface; use **real collaborators** in-process when practical; reserve fakes or
-mocks for **edges** (I/O, time, third-party APIs). Assert **outcomes and state**,
+mocks for **edges** (I/O, time, third-party APIs). **Prove** real I/O in
+**integration** or adapter tests — **unit** stays in-memory or pure. Assert **outcomes and state**,
 not who called whom. **London** style — heavy doubles on every neighbor and
 interaction assertions — is **not** the default; use it sparingly where a port
 contract truly needs it (see skill:test-design). The trophy distribution above
@@ -153,3 +154,4 @@ Python: `pytest`, `pytest-asyncio`, `hypothesis`, `freezegun`. Run `pytest -k na
 - Bug fix without reproduction test.
 - `# noqa`, `@pytest.mark.skip`, or commented-out tests to "pass" the suite.
 - Mock returns shaped to make a buggy implementation pass.
+- “Unit” test hits filesystem, socket, database, or real HTTP — mark integration or use an in-memory fake.
