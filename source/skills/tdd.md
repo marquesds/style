@@ -3,8 +3,9 @@ id: tdd
 kind: skill
 title: TDD
 description: >
-  Write failing test first. Implementation second. Use any new logic, bug fix,
-  or behavior change. Tests are proof, not afterthought.
+  Write failing test first. Implementation second. Default test shape is the
+  Testing Trophy (static + thick integration + unit + few E2E). Tests are proof,
+  not afterthought.
 applies_when:
   - new logic
   - bug fix
@@ -63,12 +64,15 @@ Improve shape. Tests stay green. No behavior change.
 
 Bug → reproduction test → confirm fail → fix → confirm pass → run full suite. See skill:bug-first-debugging.
 
-## Test Pyramid
+## Testing Trophy (Default)
+
+Broad **static** base (types, lint, contract checks). **Unit** for pure core — fast, narrow. **Integration** band **thick**: real DB / HTTP client / module wiring; fake **only** at true system edge. **E2E** few — critical user journeys only. More confidence from **integration** than from mocked-out “unit” that proves nothing about real seams. See skill:test-design for fan-in ports.
 
 ```text
-        /\        Integration ~15%   (HTTP round-trip, real adapters)
-       /  \       Unit         ~85%   (pure functions, no I/O)
-      /----\
+  E2E           ~few     critical paths only
+Integration    ~most    real deps; doubles at boundary
+Unit           ~some    pure logic, no I/O
+Static         ~broad   types, lint, contracts
 ```
 
 ## Good Tests
@@ -88,6 +92,19 @@ class TestCompleteSession:
     def test_returns_error_for_unknown_session(self): ...
 ```
 
+```python
+def test_pricing_rule_uses_line_totals():
+    assert price_lines([Line(2, Money.usd("1.50"))]) == Money.usd("3.00")
+
+@pytest.mark.integration
+def test_checkout_persists_order(sqlite_uow_factory):
+    with sqlite_uow_factory() as uow:
+        receipt = checkout(sample_state(), uow)
+    assert uow.orders.count() == 1
+```
+
+Trophy-shaped: **unit** pins pure rule; **integration** hits real UoW/DB seam (fake only mailer at edge if needed).
+
 ## BAD
 
 ```python
@@ -97,6 +114,20 @@ def test_session_works():
 ```
 
 Vague. Asserts truthiness. Tests nothing useful.
+
+```python
+@pytest.mark.integration
+def test_everything(playwright_page):
+    playwright_page.goto("/")
+    # only E2E for business rule; slow, brittle, no seam signal
+
+def test_checkout_only_mocks():
+    uow = Mock()
+    uow.orders.save = Mock()
+    assert checkout(state, uow)  # green while real SQL or transaction bug hides
+```
+
+E2E-only for logic **or** checkout proven only with mocks — no real persistence seam.
 
 ## Tooling Notes
 

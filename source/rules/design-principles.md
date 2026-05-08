@@ -3,10 +3,9 @@ id: design-principles
 kind: rule
 title: Design Principles
 description: >
-  Functional core / imperative shell. Pure functions. Postpone side effects.
-  Sinks not pipes. SOLID with LSP first (precondition + invariant + postcondition).
-  High cohesion, low coupling at module/API boundaries. Law of Demeter (least
-  knowledge). YAGNI.
+  Functional core / imperative shell. Favor referentially transparent
+  functions for logic. Parnas information hiding; weaker connascence; GRASP.
+  SOLID with LSP first. High cohesion, low coupling. Law of Demeter. YAGNI.
 applies_when:
   - any new module
   - any architectural decision
@@ -29,9 +28,13 @@ Pure core. Effects at the edge. Honest interfaces. LSP holds always.
 
 ## Functional Core / Imperative Shell
 
-Pure functions hold logic. Side effects live at the boundary. Immutability default. Referential transparency. Effects postponed to last stage.
+Pure functions hold logic. Side effects live at the boundary. Immutability default. Effects postponed to last stage.
 
 See skill:functional-core-imperative-shell.
+
+## Referential Transparency
+
+**Favor** functions where **same inputs ⇒ same output** and **no hidden** observable effect: no sneaky I/O, globals, env reads, `now()`, RNG, or **in-place mutation** of arguments. Caller can substitute `f(x)` with its value. Time, randomness, clocks → **explicit parameters** or **shell** only (inject ports, don’t reach inside “pure” logic).
 
 ## Postpone Side Effects
 
@@ -59,9 +62,17 @@ Violate any → refactor. Don't paper over with `isinstance` checks.
 
 See skill:liskov-and-design-by-contract.
 
-## Deep Modules, Honest Interfaces
+## Information Hiding (Parnas), Deep Modules, Honest Interfaces
 
-Public surface tells truth about what module does. Internals hidden. Callers reason without reading source.
+**Parnas:** hide **design decisions likely to change**. Stable boundary; callers depend on **semantics**, not storage or ordering inside. Public surface **honest** about **what** module does; **how** stays private — deep module, no spelunking.
+
+## Connascence
+
+Parts share a **secret agreement** = connascence. Prefer **weaker** forms (easier to change). Rough strength: Name < Type < Meaning < Position (broadly, static < dynamic). Two files both interpret the same bare `dict` key strings and churn together → name/type the contract. Caller uses `row[0]` / tuple slots ↔ **connascence of position**; give a **named** operation (`best_bid()`, not `(price, qty, ts)[0]`). Refactor until the shared secret shrinks.
+
+## GRASP (Larman)
+
+Craig Larman — responsibility assignment: **Information Expert**, **Creator**, **Controller**; **Low Coupling** + **High Cohesion** (below); **Polymorphism** (kill type switches); **Pure Fabrication** (invented class to keep cohesion); **Indirection** (mediate); **Protected Variations** (port around predicted change ↔ hex).
 
 ## High Cohesion, Low Coupling
 
@@ -89,6 +100,7 @@ BAD:  order.buyer().account().person().email() → chain owns your graph
 - **Simplicity first**: minimal change footprint.
 - **No laziness**: root cause, no workarounds.
 - **Minimal blast radius**: touch only necessary.
+- **Referential transparency** for logic: pure data in, data out — effects named and at edge.
 
 ## GOOD
 
@@ -102,7 +114,18 @@ async def checkout(state: State, db: Db) -> Receipt:
     return receipt
 ```
 
-Pure `total` and `build_receipt`. I/O at the shell.
+Pure `total` and `build_receipt`. I/O at shell. Module hides **pricing rules**; `checkout` doesn’t read SKU tables directly.
+
+```python
+class OrderBook:
+    def best_bid(self) -> Price | None: ...
+
+def quote(book: OrderBook) -> str:
+    p = book.best_bid()
+    return "n/a" if p is None else str(p)
+```
+
+Heap vs sorted list stays inside `OrderBook` — **information hiding**.
 
 ## BAD
 
@@ -117,6 +140,28 @@ async def total(items, db):
 
 DB call inside logic. Untestable without mocks. Effects mixed with computation.
 
+```python
+def notional(row: tuple[int, str, float]) -> float:
+    return row[0] * row[2]  # tuple shape is the secret API — connascence of position
+
+def area(shape: object) -> float:
+    if isinstance(shape, Circle):
+        return pi * shape.r**2
+    if isinstance(shape, Rect):
+        return shape.w * shape.h
+    return 0.0
+```
+
+Position + scattered `isinstance` ladder — use **named types** / **polymorphism** (GRASP **Protected Variations**).
+
+```python
+def line_total(qty: int, unit: Money) -> Money:
+    metrics.increment("line_total")  # hidden effect — not replaceable by value
+    return unit * qty
+```
+
+Looks like math; **observably** not referentially transparent.
+
 ## Red Flags
 
 - I/O call in a function named like pure logic (`compute_*`, `calculate_*`).
@@ -129,3 +174,6 @@ DB call inside logic. Untestable without mocks. Effects mixed with computation.
 - Train-wreck chains or getters exposed only so outsiders can keep navigating across boundaries.
 - Unused knobs, strategy branches, or interfaces maintained “for flexibility” nobody uses.
 - Alternate code paths exercised only by tests or mocks for hypothetical callers.
+- Callers coupled to **field order** / **tuple layout** of another module’s data.
+- **Type switches** scattered instead of polymorphism or a single port.
+- `compute_*` / `pure`-shaped fn touches **clock**, **env**, **singleton**, **metrics**, or **mutates** args.

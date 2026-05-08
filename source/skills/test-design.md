@@ -3,9 +3,8 @@ id: test-design
 kind: skill
 title: Test Design
 description: >
-  What to test, how much, which doubles. Beyond red-green: specs, boundaries,
-  mutation thinking, properties. Afferent-coupling-aware prioritization when
-  many depend on same unit. Ties to TDD + testable architecture.
+  What to test, how much, which doubles. Default Testing Trophy + fan-in-aware
+  rigor. Specs, boundaries, mutation, properties. Ties to TDD + architecture.
 applies_when:
   - new test suite
   - weak assertions
@@ -65,10 +64,14 @@ Inject clock, randomness, I/O ports; keep core pure — see architecture skills 
 
 Abstractions cut static coupling but raise dynamic complexity — tests must pay that down (regressions, mutation where it counts).
 
+## Testing Trophy + High Fan-In
+
+Default distribution ([skill:tdd](source/skills/tdd.md)): **thick integration** at real seams, not mock-heavy “unit” suites that never touch the DB or real adapter. For **high afferent** ports, that integration/contract layer is the main guard — unit tests around pure helpers are not enough. E2E stays sparse.
+
 ## GOOD
 
-Parametrize partitions + boundaries; one property for core invariant; fake clock in unit tests. Contract + regression suite for ports with many importers; mutation on stable hub when affordable.
+Parametrize partitions + boundaries; one property for core invariant; fake clock in unit tests. **Trophy:** integration/regression on stable ports many importers share; mutation on that hub when affordable. High fan-in ⇒ behavioral asserts on observed contract, not mocks-only isolation theater.
 
 ## BAD
 
-Ten happy-path clones on one partition; suite green but any refactor breaks everything; mock every dependency “for isolation.” High fan-in port with only consumer ITs duplicating brittle expectations; mocks-only “coverage” on shared semantic surface.
+Ten happy-path clones on one partition; suite green but any refactor breaks everything; mock every dependency “for isolation.” High fan-in hub: only shallow unit tests + **zero** integration through real wiring; or full E2E replacing integration so every failure is a 10-minute flake. Mocks-only “coverage” on shared semantic surface.

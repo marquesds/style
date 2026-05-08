@@ -12,7 +12,7 @@ It is not a framework. It does not lock you into a stack, a directory layout, or
 
 ## The practices, in plain English
 
-**Test-driven development.** Write a failing test for the next behavior, then write the smallest implementation that makes it pass, then refactor while the test keeps you honest. Tests are how I prove the code does what it claims; they come first, not last.
+**Test-driven development.** Write a failing test for the next behavior, then write the smallest implementation that makes it pass, then refactor while the test keeps you honest. Default shape is the **Testing Trophy**: generous static checks, a thick band of integration tests on real seams, focused unit tests for pure logic, and only a few end-to-end tests for critical journeys — not a narrow “unit-heavy pyramid.” Tests are how I prove the code does what it claims; they come first, not last.
 
 **Bug-first debugging.** A bug report is not a fix request, it is a "reproduce this" request. The first artifact when a bug is reported is a failing test that pins the bug. The fix follows. The test stays as a regression guard, tagged so future readers can find it.
 
@@ -37,7 +37,7 @@ It is not a framework. It does not lock you into a stack, a directory layout, or
 ## How to read the rest of the repo
 
 - `source/rules/` — always-on guidance. Seven files: agent workflow, subagent-first, code quality, design principles, documentation, observability, reuse and idioms.
-- `source/skills/` — on-demand expertise. Twenty-eight files covering everything described above.
+- `source/skills/` — on-demand expertise. Twenty-nine files covering everything described above.
 - `source/commands/` — slash-command prompts that engage one or more skills (`/spec`, `/plan`, `/tdd`, `/bug`, `/review`, `/done`, `/commit`).
 - `scripts/` — the loader, lint, build orchestrator, and per-agent adapters.
 - `tests/` — snapshot tests for the build pipeline.

@@ -33,6 +33,8 @@ Nontrivial behavior → pause. Grep / semantic search **this repo** for same pro
 
 Greenfield 50-line parser for CSV/JSON/dates/paths → stop. Almost always wrong vs stdlib + tests.
 
+Outbound **retry / backoff / circuit breaker** → skill:resilience-retries — don’t hand-roll sleep loops.
+
 New dep → justify: saves bugs/time vs tiny glue, maintenance OK, license compatible.
 
 ## Idioms

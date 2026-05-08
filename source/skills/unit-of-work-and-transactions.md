@@ -71,7 +71,7 @@ External effects fire after commit, never inside.
 
 ## Outbox over Dual-Write
 
-Persist event in the same UoW; a dispatcher publishes from the outbox. Failures retried; consumers idempotent (see skill:restful-http-design idempotency).
+Persist event in the same UoW; a dispatcher publishes from the outbox. Failures retried with idempotency + backoff (skill:resilience-retries); consumers idempotent (skill:restful-http-design).
 
 ## GOOD
 
