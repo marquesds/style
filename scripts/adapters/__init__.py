@@ -12,12 +12,18 @@ from scripts.adapters.base import (
 from scripts.adapters.claude import ClaudeAdapter
 from scripts.adapters.codex import CodexAdapter
 from scripts.adapters.cursor import CursorAdapter
+from scripts.adapters.openclaw import OpenClawAdapter
+from scripts.adapters.opencode import OpenCodeAdapter
+from scripts.adapters.pi import PiAdapter
 from scripts.adapters.vibe import VibeAdapter
 
 ADAPTERS: dict[str, Adapter] = {
     "claude": ClaudeAdapter(),
     "cursor": CursorAdapter(),
     "codex": CodexAdapter(),
+    "openclaw": OpenClawAdapter(),
+    "opencode": OpenCodeAdapter(),
+    "pi": PiAdapter(),
     "vibe": VibeAdapter(),
 }
 

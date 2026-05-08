@@ -18,7 +18,7 @@ from scripts.source import load_all, parse_text
 
 @pytest.fixture
 def fake_source_dir(tmp_path: Path) -> Path:
-    """Build a tiny source/ tree covering all three kinds and four agents."""
+    """Build a tiny source/ tree covering all three kinds and every agent."""
     root = tmp_path / "source"
     (root / "rules").mkdir(parents=True)
     (root / "skills").mkdir(parents=True)
@@ -41,6 +41,9 @@ def fake_source_dir(tmp_path: Path) -> Path:
               claude: { kind: rule }
               cursor: { kind: rule, glob: "**/*" }
               codex:  { section: rules }
+              openclaw: { section: rules }
+              opencode: { kind: rule }
+              pi:       { section: rules }
               vibe:   { kind: rule }
             ---
 
@@ -83,6 +86,9 @@ def fake_source_dir(tmp_path: Path) -> Path:
               claude: { kind: skill }
               cursor: { kind: rule }
               codex:  { section: skills }
+              openclaw: { section: skills }
+              opencode: { kind: skill }
+              pi:       { section: skills }
               vibe:   { kind: skill }
             ---
 
@@ -120,6 +126,9 @@ def fake_source_dir(tmp_path: Path) -> Path:
               claude: { kind: command }
               cursor: { kind: command }
               codex:  { section: commands }
+              openclaw: { section: commands }
+              opencode: { kind: command }
+              pi:       { section: commands }
               vibe:   { kind: command }
             ---
 
@@ -265,6 +274,41 @@ def test_codex_merges_into_agents_md(fake_source_dir: Path, tmp_path: Path) -> N
     assert "Pre-existing user content" in text
     assert BEGIN_MARKER in text and END_MARKER in text
     assert "Code Quality" in text and "TDD" in text
+
+
+def test_opencode_writes_layout(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    sources = load_all(fake_source_dir)
+    ADAPTERS["opencode"].write_all(sources, target_root=out, dry_run=False)
+    agents = out / ".config" / "opencode" / "AGENTS.md"
+    assert agents.exists()
+    ag_text = agents.read_text(encoding="utf-8")
+    assert BEGIN_MARKER in ag_text and "Code Quality" in ag_text
+    skill = out / ".config" / "opencode" / "skills" / "tdd" / "SKILL.md"
+    assert skill.exists()
+    assert skill.read_text(encoding="utf-8").startswith("---\nname: tdd\n")
+    cmd = out / ".config" / "opencode" / "commands" / "tdd.md"
+    assert "---\ndescription: >\n" in cmd.read_text(encoding="utf-8")
+
+
+def test_openclaw_merges_workspace_agents(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    sources = load_all(fake_source_dir)
+    ADAPTERS["openclaw"].write_all(sources, target_root=out, dry_run=False)
+    path = out / ".openclaw" / "workspace" / "AGENTS.md"
+    assert path.exists()
+    text = path.read_text(encoding="utf-8")
+    assert BEGIN_MARKER in text and END_MARKER in text
+    assert "Code Quality" in text
+
+
+def test_pi_merges_into_agents_md(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    sources = load_all(fake_source_dir)
+    ADAPTERS["pi"].write_all(sources, target_root=out, dry_run=False)
+    text = (out / "AGENTS.md").read_text(encoding="utf-8")
+    assert BEGIN_MARKER in text and END_MARKER in text
+    assert "TDD" in text
 
 
 def test_idempotent_rewrite(fake_source_dir: Path, tmp_path: Path) -> None:

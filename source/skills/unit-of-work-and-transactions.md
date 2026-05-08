@@ -13,6 +13,9 @@ agents:
   claude: { kind: skill }
   cursor: { kind: rule }
   codex:  { section: skills }
+  openclaw: { section: skills }
+  opencode: { kind: skill }
+  pi:       { section: skills }
   vibe:   { kind: skill }
 ---
 

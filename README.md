@@ -1,6 +1,6 @@
 # style
 
-A language-agnostic, single-source-of-truth coding-style harness. Captures my own practices (TDD, bug-first, minimal hexagonal, functional core / imperative shell, types-first LSP, RESTful HTTP, observability, perf budgets, conventional commits + feature flags) and feeds them into any AI coding agent: Claude Code, Cursor, Codex, Vibe.
+A language-agnostic, single-source-of-truth coding-style harness. Captures my own practices (TDD, bug-first, minimal hexagonal, functional core / imperative shell, types-first LSP, RESTful HTTP, observability, perf budgets, conventional commits + feature flags) and feeds them into any AI coding agent: Claude Code, Cursor, Codex, OpenClaw, OpenCode, Pi, and Vibe.
 
 ## Install
 
@@ -12,15 +12,15 @@ cd ~/.style
 ./install.sh --dry-run         # show what would change, write nothing
 ```
 
-The installer writes only into a managed namespace inside each agent's config directory (`~/.claude/skills/`, `~/.cursor/rules/`, etc.) and never clobbers files outside it. Re-running is idempotent.
+The installer writes only into a managed namespace inside each agent's config directory (`~/.claude/skills/`, `~/.cursor/rules/`, `~/.config/opencode/`, `.openclaw/workspace/`, etc.) and never clobbers files outside it. Re-running is idempotent. Codex and Pi both merge into the same `$HOME/AGENTS.md` managed region when `--target-root` is your home directory.
 
 ## What gets installed
 
 | Bucket | What it is | Where it ends up |
 |---|---|---|
-| Rules (`source/rules/`) | Always-on guidance: workflow, code quality, design principles, observability | Cursor `.mdc` rule files; Claude `CLAUDE.md` managed section; Codex `AGENTS.md` managed section |
-| Skills (`source/skills/`) | On-demand expertise: TDD, bug-first, hexagonal, LSP/DbC, REST, UoW, code review, etc. | Claude `~/.claude/skills/<id>/SKILL.md`; Cursor `.mdc` with description-based loading; Codex `AGENTS.md` |
-| Commands (`source/commands/`) | Slash-command prompts: `/spec`, `/plan`, `/tdd`, `/bug`, `/review`, `/done`, `/commit` | Claude `~/.claude/commands/`; Cursor `~/.cursor/commands/` |
+| Rules (`source/rules/`) | Always-on guidance: workflow, code quality, design principles, observability | Cursor `.mdc` rule files; Claude `CLAUDE.md` managed section; Codex / Pi `$HOME/AGENTS.md` managed section; OpenClaw `~/.openclaw/workspace/AGENTS.md`; OpenCode `~/.config/opencode/AGENTS.md` |
+| Skills (`source/skills/`) | On-demand expertise: TDD, bug-first, hexagonal, LSP/DbC, REST, UoW, code review, etc. | Claude `~/.claude/skills/<id>/SKILL.md`; Cursor `.mdc` with description-based loading; Codex / OpenClaw / Pi `AGENTS.md`; OpenCode `~/.config/opencode/skills/<id>/SKILL.md` |
+| Commands (`source/commands/`) | Slash-command prompts: `/spec`, `/plan`, `/tdd`, `/bug`, `/review`, `/done`, `/commit` | Claude `~/.claude/commands/`; Cursor `~/.cursor/commands/`; Codex / OpenClaw / Pi `AGENTS.md`; OpenCode `~/.config/opencode/commands/` |
 
 ## Voice
 

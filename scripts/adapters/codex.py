@@ -15,6 +15,25 @@ from scripts.source import Source
 SECTIONS = (("rule", "Rules"), ("skill", "Skills"), ("command", "Commands"))
 
 
+def render_merged_agents_block(sources: list[Source]) -> str:
+    """Single markdown block for AGENTS.md managed section (Codex, OpenClaw, Pi)."""
+    parts = ["# Style Harness", "", "Installed by `style-harness`.", ""]
+    for kind, label in SECTIONS:
+        items = [s for s in sources if s.kind == kind]
+        if not items:
+            continue
+        parts.append(f"## {label}")
+        parts.append("")
+        for s in items:
+            parts.append(f"### {s.title}")
+            parts.append("")
+            parts.append(s.description)
+            parts.append("")
+            parts.append(s.body.strip())
+            parts.append("")
+    return "\n".join(parts).rstrip() + "\n"
+
+
 class CodexAdapter:
     name = "codex"
 
@@ -31,7 +50,7 @@ class CodexAdapter:
 
         path = target_root / "AGENTS.md"
         existing = path.read_text(encoding="utf-8") if path.exists() else ""
-        new_block = self._render(eligible)
+        new_block = render_merged_agents_block(eligible)
         merged = replace_managed_section(existing, new_block)
         report.add(WriteOp(path=path, content=merged))
 
@@ -39,20 +58,3 @@ class CodexAdapter:
             for op in report.ops:
                 apply_op(op)
         return report
-
-    def _render(self, sources: list[Source]) -> str:
-        parts = ["# Style Harness", "", "Installed by `style-harness`.", ""]
-        for kind, label in SECTIONS:
-            items = [s for s in sources if s.kind == kind]
-            if not items:
-                continue
-            parts.append(f"## {label}")
-            parts.append("")
-            for s in items:
-                parts.append(f"### {s.title}")
-                parts.append("")
-                parts.append(s.description)
-                parts.append("")
-                parts.append(s.body.strip())
-                parts.append("")
-        return "\n".join(parts).rstrip() + "\n"

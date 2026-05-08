@@ -4,7 +4,7 @@ This document is the one-page version of the philosophy behind my rules, skills,
 
 ## What this is
 
-A single source of truth for my coding style, distributed as native files for any AI coding agent: Claude Code, Cursor, Codex, Vibe. You clone the repo, run `./install.sh`, and the same practices appear in every agent you use.
+A single source of truth for my coding style, distributed as native files for any AI coding agent: Claude Code, Cursor, Codex, OpenClaw, OpenCode, Pi, and Vibe. You clone the repo, run `./install.sh`, and the same practices appear in every agent you use.
 
 ## What this is not
 

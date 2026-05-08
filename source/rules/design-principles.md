@@ -14,6 +14,9 @@ agents:
   claude: { kind: rule }
   cursor: { kind: rule, glob: "**/*" }
   codex:  { section: rules }
+  openclaw: { section: rules }
+  opencode: { kind: rule }
+  pi:       { section: rules }
   vibe:   { kind: rule }
 ---
 
