@@ -1,6 +1,6 @@
 # Contributing
 
-This repo is a single source of truth that compiles into per-agent native files. Editing anything other than `source/`, `scripts/`, or `docs/` is rarely the right move.
+This repo is my single source of truth that compiles into per-agent native files. Editing anything other than `source/`, `scripts/`, or `docs/` is rarely the right move.
 
 ## Adding or editing a rule, skill, or command
 

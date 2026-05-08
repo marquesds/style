@@ -4,9 +4,9 @@ Date: 2026-05-07
 
 ## Context
 
-The same coding-style guidance has to land in four agents (Claude Code, Cursor, Codex, Vibe), each of which has its own native file format and discovery rules. Duplicating the content per agent makes drift inevitable: a fix to the TDD skill in Claude lands days or weeks later in Cursor, and never lands in Codex. The other obvious option — writing in one agent's native format and converting from there — privileges the agent we converted from and leaves the others second-class.
+The same coding-style guidance has to land in four agents (Claude Code, Cursor, Codex, Vibe), each of which has its own native file format and discovery rules. Duplicating the content per agent makes drift inevitable: a fix to the TDD skill in Claude lands days or weeks later in Cursor, and never lands in Codex. The other obvious option — writing in one agent's native format and converting from there — privileges whichever agent I pick as the source and leaves the others second-class.
 
-Authors also need to keep these documents short, structured, and lintable. Free-form Markdown without conventions invites inconsistencies in heading levels, missing examples, and silent breakage.
+I also need to keep these documents short, structured, and lintable. Free-form Markdown without conventions invites inconsistencies in heading levels, missing examples, and silent breakage.
 
 ## Decision
 
@@ -24,6 +24,6 @@ A mechanical lint (`scripts/lint_source.py`) enforces frontmatter completeness, 
 
 **Positive.** One file to edit per change. Drift between agents impossible by construction. Adding a new agent is "implement an adapter", not "rewrite all the rules". The lint catches structural problems before they reach the agents. Frontmatter doubles as machine-readable metadata for tooling.
 
-**Negative.** Authors learn a small frontmatter schema. Per-agent quirks (Cursor's globs, Claude's nested skill directories) are encoded in adapter logic, not in the source files; that complexity is now spread across `scripts/adapters/*.py`. PyYAML is a hard dependency; the installer pip-installs it on first run.
+**Negative.** Anyone editing `source/` learns a small frontmatter schema. Per-agent quirks (Cursor's globs, Claude's nested skill directories) are encoded in adapter logic, not in the source files; that complexity is now spread across `scripts/adapters/*.py`. PyYAML is a hard dependency; the installer pip-installs it on first run.
 
 **Mitigations.** The shape preview in the plan and the README's "Authoring" section make the schema easy to copy. The adapters are small (under 100 lines each) and thoroughly snapshot-tested.

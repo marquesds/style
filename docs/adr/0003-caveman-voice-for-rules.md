@@ -25,7 +25,7 @@ Lint is mechanical (line counts, frontmatter completeness, GOOD/BAD blocks, code
 
 ## Consequences
 
-**Positive.** Token budget for the same set of practices drops sharply. Agent recall improves because less noise sits between the agent and the rule. Authors learn one register and apply it consistently across files.
+**Positive.** Token budget for the same set of practices drops sharply. Agent recall improves because less noise sits between the agent and the rule. I maintain one register in `source/` and apply it consistently across files.
 
 **Negative.** New contributors need to read the caveman skill before authoring. The voice can feel abrupt; readers used to engineering blog tone may find it terse. Newcomers reading the source files directly miss the on-ramp.
 

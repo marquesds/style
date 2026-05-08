@@ -1,6 +1,6 @@
 # style
 
-A language-agnostic, single-source-of-truth coding-style harness. Captures one engineer's staff+ practices (TDD, bug-first, minimal hexagonal, functional core / imperative shell, types-first LSP, RESTful HTTP, observability, perf budgets, conventional commits + feature flags) and installs them into any AI coding agent: Claude Code, Cursor, Codex, Vibe.
+A language-agnostic, single-source-of-truth coding-style harness. Captures my own practices (TDD, bug-first, minimal hexagonal, functional core / imperative shell, types-first LSP, RESTful HTTP, observability, perf budgets, conventional commits + feature flags) and feeds them into any AI coding agent: Claude Code, Cursor, Codex, Vibe.
 
 ## Install
 
