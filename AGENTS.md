@@ -13,6 +13,17 @@ Adding a file under `source/skills/` requires a matching row in
 `scripts/lint_source.py` (`lint_skills_catalog`) will fail the build otherwise —
 `python -m scripts.lint_source` must exit 0.
 
+The **"Load when"** column must describe the *situation* that fires the skill —
+what the user is doing or requesting — not the skill's methodology, techniques, or
+content. An agent pattern-matches the request against this text; if the text reads
+like a technique list, the skill never fires.
+
+| Good trigger (situational) | Bad trigger (technique list) |
+|---|---|
+| "adding rate limiting to an endpoint" | "token bucket vs sliding window; 429 + Retry-After" |
+| "implementing user authentication" | "argon2id / bcrypt; salting; constant-time verify" |
+| "writing any new code; adding behavior" | "RED → GREEN → REFACTOR; Testing Trophy" |
+
 ### 2. Update docs when behavior or surface changes
 
 `README.md`, `docs/style-overview.md`, `docs/contributing.md`, and any relevant ADR
