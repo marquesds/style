@@ -98,6 +98,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | tdd | RED → GREEN → REFACTOR; Testing Trophy; Chicago school |
 | threat-modeling | STRIDE per trust boundary; abuse cases; mitigations before the diff |
 | test-design | what to test, how much, which doubles; afferent coupling |
+| twelve-factor-app | cloud-native shape: codebase, deps, config, backing services, build/release/run, statelessness, disposability, parity, logs, admin tasks |
 | unit-of-work-and-transactions | one UoW per use case; atomic boundary; outbox pattern |
 | wide-events-and-cardinality | high-cardinality observability; wide events |
 | xss-and-csp | reflected/stored/DOM XSS; context-aware encoding; CSP |
