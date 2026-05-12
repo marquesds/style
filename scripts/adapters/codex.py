@@ -1,8 +1,11 @@
 """Codex adapter.
 
 Layout:
-- All rules/skills/commands collapsed into one managed section in <root>/AGENTS.md.
+- All rules/skills/commands collapsed into one managed section in <root>/.codex/AGENTS.md.
 - Sections: ## Rules, ## Skills, ## Commands, each with ### <Title> subheadings.
+
+Legacy cleanup: if <root>/AGENTS.md contains the managed block (from a prior install),
+the block is stripped on the next write_all or prune_all run.
 """
 
 from __future__ import annotations
@@ -66,11 +69,13 @@ class CodexAdapter:
         if not eligible:
             return report
 
-        path = target_root / "AGENTS.md"
+        path = target_root / ".codex" / "AGENTS.md"
         existing = path.read_text(encoding="utf-8") if path.exists() else ""
         new_block = render_merged_agents_block(eligible)
         merged = replace_managed_section(existing, new_block)
         report.add(WriteOp(path=path, content=merged))
+
+        prune_merged_agents_md(target_root / "AGENTS.md", report)
 
         if not dry_run:
             for op in report.ops:
@@ -79,6 +84,7 @@ class CodexAdapter:
 
     def prune_all(self, target_root: Path, dry_run: bool) -> AdapterReport:
         report = AdapterReport(agent=self.name)
+        prune_merged_agents_md(target_root / ".codex" / "AGENTS.md", report)
         prune_merged_agents_md(target_root / "AGENTS.md", report)
         if not dry_run:
             for op in report.ops:

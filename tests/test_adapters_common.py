@@ -74,7 +74,7 @@ def test_prune_preserves_user_content_in_merged(
     fake_source_dir: Path, tmp_path: Path
 ) -> None:
     out = tmp_path / "out"
-    agents_md = out / "AGENTS.md"
+    agents_md = out / ".codex" / "AGENTS.md"
     agents_md.parent.mkdir(parents=True)
     agents_md.write_text("# My own notes\n\nKeep this.\n", encoding="utf-8")
     sources = load_all(fake_source_dir)
@@ -110,6 +110,6 @@ def test_idempotent_rewrite(fake_source_dir: Path, tmp_path: Path) -> None:
     sources = load_all(fake_source_dir)
     for _ in range(3):
         ADAPTERS["codex"].write_all(sources, target_root=out, dry_run=False)
-    text = (out / "AGENTS.md").read_text(encoding="utf-8")
+    text = (out / ".codex" / "AGENTS.md").read_text(encoding="utf-8")
     assert text.count(BEGIN_MARKER) == 1
     assert text.count(END_MARKER) == 1

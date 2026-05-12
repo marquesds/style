@@ -53,11 +53,11 @@ adding or modifying an adapter, match the column for that agent below.
 |-------|-------|--------|----------|
 | claude | merged into `<root>/.claude/CLAUDE.md` (managed section) | `<root>/.claude/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | `<root>/.claude/commands/<id>.md` (plain markdown) |
 | cursor | `<root>/.cursor/rules/<id>.mdc` (frontmatter: `description`, `globs`, `alwaysApply`) | `<root>/.cursor/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | `<root>/.cursor/commands/<id>.md` (plain markdown) |
-| codex | merged into `<root>/AGENTS.md` `## Rules` | merged `## Skills` | merged `## Commands` |
+| codex | merged into `<root>/.codex/AGENTS.md` `## Rules` | merged `## Skills` | merged `## Commands` |
 | goose | merged into `<root>/.config/goose/AGENTS.md` | merged | merged |
 | openclaw | merged into `<root>/.openclaw/workspace/AGENTS.md` | merged | merged |
 | opencode | merged into `<root>/.config/opencode/AGENTS.md` | `<root>/.config/opencode/skills/<id>/SKILL.md` | `<root>/.config/opencode/commands/<id>.md` (frontmatter: `description`) |
-| pi | merged into `<root>/AGENTS.md` | merged | merged |
+| pi | merged into `<root>/.pi/agent/AGENTS.md` | merged | merged |
 | vibe | `<root>/.vibe/rules/<id>.md` | `<root>/.vibe/skills/<id>.md` | `<root>/.vibe/commands/<id>.md` |
 
 Native-skills agents (claude, cursor, opencode) get one frontmatter-bearing file per

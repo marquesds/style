@@ -50,7 +50,7 @@ def test_cursor_prune_removes_skill_dir(fake_source_dir: Path, tmp_path: Path) -
 
 def test_codex_merges_into_agents_md(fake_source_dir: Path, tmp_path: Path) -> None:
     out = tmp_path / "out"
-    pre = out / "AGENTS.md"
+    pre = out / ".codex" / "AGENTS.md"
     pre.parent.mkdir(parents=True)
     pre.write_text("# Pre-existing user content\n", encoding="utf-8")
     ADAPTERS["codex"].write_all(load_all(fake_source_dir), target_root=out, dry_run=False)
@@ -58,6 +58,22 @@ def test_codex_merges_into_agents_md(fake_source_dir: Path, tmp_path: Path) -> N
     assert "Pre-existing user content" in text
     assert BEGIN_MARKER in text and END_MARKER in text
     assert "Code Quality" in text and "TDD" in text
+
+
+def test_codex_install_strips_legacy_root_agents_md(
+    fake_source_dir: Path, tmp_path: Path
+) -> None:
+    out = tmp_path / "out"
+    legacy = out / "AGENTS.md"
+    legacy.parent.mkdir(parents=True)
+    legacy.write_text(
+        f"# My notes\n\n{BEGIN_MARKER}\nold block\n{END_MARKER}\n\nKeep this.\n",
+        encoding="utf-8",
+    )
+    ADAPTERS["codex"].write_all(load_all(fake_source_dir), target_root=out, dry_run=False)
+    result = legacy.read_text(encoding="utf-8")
+    assert BEGIN_MARKER not in result
+    assert "Keep this" in result
 
 
 def test_opencode_writes_layout(fake_source_dir: Path, tmp_path: Path) -> None:
@@ -97,6 +113,22 @@ def test_goose_merges_config_agents(fake_source_dir: Path, tmp_path: Path) -> No
 def test_pi_merges_into_agents_md(fake_source_dir: Path, tmp_path: Path) -> None:
     out = tmp_path / "out"
     ADAPTERS["pi"].write_all(load_all(fake_source_dir), target_root=out, dry_run=False)
-    text = (out / "AGENTS.md").read_text(encoding="utf-8")
+    text = (out / ".pi" / "agent" / "AGENTS.md").read_text(encoding="utf-8")
     assert BEGIN_MARKER in text and END_MARKER in text
     assert "TDD" in text
+
+
+def test_pi_install_strips_legacy_root_agents_md(
+    fake_source_dir: Path, tmp_path: Path
+) -> None:
+    out = tmp_path / "out"
+    legacy = out / "AGENTS.md"
+    legacy.parent.mkdir(parents=True)
+    legacy.write_text(
+        f"# My notes\n\n{BEGIN_MARKER}\nold block\n{END_MARKER}\n\nKeep this.\n",
+        encoding="utf-8",
+    )
+    ADAPTERS["pi"].write_all(load_all(fake_source_dir), target_root=out, dry_run=False)
+    result = legacy.read_text(encoding="utf-8")
+    assert BEGIN_MARKER not in result
+    assert "Keep this" in result
