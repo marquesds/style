@@ -48,19 +48,12 @@ reading the contract it claims to implement.
 One-liner at the top of the relevant doc comment, or a `References` block for longer
 implementations:
 
-```go
-// Intersection returns the set of elements present in both s and other.
-//
-// Math: S ∩ Z = { x | x ∈ S ∧ x ∈ Z }
-func (s Set[T]) Intersection(other Set[T]) Set[T]
-```
-
 ```python
 def argon2id_hash(password: str, salt: bytes) -> str:
     """Hash password using Argon2id.
 
     Spec: RFC 9106 §4 — Argon2id variant.
-    Params: m=65536, t=3, p=4 per §4 recommended values.
+    Math: m=65536, t=3, p=4 per §4 recommended values.
     """
 ```
 

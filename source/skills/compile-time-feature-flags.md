@@ -34,16 +34,16 @@ that don't opt in.
 
 ## Mechanisms by Stack
 
-| Stack   | Mechanism                                                   |
-|---------|-------------------------------------------------------------|
-| Rust    | `Cargo.toml` `[features]` + `#[cfg(feature = "...")]`      |
-| Python  | `pyproject.toml` `[project.optional-dependencies]` extras  |
-| Node    | `package.json` conditional exports / `optionalDependencies` |
-| C / C++ | `#ifdef` + CMake `option()`                                 |
+| Stack   | Mechanism                                                                         |
+|---------|-----------------------------------------------------------------------------------|
+| Rust    | `Cargo.toml` `[features]` + `#[cfg(feature = "...")]`; `--no-default-features` for `no_std` |
+| Python  | `pyproject.toml` `[project.optional-dependencies]` extras                        |
+| Node    | `package.json` conditional exports / `optionalDependencies`                       |
+| C / C++ | `#ifdef` + CMake `option()`                                                       |
 
 ## Default Build Must Be Clean
 
-`--no-default-features` must always compile and produce a working, tested binary.
+Default install (no extras) must always work and produce a tested build.
 Non-default extras are additive only — never subtractive from the defaults.
 
 ## Matrix-Test Meaningful Combos
@@ -54,16 +54,15 @@ Test the combinations users would actually enable. Not every permutation.
 # GitHub Actions matrix
 strategy:
   matrix:
-    features: ["", "serde", "full", "serde,async"]
+    extras: ["", "serde", "full", "serde,async"]
 steps:
-  - run: cargo test --no-default-features --features "${{ matrix.features }}"
+  - run: pip install -e ".[${{ matrix.extras }}]" && pytest
 ```
 
 ## Dependency Stays Optional
 
-Feature-flagged dep must live under `optional = true` / `[optional-dependencies]`.
-Never unconditional import in the main module; guard with `#[cfg]` or a conditional
-import block.
+Feature-flagged dep must live under `[project.optional-dependencies]`.
+Never unconditional import in the main module; guard with a conditional import block.
 
 ## Document the Switches
 
@@ -73,15 +72,15 @@ A user who can't find the knob will reach for an alternative dep instead.
 ## GOOD
 
 ```toml
-[features]
-default = ["std"]
-std     = []
-serde   = ["dep:serde"]
-async   = ["dep:tokio"]
+# pyproject.toml — no hard deps; layered extras opt-in
+[project.optional-dependencies]
+serde = ["msgspec>=0.18"]
+async = ["anyio>=4.0"]
+full  = ["mypkg[serde,async]"]
 ```
 
-Clear layers. `--no-default-features` = no_std. CI matrix covers `std`, `serde`,
-`async`, `serde,async`.
+Clear layers. Default install has no extras. CI matrix covers `serde`, `async`,
+`serde,async`, `full`.
 
 ## BAD
 
@@ -91,8 +90,8 @@ whether they use the feature or not.
 
 ## Red Flags
 
-- `--no-default-features` build fails or is never in CI.
+- Default install (no extras) fails or is never tested in CI.
 - Optional dep imported unconditionally at module top.
-- Feature combinations untested; users discover conflicts at their own site.
-- README lists no feature flags; opt-ins are invisible.
-- Flag defined but never guarded with `#[cfg]` / conditional import.
+- Extra combinations untested; users discover conflicts at their own site.
+- README lists no extras; opt-ins are invisible.
+- Optional dep imported without a conditional import guard.

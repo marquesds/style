@@ -64,12 +64,12 @@ Stale, unmaintained, or CVE-flagged → remove or replace.
 ## GOOD
 
 ```toml
-# Cargo.toml — zero deps in library core; optional extras opt-in
-[dependencies]
-serde = { version = "1", optional = true, features = ["derive"] }
+# pyproject.toml — no hard deps in core; consumers opt in via extras
+[project.optional-dependencies]
+msgpack = ["msgpack>=1.0"]
 ```
 
-One optional dep, behind a feature flag. Consumers pay only if they opt in.
+One optional dep, behind an extra. Consumers pay only if they opt in.
 
 ## BAD
 

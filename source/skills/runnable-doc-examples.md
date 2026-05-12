@@ -38,34 +38,7 @@ Doc examples that run as tests. Docs drift; tested examples don't.
 - Every public API function has at least one runnable example.
 - Example output is asserted, not just compiled.
 - Example is the simplest real usage, not a stress test.
-- Running `cargo test --doc` / `pytest --doctest-modules` / `go test` exercises them.
-
-## Go Example Pattern
-
-```go
-func ExampleSet_Union() {
-    a := set.New(1, 2, 3)
-    b := set.New(3, 4, 5)
-    fmt.Println(a.Union(b))
-    // Output: {1 2 3 4 5}
-}
-```
-
-Appears in `godoc`. Verified by `go test`. Docs and tests are one artifact.
-
-## Rust Doc Example Pattern
-
-```rust
-/// Compress bytes at the given level.
-///
-/// ```rust
-/// let out = compress(&[1, 2, 3], 3).unwrap();
-/// assert!(!out.is_empty());
-/// ```
-pub fn compress(input: &[u8], level: u8) -> Result<Vec<u8>, CompressError>
-```
-
-`cargo test --doc` runs the block. Change the signature → test breaks.
+- Running `pytest --doctest-modules` (or stack equivalent) exercises them.
 
 ## Python Doctest Pattern
 
@@ -87,9 +60,8 @@ hard to use — that is signal to simplify the API, not expand the example.
 
 ## GOOD
 
-Public `compress()` has a `func ExampleCompress`, a Rust doc fence, or a Python
-doctest. Running the doc test suite exercises it. Change breaks example → example
-alerts you.
+Public `compress()` has a Python doctest. Running `pytest --doctest-modules` exercises
+it. Change breaks example → example alerts you.
 
 ## BAD
 
@@ -110,4 +82,4 @@ Comment-style example, not a doctest. Docs drift after every refactor. Nobody kn
 - Public API function with no runnable example.
 - Example that compiles but asserts nothing about output.
 - Example output comment that does not match actual output.
-- `--doctest-modules` / `cargo test --doc` absent from CI.
+- `pytest --doctest-modules` (or stack equivalent) absent from CI.

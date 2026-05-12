@@ -66,21 +66,22 @@ about the trade-off made (see skill:api-and-interface-design).
 
 ## GOOD
 
-```go
-// Package set provides an unordered, in-memory set of comparable values.
-//
-// Not thread-safe. Callers sharing a Set across goroutines must synchronise
-// externally (e.g. sync.RWMutex).
-//
-// Not intended for sets larger than available RAM.
+```python
+"""set — unordered, in-memory collection of comparable values.
+
+Limitations:
+- Not thread-safe. Acquire a ``threading.Lock`` before sharing across threads.
+- Not intended for sets larger than available RAM.
+- Requires Python 3.10+.
+"""
 ```
 
-Limits visible at the package entry point. No runtime surprises.
+Limits visible at the module entry point. No runtime surprises.
 
 ## BAD
 
-```go
-// Package set provides an efficient generic set.
+```python
+"""set — efficient generic collection."""
 ```
 
 No limits stated. User discovers the thread-safety gap in production load testing.
