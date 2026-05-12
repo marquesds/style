@@ -9,7 +9,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.adapters.base import AdapterReport, WriteOp, apply_op, replace_managed_section, strip_managed_section
+from scripts.adapters.base import (
+    AdapterReport,
+    WriteOp,
+    apply_op,
+    replace_managed_section,
+    strip_managed_section,
+)
 from scripts.source import Source
 
 SECTIONS = (("rule", "Rules"), ("skill", "Skills"), ("command", "Commands"))

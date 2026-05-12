@@ -13,7 +13,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.adapters.base import FILE_MARKER_HTML, AdapterReport, WriteOp, apply_op, walk_managed_files
+from scripts.adapters.base import (
+    FILE_MARKER_HTML,
+    AdapterReport,
+    WriteOp,
+    apply_op,
+    walk_managed_files,
+)
 from scripts.source import Source
 
 KIND_DIR = {"rule": "rules", "skill": "skills", "command": "commands"}

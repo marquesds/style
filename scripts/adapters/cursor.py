@@ -2,7 +2,8 @@
 
 Layout:
 - Rules   -> <root>/.cursor/rules/<id>.mdc  (alwaysApply: true/false, description-driven).
-- Skills  -> <root>/.cursor/skills/<id>/SKILL.md  (native skill format, frontmatter name+description).
+- Skills  -> <root>/.cursor/skills/<id>/SKILL.md  (native skill format, frontmatter
+             name+description).
 - Commands -> <root>/.cursor/commands/<id>.md.
 """
 
@@ -15,7 +16,8 @@ from scripts.adapters.base import (
     AdapterReport,
     WriteOp,
     apply_op,
-    strip_managed_section,
+    render_command_markdown,
+    render_skill_markdown,
     walk_managed_files,
 )
 from scripts.source import Source
@@ -76,18 +78,13 @@ class CursorAdapter:
         return WriteOp(path=path, content=content)
 
     def _skill_op(self, src: Source, root: Path) -> WriteOp:
-        path = root / "skills" / src.id / "SKILL.md"
-        content = (
-            "---\n"
-            f"name: {src.id}\n"
-            f"description: >\n  {src.description.replace(chr(10), chr(10) + '  ')}\n"
-            "---\n\n"
-            f"{FILE_MARKER_HTML}\n"
-            f"{src.body.lstrip()}"
+        return WriteOp(
+            path=root / "skills" / src.id / "SKILL.md",
+            content=render_skill_markdown(src),
         )
-        return WriteOp(path=path, content=content)
 
     def _command_op(self, src: Source, root: Path) -> WriteOp:
-        path = root / "commands" / f"{src.id}.md"
-        content = f"{FILE_MARKER_HTML}\n\n# /{src.id}\n\n{src.body.lstrip()}"
-        return WriteOp(path=path, content=content)
+        return WriteOp(
+            path=root / "commands" / f"{src.id}.md",
+            content=render_command_markdown(src),
+        )

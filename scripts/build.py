@@ -44,7 +44,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     p.add_argument("--dry-run", action="store_true", help="print operations, write nothing")
     p.add_argument("--no-lint", action="store_true", help="skip lint before install")
-    p.add_argument("--prune", action="store_true", help="remove harness-managed files instead of writing")
+    p.add_argument(
+        "--prune",
+        action="store_true",
+        help="remove harness-managed files instead of writing",
+    )
     return p.parse_args(argv)
 
 
@@ -99,7 +103,8 @@ def main(argv: list[str] | None = None) -> int:
         if errors:
             for err in errors:
                 print(err, file=sys.stderr)
-            print(f"\nlint failed ({len(errors)} error(s)). Use --no-lint to skip.", file=sys.stderr)
+            count = len(errors)
+            print(f"\nlint failed ({count} error(s)). Use --no-lint to skip.", file=sys.stderr)
             return 1
     reports = run(sources, args.target_root, agents, args.dry_run)
     for r in reports:

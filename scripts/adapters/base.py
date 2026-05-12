@@ -5,6 +5,7 @@ Pure functions for content transformation; only `apply_op` performs I/O.
 
 from __future__ import annotations
 
+import contextlib
 from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -70,10 +71,8 @@ def apply_op(op: WriteOp) -> None:
     """Perform a write or delete operation."""
     if op.action == "delete":
         op.path.unlink(missing_ok=True)
-        try:
+        with contextlib.suppress(OSError):
             op.path.parent.rmdir()
-        except OSError:
-            pass
         return
     op.path.parent.mkdir(parents=True, exist_ok=True)
     op.path.write_text(op.content, encoding="utf-8")
@@ -101,6 +100,20 @@ def strip_managed_section(existing: str) -> str:
     before = existing.split(BEGIN_MARKER, 1)[0].rstrip("\n")
     after = existing.split(END_MARKER, 1)[1].lstrip("\n")
     return (before + "\n" + after).rstrip("\n") + "\n" if (before or after).strip() else ""
+
+
+def render_skill_markdown(src: Source) -> str:
+    """Render a skill source into frontmatter + body for native-skill agents."""
+    indented = src.description.replace("\n", "\n  ")
+    return (
+        f"---\nname: {src.id}\ndescription: >\n  {indented}\n---\n\n"
+        f"{FILE_MARKER_HTML}\n{src.body.lstrip()}"
+    )
+
+
+def render_command_markdown(src: Source) -> str:
+    """Render a command source into a slash-command markdown file."""
+    return f"{FILE_MARKER_HTML}\n\n# /{src.id}\n\n{src.body.lstrip()}"
 
 
 def walk_managed_files(directory: Path) -> Iterator[Path]:

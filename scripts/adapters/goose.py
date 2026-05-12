@@ -10,7 +10,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from scripts.adapters.base import AdapterReport, WriteOp, apply_op, replace_managed_section
-from scripts.adapters.codex import render_merged_agents_block, prune_merged_agents_md
+from scripts.adapters.codex import prune_merged_agents_md, render_merged_agents_block
 from scripts.source import Source
 
 
