@@ -35,7 +35,7 @@ Greenfield 50-line parser for CSV/JSON/dates/paths → stop. Almost always wrong
 
 Outbound **retry / backoff / circuit breaker** → skill:resilience-retries — don’t hand-roll sleep loops.
 
-New dep → justify: saves bugs/time vs tiny glue, maintenance OK, license compatible.
+New dep → justify: saves bugs/time vs tiny glue, maintenance OK, license compatible. See skill:minimal-dependency-budget.
 
 ## Idioms
 

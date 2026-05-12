@@ -147,6 +147,8 @@ E2E-only for logic **or** checkout proven only with mocks — no real persistenc
 
 Python: `pytest`, `pytest-asyncio`, `hypothesis`, `freezegun`. Run `pytest -k name` for a single test, `pytest -x` to bail on first fail. Other languages: pick the idiomatic equivalent (`cargo test`, `mix test`, `go test`, `vitest`).
 
+For complex rendered or serialized output: use snapshot tests reviewed like code — never auto-accepted (skill:snapshot-testing). For public API functions: pair tests with runnable doc examples (skill:runnable-doc-examples).
+
 ## Red Flags
 
 - Code without tests.

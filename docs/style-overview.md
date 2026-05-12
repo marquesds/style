@@ -37,8 +37,8 @@ It is not a framework. It does not lock you into a stack, a directory layout, or
 ## How to read the rest of the repo
 
 - `source/rules/` — always-on guidance. Seven files: agent workflow, subagent-first, code quality, design principles, documentation, observability, reuse and idioms.
-- `source/skills/` — on-demand expertise. Forty-three files covering everything described above, including: TDD, hexagonal architecture, functional core / imperative shell, unit of work + transactions, resilience and retries, SQL antipatterns, N+1 prevention, OWASP top-10, injection defense, LLM prompt injection, RESTful HTTP design, wide events + cardinality, rollout + feature flags, concurrency correctness, data privacy + retention, AI collaboration hygiene, and more.
-- `source/commands/` — slash-command prompts that engage one or more skills (`/spec`, `/plan`, `/tdd`, `/bug`, `/review`, `/done`, `/commit`).
+- `source/skills/` — on-demand expertise. Fifty-five files covering everything described above, including: TDD, hexagonal architecture, functional core / imperative shell, unit of work + transactions, resilience and retries, SQL antipatterns, N+1 prevention, OWASP top-10, injection defense, LLM prompt injection, RESTful HTTP design, wide events + cardinality, rollout + feature flags, concurrency correctness, data privacy + retention, AI collaboration hygiene, snapshot testing, minimal dependency budget, compile-time feature flags, bindings as thin wrappers, modular file as feature toggle, runnable doc examples, honest limits disclosure, canonical reference in docstrings, task runner conventions, AGENTS.md checklists, AI contribution disclosure, design aesthetic commitment, and more.
+- `source/commands/` — slash-command prompts that engage one or more skills (`/spec`, `/plan`, `/tdd`, `/bug`, `/review`, `/done`, `/commit`, `/release`, `/snapshot-review`).
 - `scripts/` — the loader, lint, build orchestrator, and per-agent adapters.
 - `tests/` — snapshot tests for the build pipeline.
 - `docs/adr/` — short architecture decision records explaining why specific choices in this repo are the way they are.

@@ -37,7 +37,7 @@ Document what users read. Skip what code says.
 
 ## Non-Obvious Only
 
-Docs explain intent, preconditions, invariants, postconditions, error cases, trade-offs. Never narrate the code line by line.
+Docs explain intent, preconditions, invariants, postconditions, error cases, trade-offs. Never narrate the code line by line. State known limits and constraints up front (skill:honest-limits-disclosure). Cite canonical sources (RFCs, math, papers) where correctness depends on a spec (skill:canonical-reference-in-docstrings).
 
 ## ADRs
 

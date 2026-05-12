@@ -111,6 +111,7 @@ Multi-purpose, unreviewable, history loses signal.
 - [ ] Self-review against five axes (skill:code-review-and-quality).
 - [ ] Definition of Done walked (skill:definition-of-done).
 - [ ] Commit messages tell the story; no `wip` / `fix typo` mixed in.
+- [ ] AI assistance disclosed if applicable (skill:ai-contribution-disclosure).
 
 ## Red Flags
 

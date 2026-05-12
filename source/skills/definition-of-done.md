@@ -48,6 +48,11 @@ ruff check . && pyright && pytest -q && pytest --cov=src --cov-fail-under=85
 
 Substitute idiomatic equivalents per language (`cargo test && cargo clippy -- -D warnings`, `mix test && mix dialyzer`, `pnpm test && pnpm tsc --noEmit`). Manual smoke is separate — not replaced by this one-liner.
 
+## AGENTS.md Checklists
+
+If the repo has `AGENTS.md` checklists (skill:agents-md-checklists), run the
+"Before Opening a PR" checklist in full before marking done.
+
 ## "Would Staff Engineer Approve?"
 
 Read your own diff as if reviewing it. Anything you'd flag → fix before pushing.
