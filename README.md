@@ -1,5 +1,8 @@
 # style
 
+[![CI](https://github.com/marquesds/style/actions/workflows/ci.yml/badge.svg)](https://github.com/marquesds/style/actions/workflows/ci.yml)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/lucasmarques)
+
 A language-agnostic, single-source-of-truth coding-style harness that feeds my
 practices into any AI coding agent.
 
@@ -61,13 +64,3 @@ See `docs/contributing.md` and `AGENTS.md`.
 
 - Python 3.10+.
 - `pyyaml` (the installer will `pip install --user pyyaml` if it's missing).
-
-## Sponsorship
-
-If this project saves you time, consider supporting it:
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/lucasmarques)
-
-## License
-
-MIT.
