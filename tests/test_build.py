@@ -340,3 +340,148 @@ def test_parse_text_rejects_missing_frontmatter() -> None:
 
     with pytest.raises(SourceError):
         parse_text(Path("x.md"), "no frontmatter here\n")
+
+
+def test_lint_skills_catalog_passes_when_in_sync(tmp_path: Path) -> None:
+    skill = tmp_path / "skills" / "myskill.md"
+    skill.parent.mkdir(parents=True)
+    skill.write_text(
+        dedent(
+            """\
+            ---
+            id: myskill
+            kind: skill
+            title: My Skill
+            description: >
+              A test skill.
+            agents:
+              claude: { kind: skill }
+            ---
+
+            # My Skill
+
+            ## GOOD
+
+            ```python
+            x = 1
+            ```
+
+            ## BAD
+
+            ```python
+            y = 2
+            ```
+            """
+        ),
+        encoding="utf-8",
+    )
+    catalog = tmp_path / "rules" / "skills-catalog.md"
+    catalog.parent.mkdir(parents=True)
+    catalog.write_text(
+        dedent(
+            """\
+            ---
+            id: skills-catalog
+            kind: rule
+            title: Skills Catalog
+            description: >
+              Index of every skill.
+            always_apply: true
+            globs: "**/*"
+            agents:
+              claude: { kind: rule }
+            ---
+
+            # Skills Catalog
+
+            ## Catalog
+
+            | Skill ID | Load when |
+            |----------|-----------|
+            | myskill | any test |
+
+            ## GOOD
+
+            One skill → load it.
+
+            ## BAD
+
+            Preload all skills.
+            """
+        ),
+        encoding="utf-8",
+    )
+    errors = lint_all(load_all(tmp_path))
+    assert not any("skills-catalog" in e for e in errors)
+
+
+def test_lint_skills_catalog_fails_when_skill_missing(tmp_path: Path) -> None:
+    skill = tmp_path / "skills" / "missing-skill.md"
+    skill.parent.mkdir(parents=True)
+    skill.write_text(
+        dedent(
+            """\
+            ---
+            id: missing-skill
+            kind: skill
+            title: Missing Skill
+            description: >
+              Not in catalog.
+            agents:
+              claude: { kind: skill }
+            ---
+
+            # Missing Skill
+
+            ## GOOD
+
+            ```python
+            x = 1
+            ```
+
+            ## BAD
+
+            ```python
+            y = 2
+            ```
+            """
+        ),
+        encoding="utf-8",
+    )
+    catalog = tmp_path / "rules" / "skills-catalog.md"
+    catalog.parent.mkdir(parents=True)
+    catalog.write_text(
+        dedent(
+            """\
+            ---
+            id: skills-catalog
+            kind: rule
+            title: Skills Catalog
+            description: >
+              Index of every skill.
+            always_apply: true
+            globs: "**/*"
+            agents:
+              claude: { kind: rule }
+            ---
+
+            # Skills Catalog
+
+            ## Catalog
+
+            | Skill ID | Load when |
+            |----------|-----------|
+
+            ## GOOD
+
+            One skill → load it.
+
+            ## BAD
+
+            Preload all skills.
+            """
+        ),
+        encoding="utf-8",
+    )
+    errors = lint_all(load_all(tmp_path))
+    assert any("missing-skill" in e and "skills-catalog: missing rows" in e for e in errors)

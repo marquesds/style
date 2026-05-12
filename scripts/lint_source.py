@@ -34,6 +34,7 @@ PY_FENCE_RE = re.compile(r"```python\n(.*?)```", re.DOTALL)
 PY_DEF_RE = re.compile(r"^(\s*)def\s+\w+\(", re.MULTILINE)
 HEADING_GOOD = re.compile(r"^##\s+GOOD\b", re.MULTILINE)
 HEADING_BAD = re.compile(r"^##\s+BAD\b", re.MULTILINE)
+CATALOG_ROW_RE = re.compile(r"^\|\s*([a-z][a-z0-9-]+)\s*\|", re.MULTILINE)
 
 
 def lint_file_size(src: Source) -> list[str]:
@@ -106,6 +107,25 @@ def _python_def_length(fence: str, def_match: re.Match[str]) -> int:
     return body_count
 
 
+def lint_skills_catalog(sources: list[Source]) -> list[str]:
+    """Verify skills-catalog rule lists exactly the known skill IDs."""
+    catalog = next((s for s in sources if s.id == "skills-catalog" and s.kind == "rule"), None)
+    if catalog is None:
+        return []
+    known = {s.id for s in sources if s.kind == "skill"}
+    raw_ids = {m.group(1) for m in CATALOG_ROW_RE.finditer(catalog.body)}
+    header_words = {"skill", "id", "load", "when"}
+    referenced = raw_ids - header_words
+    missing = known - referenced
+    unknown = referenced - known
+    errors: list[str] = []
+    if missing:
+        errors.append(f"skills-catalog: missing rows for: {sorted(missing)}")
+    if unknown:
+        errors.append(f"skills-catalog: unknown rows: {sorted(unknown)}")
+    return errors
+
+
 def lint_cross_refs(src: Source, known_ids: set[str]) -> list[str]:
     errors: list[str] = []
     for match in SKILL_REF_RE.finditer(src.body):
@@ -125,6 +145,7 @@ def lint_all(sources: Iterable[Source]) -> list[str]:
         errors.extend(lint_examples(s))
         errors.extend(lint_function_length(s))
         errors.extend(lint_cross_refs(s, known_ids))
+    errors.extend(lint_skills_catalog(sources))
     return errors
 
 
