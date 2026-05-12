@@ -15,6 +15,7 @@ from scripts.adapters.base import (
     AdapterReport,
     WriteOp,
     apply_op,
+    render_skill_markdown,
     replace_managed_section,
     strip_managed_section,
     walk_managed_files,
@@ -75,16 +76,10 @@ class OpenCodeAdapter:
         return report
 
     def _skill_op(self, src: Source, root: Path) -> WriteOp:
-        path = root / "skills" / src.id / "SKILL.md"
-        content = (
-            "---\n"
-            f"name: {src.id}\n"
-            f"description: >\n  {src.description.replace(chr(10), chr(10) + '  ')}\n"
-            "---\n\n"
-            f"{FILE_MARKER_HTML}\n"
-            f"{src.body.lstrip()}"
+        return WriteOp(
+            path=root / "skills" / src.id / "SKILL.md",
+            content=render_skill_markdown(src),
         )
-        return WriteOp(path=path, content=content)
 
     def _command_op(self, src: Source, root: Path) -> WriteOp:
         path = root / "commands" / f"{src.id}.md"
