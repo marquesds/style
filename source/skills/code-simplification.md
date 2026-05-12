@@ -22,7 +22,8 @@ agents:
 
 # Code Simplification
 
-Same behavior. Less to read. Less to break.
+Same behavior. Less to read. Less to break. For named structural transformations and
+untested-code seams, see skill:refactoring.
 
 ## Principles
 

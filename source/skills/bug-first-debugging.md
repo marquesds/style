@@ -23,7 +23,8 @@ agents:
 
 # Bug-First Debugging
 
-Reproduce first. Fix second. Guard with regression test forever.
+Reproduce first. Fix second. Guard with regression test forever. To pin legacy behavior
+before structural change (not a bug fix), see characterization tests in skill:refactoring.
 
 ## Stop-The-Line
 
