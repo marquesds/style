@@ -66,6 +66,15 @@ See skill:liskov-and-design-by-contract.
 
 **Parnas:** hide **design decisions likely to change**. Stable boundary; callers depend on **semantics**, not storage or ordering inside. Public surface **honest** about **what** module does; **how** stays private — deep module, no spelunking.
 
+## AI-Ready Architecture
+
+Module boundaries discoverable without reading internals. Public interface tells truth about what module does.
+
+- Name + type signatures + a catalog entry are the contract. Agent reads imports and signatures to plan; opaque or misleading surfaces force deep crawl, eat context, and drive wrong patches.
+- A module named `process_*` that secretly writes to a DB violates honest interfaces — it will be called in the wrong place by any reader, human or AI.
+- This is the Parnas / honest-interfaces principle restated for agent collaboration: strong names, typed signatures, and manifest-visible ports let agents plan changes without spelunking internals.
+- Surface design: skill:api-and-interface-design. Slice-by-feature discoverability: skill:hexagonal-architecture.
+
 ## Connascence
 
 Parts share a **secret agreement** = connascence. Prefer **weaker** forms (easier to change). Rough strength: Name < Type < Meaning < Position (broadly, static < dynamic). Two files both interpret the same bare `dict` key strings and churn together → name/type the contract. Caller uses `row[0]` / tuple slots ↔ **connascence of position**; give a **named** operation (`best_bid()`, not `(price, qty, ts)[0]`). Refactor until the shared secret shrinks.

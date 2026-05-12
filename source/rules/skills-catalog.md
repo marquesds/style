@@ -46,6 +46,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | bug-first-debugging | bug report — reproduce as failing test before any fix |
 | canonical-reference-in-docstrings | documenting an algorithm, protocol, or formula |
 | caveman | ultra-compressed communication mode for token efficiency |
+| centralized-ui-components | building UI components; enforcing one catalog source before page use |
 | code-review-and-quality | reviewing a diff or PR across five axes |
 | code-simplification | reducing complexity in tested code, one change at a time |
 | compile-time-feature-flags | optional integrations or heavy deps behind build extras |

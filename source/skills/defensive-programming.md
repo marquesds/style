@@ -46,6 +46,23 @@ Log state transitions; propagate correlation id (observability rule). Default de
 
 Cap size (payload, page limit). Timeouts on outbound I/O. Retry only safe ops — skill:resilience-retries. Prefer streaming when data unbounded (code-quality rule).
 
+## Bounded access
+
+Container access fails loudly when shape is unknown or empty.
+
+- List index: `xs[0]` / `xs[-1]` only after `if xs:` guard or via `next(iter(xs), default)` / pattern match. Slice over index when shape unknown.
+- Dict access: `.get(key, default)` at boundary; `d[k]` only on trusted typed contract — `KeyError` then signals a bug, not control flow.
+- `pop` / `popitem` only on guaranteed-non-empty containers.
+- Mutation while iterating: copy first or build new collection; never `del` from a list you are walking.
+- Mutable default args (`def f(xs=[]):`) shared across calls — use `None` + factory.
+- Numeric edges: divide-by-zero, overflow, NaN rejected at parse boundary, not deep in core.
+- Resource cleanup: context managers always (`with open(...)`, `with uow:`); no naked `acquire` without a release path.
+
+```python
+def first_or(xs: list, default):
+    return xs[0] if xs else default
+```
+
 ## Concurrency + partial failure
 
 One UoW / transaction per use case; don't leak half-written state — skill:unit-of-work-and-transactions. Watch stale reads / lost updates; use versioning or locks where contract demands.
@@ -56,7 +73,7 @@ Injection + path safety — skill:injection-defense. Secrets never logged or com
 
 ## Anti-patterns
 
-Nullable ladder every line in trusted core. Swallow exceptions. Defaults that hide missing data. Re-validate same fields at every layer instead of one boundary.
+Nullable ladder every line in trusted core. Swallow exceptions. Defaults that hide missing data. Re-validate same fields at every layer instead of one boundary. Blind index access on untrusted or empty container. Mutable default argument shared across calls. Naked resource acquire without context manager.
 
 ## Verification
 
@@ -99,3 +116,13 @@ def parse_age(raw: str) -> int:
 ```
 
 Problem = blanket except + fake default — not “exceptions forbidden elsewhere.”
+
+## Red Flags
+
+- `xs[0]` with no guard; crashes on empty input at runtime, not parse time.
+- `d["key"]` on an externally sourced dict — `KeyError` swallowed or unhandled.
+- `def fn(items=[]):` — shared mutable default, state bleeds across calls.
+- `except Exception: pass` or `except Exception: return default` — hides real bugs.
+- Resource opened without `with`; cleanup skipped on exception path.
+- Divide-by-zero or NaN only discovered deep in a calculation, not at the boundary.
+- Validation duplicated at every layer instead of once at ingress.
