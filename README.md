@@ -1,7 +1,8 @@
 # style
 
 [![CI](https://github.com/marquesds/style/actions/workflows/ci.yml/badge.svg)](https://github.com/marquesds/style/actions/workflows/ci.yml)
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/lucasmarques)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/Sponsor-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/lucasmarques)
 
 A language-agnostic, single-source-of-truth coding-style harness that feeds my
 practices into any AI coding agent.
