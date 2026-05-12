@@ -86,6 +86,10 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | source-driven-development | verify framework code against installed-version docs |
 | spec-driven-development | spec before code; SPECIFY → PLAN → TASKS → IMPLEMENT |
 | sql-antipatterns | relational traps: jaywalking, EAV, naive trees, keyless entry |
+| sql-app-discipline | application-side SQL hygiene: pseudokeys, error handling, review, stored procs |
+| sql-foreign-keys | foreign key implementation mistakes: direction, types, lifecycle, operational |
+| sql-physical-design | physical design traps: money types, ENUM lookups, file storage |
+| sql-query-antipatterns | query smells: NULL handling, GROUP BY, RAND(), LIKE, spaghetti, SELECT * |
 | sql-query-performance | index shape, sargable predicates, keyset pagination |
 | task-runner-conventions | Makefile / justfile conventions; standard task names |
 | tdd | RED → GREEN → REFACTOR; Testing Trophy; Chicago school |

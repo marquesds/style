@@ -65,6 +65,16 @@ Prefer keyset: `WHERE (created_at, id) < ($1, $2) ORDER BY created_at DESC, id D
 
 Each index = extra write path. Budget count. Drop unused after measurement.
 
+## Index Shotgun
+
+**Under-index**: sequential scan on every query — visible in `EXPLAIN` as `Seq Scan`
+on large tables. Add the missing index. **Over-index**: every column indexed "just in
+case" → write amplification, WAL bloat, planner confusion on low-selectivity indexes.
+**Fix**: composite covering index beats a stack of single-column indexes for the hot
+query shape; drop indexes where `pg_stat_user_indexes.idx_scan = 0` after sufficient
+soak (≥ 1 week production traffic). **Smell**: table with 12 single-column indexes and
+a planner that still picks a seq scan.
+
 ## Insert key shape
 
 Random PK (e.g. UUIDv4) scatters inserts → page splits, fragmentation, WAL churn. Monotonic PK (sequence, UUIDv7, ULID) appends at leaf edge. Prefer time-ordered UUID when IDs must be UUID.
