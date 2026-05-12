@@ -14,7 +14,7 @@ applies_when:
   - point-to-point integration rework
 agents:
   claude: { kind: skill }
-  cursor: { kind: rule }
+  cursor: { kind: skill }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.adapters.base import FILE_MARKER_HTML, AdapterReport, WriteOp, apply_op
+from scripts.adapters.base import FILE_MARKER_HTML, AdapterReport, WriteOp, apply_op, walk_managed_files
 from scripts.source import Source
 
 KIND_DIR = {"rule": "rules", "skill": "skills", "command": "commands"}
@@ -51,6 +51,17 @@ class VibeAdapter:
             )
             report.add(WriteOp(path=path, content=content))
 
+        if not dry_run:
+            for op in report.ops:
+                apply_op(op)
+        return report
+
+    def prune_all(self, target_root: Path, dry_run: bool) -> AdapterReport:
+        report = AdapterReport(agent=self.name)
+        root = target_root / ".vibe"
+        for subdir in ("rules", "skills", "commands"):
+            for p in walk_managed_files(root / subdir):
+                report.add(WriteOp(path=p, content="", action="delete"))
         if not dry_run:
             for op in report.ops:
                 apply_op(op)

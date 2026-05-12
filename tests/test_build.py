@@ -11,6 +11,8 @@ from scripts.adapters.base import (
     END_MARKER,
     FILE_MARKER_HTML,
     replace_managed_section,
+    strip_managed_section,
+    walk_managed_files,
 )
 from scripts.lint_source import lint_all
 from scripts.source import load_all, parse_text
@@ -85,7 +87,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
               - new logic
             agents:
               claude: { kind: skill }
-              cursor: { kind: rule }
+              cursor: { kind: skill }
               codex:  { section: skills }
               goose:  { section: skills }
               openclaw: { section: skills }
@@ -264,6 +266,83 @@ def test_cursor_writes_mdc(fake_source_dir: Path, tmp_path: Path) -> None:
     assert head[0] == "---"
     assert any(line.startswith("description: ") for line in head)
     assert any("alwaysApply: true" in line for line in head)
+
+
+def test_cursor_writes_skill_dir(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    sources = load_all(fake_source_dir)
+    ADAPTERS["cursor"].write_all(sources, target_root=out, dry_run=False)
+    skill = out / ".cursor" / "skills" / "tdd" / "SKILL.md"
+    assert skill.exists()
+    text = skill.read_text(encoding="utf-8")
+    assert text.startswith("---\nname: tdd\n")
+    assert "RED then GREEN" in text
+    assert (out / ".cursor" / "rules" / "tdd.mdc").exists() is False
+
+
+def test_strip_managed_section_removes_block() -> None:
+    existing = "# header\n\n" + BEGIN_MARKER + "\nblock\n" + END_MARKER + "\n\n# footer\n"
+    result = strip_managed_section(existing)
+    assert BEGIN_MARKER not in result
+    assert "# header" in result
+    assert "# footer" in result
+
+
+def test_strip_managed_section_noop_when_absent() -> None:
+    existing = "# no markers here\n"
+    assert strip_managed_section(existing) == existing
+
+
+def test_walk_managed_files_yields_marked(tmp_path: Path) -> None:
+    marked = tmp_path / "a.md"
+    marked.write_text(f"{FILE_MARKER_HTML}\ncontent\n", encoding="utf-8")
+    clean = tmp_path / "b.md"
+    clean.write_text("no marker\n", encoding="utf-8")
+    found = list(walk_managed_files(tmp_path))
+    assert found == [marked]
+
+
+def test_cursor_prune_removes_skill_dir(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    sources = load_all(fake_source_dir)
+    ADAPTERS["cursor"].write_all(sources, target_root=out, dry_run=False)
+    skill = out / ".cursor" / "skills" / "tdd" / "SKILL.md"
+    assert skill.exists()
+    ADAPTERS["cursor"].prune_all(target_root=out, dry_run=False)
+    assert not skill.exists()
+
+
+def test_prune_preserves_user_content_in_merged(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    agents_md = out / "AGENTS.md"
+    agents_md.parent.mkdir(parents=True)
+    agents_md.write_text("# My own notes\n\nKeep this.\n", encoding="utf-8")
+    sources = load_all(fake_source_dir)
+    ADAPTERS["codex"].write_all(sources, target_root=out, dry_run=False)
+    ADAPTERS["codex"].prune_all(target_root=out, dry_run=False)
+    result = agents_md.read_text(encoding="utf-8")
+    assert "Keep this" in result
+    assert BEGIN_MARKER not in result
+
+
+def test_prune_idempotent(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    sources = load_all(fake_source_dir)
+    ADAPTERS["cursor"].write_all(sources, target_root=out, dry_run=False)
+    for _ in range(3):
+        ADAPTERS["cursor"].prune_all(target_root=out, dry_run=False)
+    assert not (out / ".cursor" / "skills" / "tdd" / "SKILL.md").exists()
+
+
+def test_prune_dry_run_does_not_delete(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    sources = load_all(fake_source_dir)
+    ADAPTERS["cursor"].write_all(sources, target_root=out, dry_run=False)
+    skill = out / ".cursor" / "skills" / "tdd" / "SKILL.md"
+    assert skill.exists()
+    report = ADAPTERS["cursor"].prune_all(target_root=out, dry_run=True)
+    assert skill.exists()
+    assert any(op.action == "delete" for op in report.ops)
 
 
 def test_codex_merges_into_agents_md(fake_source_dir: Path, tmp_path: Path) -> None:

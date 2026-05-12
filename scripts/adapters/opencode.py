@@ -16,6 +16,8 @@ from scripts.adapters.base import (
     WriteOp,
     apply_op,
     replace_managed_section,
+    strip_managed_section,
+    walk_managed_files,
 )
 from scripts.source import Source
 
@@ -49,6 +51,24 @@ class OpenCodeAdapter:
         if rules:
             report.add(self._agents_md_op(rules, root))
 
+        if not dry_run:
+            for op in report.ops:
+                apply_op(op)
+        return report
+
+    def prune_all(self, target_root: Path, dry_run: bool) -> AdapterReport:
+        report = AdapterReport(agent=self.name)
+        root = target_root / ".config" / "opencode"
+        agents_md = root / "AGENTS.md"
+        if agents_md.exists():
+            existing = agents_md.read_text(encoding="utf-8")
+            stripped = strip_managed_section(existing)
+            if stripped != existing:
+                action = "delete" if not stripped.strip() else "write"
+                report.add(WriteOp(path=agents_md, content=stripped, action=action))
+        for d in (root / "skills", root / "commands"):
+            for p in walk_managed_files(d):
+                report.add(WriteOp(path=p, content="", action="delete"))
         if not dry_run:
             for op in report.ops:
                 apply_op(op)

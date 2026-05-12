@@ -13,7 +13,7 @@ applies_when:
   - reviewing whether a file has one clear responsibility
 agents:
   claude: { kind: skill }
-  cursor: { kind: rule }
+  cursor: { kind: skill }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

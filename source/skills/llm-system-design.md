@@ -13,7 +13,7 @@ applies_when:
   - LLM output drives downstream business logic
 agents:
   claude: { kind: skill }
-  cursor: { kind: rule }
+  cursor: { kind: skill }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

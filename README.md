@@ -16,6 +16,18 @@ cd ~/.style
 The installer writes only into a managed namespace inside each agent's config
 directory and never clobbers files outside it. Re-running is idempotent.
 
+## Uninstall
+
+```bash
+./uninstall.sh                 # remove harness from every detected agent
+./uninstall.sh --agent cursor  # only one agent
+./uninstall.sh --dry-run       # show what would be removed, write nothing
+```
+
+The uninstaller deletes only files carrying the `<!-- style-harness:managed -->` marker
+and strips the `<!-- BEGIN style-harness --> … <!-- END style-harness -->` block from
+merged config files. User-authored content is never touched.
+
 ## What gets installed
 
 | Bucket | What it is |

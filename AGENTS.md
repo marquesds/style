@@ -35,12 +35,47 @@ the topic is genuinely distinct — `refactoring` is distinct from `code-simplif
 because it covers named transformations and Feathers' legacy-code seam techniques that
 `code-simplification` deliberately excludes.
 
-### 5. Prefer `.mdc` over `.md` for Cursor targets
+### 5. Prefer `.mdc` over `.md` for Cursor rule targets
 
 Files emitted into `.cursor/rules/*.mdc` must use the `.mdc` extension so frontmatter
 loads correctly. The canonical `source/*.md` files stay `.md`; the build pipeline
 produces the `.mdc` outputs. When authoring directly under `.cursor/rules/`, pick
-`.mdc`.
+`.mdc`. Cursor skills use `.cursor/skills/<id>/SKILL.md` — see Rule 6 below.
+
+---
+
+## 6. Agent native conventions (cheat sheet)
+
+Each adapter under `scripts/adapters/` must emit the agent's native format. When
+adding or modifying an adapter, match the column for that agent below.
+
+| Agent | Rules | Skills | Commands |
+|-------|-------|--------|----------|
+| claude | merged into `<root>/.claude/CLAUDE.md` (managed section) | `<root>/.claude/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | `<root>/.claude/commands/<id>.md` (plain markdown) |
+| cursor | `<root>/.cursor/rules/<id>.mdc` (frontmatter: `description`, `globs`, `alwaysApply`) | `<root>/.cursor/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | `<root>/.cursor/commands/<id>.md` (plain markdown) |
+| codex | merged into `<root>/AGENTS.md` `## Rules` | merged `## Skills` | merged `## Commands` |
+| goose | merged into `<root>/.config/goose/AGENTS.md` | merged | merged |
+| openclaw | merged into `<root>/.openclaw/workspace/AGENTS.md` | merged | merged |
+| opencode | merged into `<root>/.config/opencode/AGENTS.md` | `<root>/.config/opencode/skills/<id>/SKILL.md` | `<root>/.config/opencode/commands/<id>.md` (frontmatter: `description`) |
+| pi | merged into `<root>/AGENTS.md` | merged | merged |
+| vibe | `<root>/.vibe/rules/<id>.md` | `<root>/.vibe/skills/<id>.md` | `<root>/.vibe/commands/<id>.md` |
+
+Native-skills agents (claude, cursor, opencode) get one frontmatter-bearing file per
+skill in a dedicated directory. Merged-AGENTS.md agents (codex, goose, openclaw, pi)
+collapse everything into a single managed block — no native skill split.
+
+### Prune coverage
+
+Every adapter must implement `prune_all(target_root, dry_run) -> AdapterReport`:
+
+- **Per-file installs** (cursor skills/rules/commands, claude skills/commands, opencode
+  skills/commands, vibe rules/skills/commands): delete files containing the
+  `<!-- style-harness:managed -->` marker. Try to remove emptied parent dirs.
+- **Merged AGENTS.md** (codex, goose, openclaw, pi, claude CLAUDE.md, opencode AGENTS.md):
+  strip the `<!-- BEGIN style-harness --> … <!-- END style-harness -->` block. Delete the
+  file only if nothing user-authored remains.
+
+`prune_all` must be idempotent. `--dry-run` must list ops without writing.
 
 ---
 

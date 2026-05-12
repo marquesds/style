@@ -11,7 +11,7 @@ applies_when:
   - setting up AI policy in CONTRIBUTING.md
 agents:
   claude: { kind: skill }
-  cursor: { kind: rule }
+  cursor: { kind: skill }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

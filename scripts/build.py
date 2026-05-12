@@ -1,4 +1,4 @@
-"""Build/install entrypoint.
+"""Build/install and prune entrypoint.
 
 Loads `source/`, runs lint, dispatches to per-agent adapters.
 """
@@ -22,13 +22,13 @@ DEFAULT_SOURCE = REPO_ROOT / "source"
 def parse_args(argv: list[str]) -> argparse.Namespace:
     p = argparse.ArgumentParser(
         prog="style-harness",
-        description="Install style rules/skills/commands.",
+        description="Install or prune style rules/skills/commands.",
     )
     p.add_argument(
         "--agent",
         choices=sorted(ALLOWED_AGENTS | {"all"}),
         default="all",
-        help="target agent (default: all detected)",
+        help="target agent (default: all)",
     )
     p.add_argument(
         "--target-root",
@@ -44,6 +44,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     p.add_argument("--dry-run", action="store_true", help="print operations, write nothing")
     p.add_argument("--no-lint", action="store_true", help="skip lint before install")
+    p.add_argument("--prune", action="store_true", help="remove harness-managed files instead of writing")
     return p.parse_args(argv)
 
 
@@ -60,15 +61,34 @@ def run(
     dry_run: bool,
 ) -> list[AdapterReport]:
     sources = list(sources)
-    reports: list[AdapterReport] = []
-    for name in agents:
-        adapter = ADAPTERS[name]
-        reports.append(adapter.write_all(sources, target_root=target_root, dry_run=dry_run))
-    return reports
+    return [
+        ADAPTERS[name].write_all(sources, target_root=target_root, dry_run=dry_run)
+        for name in agents
+    ]
+
+
+def prune(
+    target_root: Path,
+    agents: Iterable[str],
+    dry_run: bool,
+) -> list[AdapterReport]:
+    return [
+        ADAPTERS[name].prune_all(target_root=target_root, dry_run=dry_run)
+        for name in agents
+    ]
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv if argv is not None else sys.argv[1:])
+    agents = selected_agents(args.agent)
+    prefix = "dry-run: " if args.dry_run else ""
+
+    if args.prune:
+        reports = prune(args.target_root, agents, args.dry_run)
+        for r in reports:
+            r.print(prefix=prefix)
+        return 0
+
     try:
         sources = load_all(args.source_dir)
     except SourceError as e:
@@ -79,12 +99,11 @@ def main(argv: list[str] | None = None) -> int:
         if errors:
             for err in errors:
                 print(err, file=sys.stderr)
-            msg = f"\nlint failed ({len(errors)} error(s)). Use --no-lint to skip."
-            print(msg, file=sys.stderr)
+            print(f"\nlint failed ({len(errors)} error(s)). Use --no-lint to skip.", file=sys.stderr)
             return 1
-    reports = run(sources, args.target_root, selected_agents(args.agent), args.dry_run)
+    reports = run(sources, args.target_root, agents, args.dry_run)
     for r in reports:
-        r.print(prefix="dry-run: " if args.dry_run else "")
+        r.print(prefix=prefix)
     return 0
 
 

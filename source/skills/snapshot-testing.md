@@ -13,7 +13,7 @@ applies_when:
   - deciding whether to accept a snapshot update
 agents:
   claude: { kind: skill }
-  cursor: { kind: rule }
+  cursor: { kind: skill }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

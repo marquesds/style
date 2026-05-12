@@ -8,6 +8,8 @@ from scripts.adapters.base import (
     WriteOp,
     apply_op,
     replace_managed_section,
+    strip_managed_section,
+    walk_managed_files,
 )
 from scripts.adapters.claude import ClaudeAdapter
 from scripts.adapters.codex import CodexAdapter
@@ -36,4 +38,6 @@ __all__ = [
     "WriteOp",
     "apply_op",
     "replace_managed_section",
+    "strip_managed_section",
+    "walk_managed_files",
 ]

@@ -9,7 +9,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from scripts.adapters.base import AdapterReport, WriteOp, apply_op, replace_managed_section
-from scripts.adapters.codex import render_merged_agents_block
+from scripts.adapters.codex import render_merged_agents_block, prune_merged_agents_md
 from scripts.source import Source
 
 
@@ -33,6 +33,14 @@ class OpenClawAdapter:
         merged = replace_managed_section(existing, new_block)
         report.add(WriteOp(path=path, content=merged))
 
+        if not dry_run:
+            for op in report.ops:
+                apply_op(op)
+        return report
+
+    def prune_all(self, target_root: Path, dry_run: bool) -> AdapterReport:
+        report = AdapterReport(agent=self.name)
+        prune_merged_agents_md(target_root / ".openclaw" / "workspace" / "AGENTS.md", report)
         if not dry_run:
             for op in report.ops:
                 apply_op(op)

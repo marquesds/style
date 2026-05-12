@@ -13,7 +13,7 @@ applies_when:
   - choosing between structured logs, traces, and metrics
 agents:
   claude: { kind: skill }
-  cursor: { kind: rule }
+  cursor: { kind: skill }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

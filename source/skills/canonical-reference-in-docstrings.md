@@ -12,7 +12,7 @@ applies_when:
   - reviewing code whose correctness depends on an external standard
 agents:
   claude: { kind: skill }
-  cursor: { kind: rule }
+  cursor: { kind: skill }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

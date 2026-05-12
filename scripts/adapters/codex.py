@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.adapters.base import AdapterReport, WriteOp, apply_op, replace_managed_section
+from scripts.adapters.base import AdapterReport, WriteOp, apply_op, replace_managed_section, strip_managed_section
 from scripts.source import Source
 
 SECTIONS = (("rule", "Rules"), ("skill", "Skills"), ("command", "Commands"))
@@ -34,6 +34,18 @@ def render_merged_agents_block(sources: list[Source]) -> str:
     return "\n".join(parts).rstrip() + "\n"
 
 
+def prune_merged_agents_md(path: Path, report: AdapterReport) -> None:
+    """Strip the harness managed section from a merged AGENTS.md."""
+    if not path.exists():
+        return
+    existing = path.read_text(encoding="utf-8")
+    stripped = strip_managed_section(existing)
+    if stripped == existing:
+        return
+    action = "delete" if not stripped.strip() else "write"
+    report.add(WriteOp(path=path, content=stripped, action=action))
+
+
 class CodexAdapter:
     name = "codex"
 
@@ -54,6 +66,14 @@ class CodexAdapter:
         merged = replace_managed_section(existing, new_block)
         report.add(WriteOp(path=path, content=merged))
 
+        if not dry_run:
+            for op in report.ops:
+                apply_op(op)
+        return report
+
+    def prune_all(self, target_root: Path, dry_run: bool) -> AdapterReport:
+        report = AdapterReport(agent=self.name)
+        prune_merged_agents_md(target_root / "AGENTS.md", report)
         if not dry_run:
             for op in report.ops:
                 apply_op(op)

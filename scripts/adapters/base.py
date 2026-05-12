@@ -5,6 +5,7 @@ Pure functions for content transformation; only `apply_op` performs I/O.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Protocol
@@ -58,9 +59,22 @@ class Adapter(Protocol):
         dry_run: bool,
     ) -> AdapterReport: ...
 
+    def prune_all(
+        self,
+        target_root: Path,
+        dry_run: bool,
+    ) -> AdapterReport: ...
+
 
 def apply_op(op: WriteOp) -> None:
-    """Perform a write operation."""
+    """Perform a write or delete operation."""
+    if op.action == "delete":
+        op.path.unlink(missing_ok=True)
+        try:
+            op.path.parent.rmdir()
+        except OSError:
+            pass
+        return
     op.path.parent.mkdir(parents=True, exist_ok=True)
     op.path.write_text(op.content, encoding="utf-8")
 
@@ -74,3 +88,31 @@ def replace_managed_section(existing: str, new_block: str) -> str:
         return before.rstrip("\n") + "\n\n" + block + after.lstrip("\n")
     sep = "\n\n" if existing.strip() else ""
     return existing + sep + block
+
+
+def strip_managed_section(existing: str) -> str:
+    """Remove the BEGIN…END harness block from `existing`.
+
+    Returns the content with the block excised, or `existing` unchanged if
+    no markers are found.
+    """
+    if BEGIN_MARKER not in existing or END_MARKER not in existing:
+        return existing
+    before = existing.split(BEGIN_MARKER, 1)[0].rstrip("\n")
+    after = existing.split(END_MARKER, 1)[1].lstrip("\n")
+    return (before + "\n" + after).rstrip("\n") + "\n" if (before or after).strip() else ""
+
+
+def walk_managed_files(directory: Path) -> Iterator[Path]:
+    """Yield files under `directory` whose first 10 lines contain the file marker."""
+    if not directory.is_dir():
+        return
+    for path in sorted(directory.rglob("*")):
+        if not path.is_file():
+            continue
+        try:
+            head = "\n".join(path.read_text(encoding="utf-8", errors="replace").splitlines()[:10])
+            if FILE_MARKER_HTML in head:
+                yield path
+        except OSError:
+            continue
