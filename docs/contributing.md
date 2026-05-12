@@ -9,6 +9,9 @@ This repo is my single source of truth that compiles into per-agent native files
 3. Write the body in caveman style (drop articles and filler, keep technical terms verbatim, fragments are fine). Code examples stay in normal style — caveman never applies inside code fences.
 4. Include a `## GOOD` and a `## BAD` example block. The lint script enforces this for rules and skills.
 5. Keep the file under 200 lines and any code example function under 10 body lines.
+6. When adding a new skill, also add a row to `source/rules/skills-catalog.md` in the same commit. The lint guard (`lint_skills_catalog`) will fail the build if the catalog drifts.
+
+See `AGENTS.md` at the repository root for the full set of contributor rules that apply to AI agents working on this repo.
 
 ## Validating
 

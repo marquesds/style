@@ -1,50 +1,62 @@
 # Style Overview
 
-This document is the one-page version of the philosophy behind my rules, skills, and commands in this repository. It is written in normal English so newcomers can read it quickly. The rule and skill files themselves are written in caveman style for token efficiency once an agent has loaded them.
+One-page philosophy behind the rules, skills, and commands in this repository.
+Written in normal English for newcomers. The rule and skill files use caveman style
+for token efficiency once an agent has loaded them.
 
 ## What this is
 
-A single source of truth for my coding style, distributed as native files for any AI coding agent: Claude Code, Cursor, Codex, Goose, OpenClaw, OpenCode, Pi, and Vibe. You clone the repo, run `./install.sh`, and the same practices appear in every agent you use.
+A single source of truth for my coding style, distributed as native files for any
+AI coding agent. Clone the repo, run `./install.sh`, and the same practices appear
+in every agent you use.
 
 ## What this is not
 
-It is not a framework. It does not lock you into a stack, a directory layout, or a language. It describes responsibilities and tradeoffs so that the choice of `Protocol` vs `interface` vs `trait` falls naturally out of whichever language is in front of you.
+It is not a framework. It does not lock you into a stack, a directory layout, or a
+language. It describes responsibilities and trade-offs so that the choice of
+`Protocol` vs `interface` vs `trait` falls naturally out of whichever language is
+in front of you.
 
-## The practices, in plain English
+## The practices
 
-**Test-driven development.** Write a failing test for the next behavior, then write the smallest implementation that makes it pass, then refactor while the test keeps you honest. Default shape is the **Testing Trophy**: generous static checks, a thick band of integration tests on real seams, focused unit tests for pure logic, and only a few end-to-end tests for critical journeys — not a narrow “unit-heavy pyramid.” Tests are how I prove the code does what it claims; they come first, not last.
-
-**Bug-first debugging.** A bug report is not a fix request, it is a "reproduce this" request. The first artifact when a bug is reported is a failing test that pins the bug. The fix follows. The test stays as a regression guard, tagged so future readers can find it.
-
-**Minimal hexagonal architecture.** The domain knows nothing about its surroundings; adapters know about the domain. I name the layers however the language and project want, but the dependency direction always points inward toward pure business rules.
-
-**Functional core, imperative shell.** Pure functions over plain data hold the logic. The shell at the boundary calls into the core, then performs I/O. Tests on the core require no mocks. Effects are postponed until the last possible step.
-
-**Liskov first.** Substitutability is the SOLID principle that earns its keep. I encode contracts (preconditions, invariants, postconditions) in the type system whenever the language allows; I use runtime asserts and property tests when types fall short. Subclasses that throw `NotImplementedError` are not subtypes.
-
-**RESTful HTTP.** Nouns plural, methods over verbs, URL versioning, RFC 7807 problem+json bodies for errors, cursor pagination, ETags for conditional requests, idempotency keys for non-idempotent POSTs. Predictable shape across services.
-
-**Unit of Work for transactions.** Each use case opens one unit of work, registers repository writes inside it, persists the outbox event in the same transaction, and only then commits. External effects (emails, webhooks) fire after commit, never inside, and dispatch via the outbox to keep delivery at-least-once.
-
-**Observability is non-negotiable.** Three pillars (logs, traces, metrics), correlation IDs propagated through every boundary, structured logs at every state change, no PII. A new endpoint without a span and a counter is not done.
-
-**Code is a liability.** Less code beats more code. Two-step removal (stop using, then delete). Migrations are reversible; data backfills live in their own files. Deprecation markers carry a removal version.
-
-**Source-driven development.** I verify framework code against the official docs of the version installed, not against memory. Every nontrivial framework decision cites a URL.
-
-**Conventional Commits, small PRs, feature flags when applicable.** One logical change per PR, target around 100 lines, body of the commit message explains why. Risky or partial changes ship behind a flag with a removal date.
+- **Test-driven development.** Write a failing test for the next behavior, then write
+  the smallest implementation that makes it pass, then refactor. Default shape is the
+  Testing Trophy: thick integration tests on real seams, focused unit tests for pure
+  logic, few end-to-end tests for critical journeys.
+- **Bug-first debugging.** Reproduce the bug as a failing test before touching
+  production code. The fix follows. The test stays as a regression guard.
+- **Minimal hexagonal architecture.** Domain depends on nothing. Adapters depend on
+  domain ports. Dependency direction always points inward.
+- **Functional core, imperative shell.** Pure functions hold logic. Effects live at
+  the boundary and are postponed until the last possible step.
+- **Liskov first.** Encode contracts in the type system; use runtime asserts and
+  property tests where types fall short.
+- **RESTful HTTP.** Nouns plural, URL versioning, RFC 7807 errors, cursor pagination,
+  idempotency keys for non-idempotent POSTs.
+- **Unit of Work for transactions.** One UoW per use case. Outbox event in the same
+  transaction. External effects after commit, not inside.
+- **Observability is non-negotiable.** Three pillars (logs, traces, metrics),
+  correlation IDs, structured logs at every state change, no PII.
+- **Code is a liability.** Two-step removal. Reversible migrations. Deprecation markers
+  carry a removal version.
+- **Source-driven development.** Verify framework code against the docs of the version
+  installed, not memory. Cite the URL.
+- **Conventional Commits, small PRs, feature flags.** One logical change per PR,
+  ~100 lines, body explains why. Risky changes ship behind a flag.
 
 ## How to read the rest of the repo
 
-- `source/rules/` — always-on guidance. Seven files: agent workflow, subagent-first, code quality, design principles, documentation, observability, reuse and idioms.
-- `source/skills/` — on-demand expertise. Fifty-five files covering everything described above, including: TDD, hexagonal architecture, functional core / imperative shell, unit of work + transactions, resilience and retries, SQL antipatterns, N+1 prevention, OWASP top-10, injection defense, LLM prompt injection, RESTful HTTP design, wide events + cardinality, rollout + feature flags, concurrency correctness, data privacy + retention, AI collaboration hygiene, snapshot testing, minimal dependency budget, compile-time feature flags, bindings as thin wrappers, modular file as feature toggle, runnable doc examples, honest limits disclosure, canonical reference in docstrings, task runner conventions, AGENTS.md checklists, AI contribution disclosure, design aesthetic commitment, and more.
-- `source/commands/` — slash-command prompts that engage one or more skills (`/spec`, `/plan`, `/tdd`, `/bug`, `/review`, `/done`, `/commit`, `/release`, `/snapshot-review`).
-- `scripts/` — the loader, lint, build orchestrator, and per-agent adapters.
-- `tests/` — snapshot tests for the build pipeline.
-- `docs/adr/` — short architecture decision records explaining why specific choices in this repo are the way they are.
+- `source/rules/` — eight always-on rules, including the `skills-catalog` index.
+- `source/skills/` — on-demand expertise; see `source/rules/skills-catalog.md` for
+  the navigable index with one-line triggers for all 56 skills.
+- `source/commands/` — slash-command prompts.
+- `docs/adr/` — architecture decision records explaining why specific choices were made.
 
 ## Why caveman voice
 
-Once an agent has the practices in context, every additional token of preamble costs real money and degrades the agent's recall. Caveman voice removes filler while leaving every technical term, identifier, code block, and error string verbatim. Newcomers read these documents (in normal English); agents read the caveman versions.
+Once an agent has the practices in context, every additional token of preamble costs
+real money and degrades recall. Caveman voice removes filler while preserving every
+technical term, identifier, code block, and error string verbatim. Newcomers read
+these documents in normal English; agents read the caveman versions.
 
-Read the ADR (`docs/adr/0003-caveman-voice-for-rules.md`) for the full reasoning.
+See `docs/adr/0003-caveman-voice-for-rules.md` for the full reasoning.
