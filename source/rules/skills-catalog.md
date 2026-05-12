@@ -44,7 +44,9 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | bindings-as-thin-wrappers | writing FFI or language bindings to a native library |
 | bounded-context-mapping | slicing by bounded context; aggregate repos; ACL translators |
 | bug-first-debugging | bug report — reproduce as failing test before any fix |
+| caching-strategy | cache-aside vs write-through; key shape; TTL jitter; singleflight; event-driven invalidation |
 | canonical-reference-in-docstrings | documenting an algorithm, protocol, or formula |
+| ci-pipeline-design | fail-fast ordering; matrix discipline; cache hygiene; secrets in vault |
 | caveman | ultra-compressed communication mode for token efficiency |
 | centralized-ui-components | building UI components; enforcing one catalog source before page use |
 | code-review-and-quality | reviewing a diff or PR across five axes |
@@ -75,6 +77,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | pipeline-saga-orchestration | long-running workflows; sagas; compensating actions |
 | pull-request-and-commit-style | conventional commits; small PRs; one logical change |
 | queue-topology-design | message queue shape; fan-out; dead-letter; ordering |
+| rate-limiting-and-throttling | token bucket vs sliding window; per-tenant dims; 429 + Retry-After; cost-based limits |
 | refactoring | structural change without behavior change; legacy code without tests |
 | requirements-crushing | crushing vague specs into a Ready-to-Code brief |
 | resilience-retries | retries with backoff/jitter; idempotency; circuit breakers |
@@ -93,6 +96,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | sql-query-performance | index shape, sargable predicates, keyset pagination |
 | task-runner-conventions | Makefile / justfile conventions; standard task names |
 | tdd | RED → GREEN → REFACTOR; Testing Trophy; Chicago school |
+| threat-modeling | STRIDE per trust boundary; abuse cases; mitigations before the diff |
 | test-design | what to test, how much, which doubles; afferent coupling |
 | unit-of-work-and-transactions | one UoW per use case; atomic boundary; outbox pattern |
 | wide-events-and-cardinality | high-cardinality observability; wide events |

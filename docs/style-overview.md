@@ -48,8 +48,21 @@ in front of you.
 
 - `source/rules/` — eight always-on rules, including the `skills-catalog` index.
 - `source/skills/` — on-demand expertise; see `source/rules/skills-catalog.md` for
-  the navigable index with one-line triggers for all 56 skills.
-- `source/commands/` — slash-command prompts.
+  the navigable index with one-line triggers. Skills are grouped loosely by family:
+
+  | Family | Skills |
+  |--------|--------|
+  | Core design | functional-core-imperative-shell, hexagonal-architecture, bounded-context-mapping, liskov-and-design-by-contract, unit-of-work-and-transactions |
+  | Testing | tdd, test-design, bug-first-debugging, snapshot-testing |
+  | HTTP / API | restful-http-design, api-and-interface-design, rate-limiting-and-throttling |
+  | Data / SQL | sql-antipatterns, sql-query-performance, sql-foreign-keys, sql-physical-design, sql-query-antipatterns, sql-app-discipline, jsonb-first-search |
+  | Security | owasp-top-ten, injection-defense, xss-and-csp, secrets-never-in-repo, password-hashing-storage, llm-prompt-injection, threat-modeling |
+  | Performance / reliability | n-plus-one-prevention, resilience-retries, caching-strategy, queue-topology-design, pipeline-saga-orchestration |
+  | Operations / delivery | ci-pipeline-design, rollout-and-feature-flags, deprecation-and-migration, observability, wide-events-and-cardinality |
+  | Process / workflow | requirements-crushing, spec-driven-development, code-review-and-quality, pull-request-and-commit-style, definition-of-done, refactoring |
+
+- `source/commands/` — slash-command prompts: `/spec`, `/plan`, `/tdd`, `/bug`,
+  `/review`, `/done`, `/commit`, `/threat-model`, `/refactor`, and more.
 - `docs/adr/` — architecture decision records explaining why specific choices were made.
 
 ## Why caveman voice
