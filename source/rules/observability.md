@@ -52,6 +52,8 @@ No emails, names, raw tokens, payment data in logs. Hash or redact.
 
 Every DB query, HTTP call, queue publish, cache miss → span. Tag with operation + outcome. Trace tells story without log diving.
 
+Each queue and its worker pool is a first-class boundary: span per enqueue/dequeue, RED metrics per queue (rate, error rate, duration), queue-depth gauge. See skill:queue-topology-design.
+
 ## SLO-Worthy Metrics
 
 Rate, errors, duration (RED). Saturation. Per-endpoint, per-job. Alert on derivatives, not absolutes.

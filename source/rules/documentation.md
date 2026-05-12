@@ -43,6 +43,24 @@ Docs explain intent, preconditions, invariants, postconditions, error cases, tra
 
 Architectural decision = ADR. Title, context, decision, consequences. Short. Dated. Numbered.
 
+### ADR Lifecycle
+
+Each ADR moves through a defined lifecycle. Obsolete ADRs stay in the repo —
+history matters. Index them in a `docs/adr/README.md` table so readers can
+navigate without reading every file.
+
+| Status | Meaning |
+|---|---|
+| `Proposed` | Under discussion; not yet binding |
+| `Accepted` | Binding; code should reflect this decision |
+| `Superseded` | Replaced by a newer ADR (link to it) |
+| `Obsolete` | No longer relevant; context has gone away |
+
+When a decision changes: write a new ADR, mark the old one `Superseded`, and
+link both. Do not edit the original text — it is a historical record.
+
+For system-level context across many decisions, see skill:architecture-haiku.
+
 ## Keep Current
 
 Doc out of sync with code → delete the doc OR fix it now. Stale > absent because readers trust stale.

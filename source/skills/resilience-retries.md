@@ -38,6 +38,8 @@ At-least-once delivery ⇒ handler must be **idempotent** or **deduplicated** (n
 
 After **N** failures (or error rate), **open**: short-circuit calls, surface healthy error upstream. **Half-open** probe after cool-down. **Close** on success. Emit **logs/metrics** on state change (see observability rule).
 
+For worker-level isolation — queue splitting, per-queue concurrency limits, stale-job reapers — see skill:queue-topology-design.
+
 ## GOOD
 
 ```python

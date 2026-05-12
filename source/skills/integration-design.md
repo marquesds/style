@@ -103,3 +103,21 @@ class LoanApplication:
 ```
 
 External dict drives aggregate — syntax + semantics leaked into domain.
+
+## Datasets and Analytics Extension
+
+For analytical workloads, the three-layer model extends with two additional
+layers below the domain:
+
+| Layer | Question | Examples |
+|---|---|---|
+| Datasets | What cohort / slice? | Filter, join, aggregate domain events |
+| Analytics | What insight? | KPIs, trends, ML feature vectors |
+
+These layers consume **domain events and snapshots** — never raw syntactic or
+semantic objects. Analytical queries read; they do not write back to the domain.
+Keep dataset assembly and aggregation logic out of domain aggregates.
+
+Cross-context analytical reads use published events or read-only projections —
+never direct joins across bounded context tables
+(skill:bounded-context-mapping).

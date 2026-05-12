@@ -43,6 +43,8 @@ Untrusted corpuses: chunk may contain hostile instructions against assistant. Mi
 
 Prefer **structured** pipelines (extract → validate schema → act) over one blob prompt. Logging: no pasted API keys into traces (skill:secrets-never-in-repo). Classical injection overlap: skill:injection-defense when model emits SQL/shell.
 
+For product-side design — confidence scoring, structured outputs, fake clients, cost accounting — see skill:llm-system-design.
+
 ## GOOD
 
 Fixed system preamble; user content in bounded JSON field; executor checks RBAC before DELETE; destructive tool gated.

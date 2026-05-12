@@ -73,6 +73,8 @@ External effects fire after commit, never inside.
 
 Persist event in the same UoW; a dispatcher publishes from the outbox. Failures retried with idempotency + backoff (skill:resilience-retries); consumers idempotent (skill:restful-http-design).
 
+For jobs that span multiple requests or survive deploys, one UoW per step is not enough — use skill:pipeline-saga-orchestration.
+
 ## GOOD
 
 ```python
