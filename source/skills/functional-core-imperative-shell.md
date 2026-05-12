@@ -96,6 +96,19 @@ DB call inside compute. Untestable without mocking DB. Effects scattered.
 4. Move I/O to the caller.
 5. Tests for the pure function need zero mocks.
 
+## When Pure-Core Overhead Doesn't Earn Its Keep
+
+The strict pure/shell partition adds value when the core is tested in isolation and
+the shell is thin. The overhead doesn't pay off for:
+
+- **Single-shot CLIs** that read stdin, do one transformation, and exit.
+- **Prototype scripts** where the domain model changes every day.
+- **Infra glue** (deploy scripts, migration runners) where there is no reusable logic.
+- **Simple adapters** that translate one shape to another with no branching.
+
+Keep types + small functions everywhere. Only the strict isolation of I/O needs
+justification when the module is small or single-purpose.
+
 ## Red Flags
 
 - `await`, `requests.get`, `db.execute` inside a function named `compute_*`, `calculate_*`, `build_*`.

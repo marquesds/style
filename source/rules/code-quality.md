@@ -102,6 +102,22 @@ def load_everything(conn):
 
 Untyped. Mutable accumulator. Deep nesting. Branching too wide. Full fetch + filter in memory when cursor + predicate stream would do.
 
+## Carve-outs
+
+Caps apply to **logic**. Some shapes are exempt by structure, not author whim:
+
+- **Large `@dataclass` / `TypedDict`** with many named fields — data bags are not
+  logic; line count comes from field declarations, not complexity.
+- **Generated code** (schemas, parsers, serializers) — machine-produced; don't
+  hand-edit to fit the limit; regenerate from source instead.
+- **Exhaustive enum-like dicts** (`STATUS_LABELS`, `COUNTRY_CODES`) — length is
+  the point; split would destroy locality.
+- **State-machine transition tables** — all transitions in one place is a feature;
+  scatter across files to hit the cap and you lose the whole picture.
+
+If unsure whether a file qualifies: ask "does complexity grow with size here?"
+If yes, split. If no (it's a data declaration), the carve-out applies.
+
 ## Red Flags
 
 - File creeping past 200 lines.

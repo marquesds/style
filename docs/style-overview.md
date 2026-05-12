@@ -37,7 +37,7 @@ It is not a framework. It does not lock you into a stack, a directory layout, or
 ## How to read the rest of the repo
 
 - `source/rules/` — always-on guidance. Seven files: agent workflow, subagent-first, code quality, design principles, documentation, observability, reuse and idioms.
-- `source/skills/` — on-demand expertise. Thirty files covering everything described above.
+- `source/skills/` — on-demand expertise. Forty-three files covering everything described above, including: TDD, hexagonal architecture, functional core / imperative shell, unit of work + transactions, resilience and retries, SQL antipatterns, N+1 prevention, OWASP top-10, injection defense, LLM prompt injection, RESTful HTTP design, wide events + cardinality, rollout + feature flags, concurrency correctness, data privacy + retention, AI collaboration hygiene, and more.
 - `source/commands/` — slash-command prompts that engage one or more skills (`/spec`, `/plan`, `/tdd`, `/bug`, `/review`, `/done`, `/commit`).
 - `scripts/` — the loader, lint, build orchestrator, and per-agent adapters.
 - `tests/` — snapshot tests for the build pipeline.

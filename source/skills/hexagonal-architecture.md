@@ -101,6 +101,25 @@ Domain glued to SQL + HTTP. Untestable without standing up DB and webhook. Time 
 
 Substitute adapters with in-memory fakes. Domain tests run in microseconds with no I/O. Integration tests cover the adapter contract once.
 
+## When Not to Apply
+
+The hexagonal pattern earns its overhead when the domain has invariants worth
+defending across multiple I/O backends. Skip the strict pure/shell partition when:
+
+- **Single-shot scripts** (<200 lines, one collaborator, never tested in isolation).
+- **Pure libraries** (parsers, math, codecs) — no I/O boundary exists to push to.
+- **Prototypes pre-product-fit** — the domain model hasn't stabilised; premature ports
+  just move with every pivot.
+- **Infra glue** that wires two frameworks together with no business logic.
+
+Concrete heuristic: if you can realistically anticipate ≥2 adapter implementations
+(SQL + in-memory, gRPC + HTTP, real queue + fake), or if the domain has invariants
+you need to defend across those backends, add the port. Otherwise keep types + small
+functions without the strict layering.
+
+See skill:functional-core-imperative-shell for the inner pure/shell split, which
+applies even in small scripts.
+
 ## Red Flags
 
 - Domain module imports `requests`, `boto3`, `sqlalchemy`, `redis`.
