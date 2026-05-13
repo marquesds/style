@@ -36,6 +36,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 
 | Skill ID | Load when |
 |----------|-----------|
+| accessibility-and-inclusive-ui | building or reviewing a frontend UI; adding a form, modal, or interactive widget; auditing keyboard or screen-reader support |
 | agents-md-checklists | authoring an AGENTS.md file for a project |
 | ai-collaboration-hygiene | reviewing AI-generated code before merging; deciding what to delegate to AI; setting AI contribution policy |
 | ai-contribution-disclosure | disclosing AI-generated content in docs or PRs |
@@ -45,6 +46,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | bounded-context-mapping | dividing a large domain into bounded subdomains or services; designing how separate modules or contexts communicate |
 | bug-first-debugging | bug report — reproduce as failing test before any fix |
 | caching-strategy | adding a cache layer to a feature; choosing a cache strategy; cache invalidation or TTL design; Redis or in-process LRU |
+| capacity-and-cost-engineering | sizing infrastructure for launch; planning capacity for peak load; setting up cost budgets or guardrails; running a load test |
 | canonical-reference-in-docstrings | documenting an algorithm, protocol, or formula |
 | ci-pipeline-design | designing or improving a CI/CD pipeline; setting up or modifying GitHub Actions or CI configuration |
 | caveman | ultra-compressed communication mode for token efficiency |
@@ -54,6 +56,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | compile-time-feature-flags | making a dependency or integration optional at build time; shipping a minimal variant without heavy optional deps |
 | concurrency-correctness | writing or reviewing concurrent code; shared state; locks |
 | data-privacy-and-retention | handling PII, retention limits, or right-to-erasure |
+| data-quality-and-analytics | adding a tracking event or product metric; building or reviewing an analytics dashboard; changing a metric definition; auditing data lineage |
 | defensive-programming | hardening boundaries; validating untrusted input |
 | definition-of-done | checking a change is truly done before push or merge |
 | deprecation-and-migration | removing, replacing, or retiring a feature, API endpoint, database column, or module |
@@ -62,6 +65,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | hexagonal-architecture | structuring a service or feature with I/O boundaries; deciding where adapters and ports belong; organizing code by feature slice |
 | honest-limits-disclosure | documenting known constraints where readers look first |
 | i18n-discipline | internationalizing strings, dates, numbers across locales |
+| incident-response-and-postmortem | production incident in flight; writing a postmortem after an outage; defining severity tiers or on-call escalation |
 | injection-defense | preventing SQLi, command, SSTI, or path traversal |
 | integration-design | designing contracts between services or modules |
 | jsonb-first-search | postgres jsonb + GIN for schema-fluid or search-heavy features |

@@ -55,10 +55,11 @@ in front of you.
   | Core design | functional-core-imperative-shell, hexagonal-architecture, bounded-context-mapping, liskov-and-design-by-contract, unit-of-work-and-transactions |
   | Testing | tdd, test-design, bug-first-debugging, snapshot-testing |
   | HTTP / API | restful-http-design, api-and-interface-design, rate-limiting-and-throttling |
-  | Data / SQL | sql-antipatterns, sql-query-performance, sql-foreign-keys, sql-physical-design, sql-query-antipatterns, sql-app-discipline, jsonb-first-search |
+  | Frontend / UX | centralized-ui-components, design-aesthetic-commitment, accessibility-and-inclusive-ui, i18n-discipline |
+  | Data / SQL | sql-antipatterns, sql-query-performance, sql-foreign-keys, sql-physical-design, sql-query-antipatterns, sql-app-discipline, jsonb-first-search, data-quality-and-analytics |
   | Security | owasp-top-ten, injection-defense, xss-and-csp, secrets-never-in-repo, password-hashing-storage, llm-prompt-injection, threat-modeling |
-  | Performance / reliability | n-plus-one-prevention, resilience-retries, caching-strategy, queue-topology-design, pipeline-saga-orchestration |
-  | Operations / delivery | ci-pipeline-design, rollout-and-feature-flags, deprecation-and-migration, observability, wide-events-and-cardinality |
+  | Performance / reliability | n-plus-one-prevention, resilience-retries, caching-strategy, queue-topology-design, pipeline-saga-orchestration, capacity-and-cost-engineering |
+  | Operations / delivery | ci-pipeline-design, rollout-and-feature-flags, deprecation-and-migration, observability, wide-events-and-cardinality, incident-response-and-postmortem |
   | Process / workflow | requirements-crushing, spec-driven-development, code-review-and-quality, pull-request-and-commit-style, definition-of-done, refactoring |
 
 - `source/commands/` — slash-command prompts: `/spec`, `/plan`, `/tdd`, `/bug`,
