@@ -25,6 +25,16 @@ agents:
 
 Builds on [skill:tdd](source/skills/tdd.md). Shape code for seams via [skill:functional-core-imperative-shell](source/skills/functional-core-imperative-shell.md) + [skill:hexagonal-architecture](source/skills/hexagonal-architecture.md).
 
+## Coverage triad
+
+Every behavior under test **must** assert across three angles:
+
+- **Success** — the documented happy path with realistic inputs.
+- **Failure** — invalid input, contract violations, dependency errors, raised exceptions.
+- **Corner case** — boundaries, empty / null / zero, max size, off-by-one neighbors, concurrency edges.
+
+One angle missing = behavior not pinned. Trivial pure helpers may collapse the three angles into a single parametrized table, but all three must be represented. Specification-based partitioning (below) is how you pick the representatives; the triad is the floor for what gets picked.
+
 ## Specification-based
 
 Equivalence partitions: pick one representative per class. Boundary values: min, max, just inside/outside, empty, null if allowed. Decision tables for compound rules. Fewer tests, same intent coverage.
@@ -74,4 +84,11 @@ Parametrize partitions + boundaries; one property for core invariant; fake clock
 
 ## BAD
 
-Ten happy-path clones on one partition; suite green but any refactor breaks everything; mock every dependency “for isolation.” High fan-in hub: only shallow unit tests + **zero** integration through real wiring; or full E2E replacing integration so every failure is a 10-minute flake. Mocks-only “coverage” on shared semantic surface.
+Ten happy-path clones on one partition with no failure or corner-case angle for the behavior under test; suite green but any refactor breaks everything; mock every dependency “for isolation.” High fan-in hub: only shallow unit tests + **zero** integration through real wiring; or full E2E replacing integration so every failure is a 10-minute flake. Mocks-only “coverage” on shared semantic surface.
+
+## Red Flags
+
+- Suite covers only the happy path; failure and corner-case angles missing from a behavior under test.
+- New behavior shipped with a single assertion on a single representative input.
+- Failure tests assert the call raised *something*, not the specific contract violation.
+- Corner cases (empty, null, zero, max, boundary neighbors) live only in the developer's head, not the suite.
