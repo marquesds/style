@@ -60,7 +60,7 @@ in front of you.
   | Security | owasp-top-ten, injection-defense, xss-and-csp, secrets-never-in-repo, password-hashing-storage, llm-prompt-injection, threat-modeling |
   | Performance / reliability | n-plus-one-prevention, resilience-retries, caching-strategy, queue-topology-design, pipeline-saga-orchestration, capacity-and-cost-engineering |
   | Operations / delivery | ci-pipeline-design, rollout-and-feature-flags, deprecation-and-migration, observability, wide-events-and-cardinality, incident-response-and-postmortem |
-  | Process / workflow | requirements-crushing, spec-driven-development, code-review-and-quality, pull-request-and-commit-style, definition-of-done, refactoring |
+  | Process / workflow | requirements-crushing, spec-driven-development, task-definition, code-review-and-quality, pull-request-and-commit-style, definition-of-done, refactoring |
 
 - `source/commands/` — slash-command prompts: `/spec`, `/plan`, `/tdd`, `/bug`,
   `/review`, `/done`, `/commit`, `/threat-model`, `/refactor`, and more.

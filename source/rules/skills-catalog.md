@@ -98,6 +98,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | sql-physical-design | physical design traps: money types, ENUM lookups, file storage |
 | sql-query-antipatterns | query smells: NULL handling, GROUP BY, RAND(), LIKE, spaghetti, SELECT * |
 | sql-query-performance | optimizing a slow query; adding or evaluating indexes; reviewing query execution plan shape |
+| task-definition | writing a backlog ticket, story, or task for someone else to pick up; standardizing task titles, estimates, or acceptance criteria |
 | task-runner-conventions | Makefile / justfile conventions; standard task names |
 | tdd | implementing new features, functions, or modules; writing any new code; adding behavior to the codebase |
 | threat-modeling | designing a feature that crosses trust boundaries; security review before implementing auth, data handling, or external integrations |
