@@ -76,9 +76,20 @@ SUCCESS:
 
 Modules, types, ports, dependencies, order, risks. Prose + diagram if useful.
 
+**Complex change → tech spec.** Cross-module work, schema change, new external
+boundary, new dependency, or a decision that locks in a trade-off → write a
+tech spec: problem, options considered, choice + reasoning, blast radius,
+rollback. Single accepted decisions land as ADRs under `docs/adr/`
+(see rule:documentation). For a one-pager system overview, see
+skill:architecture-haiku.
+
 ## Phase 3: TASKS
 
 Slice into discrete units. Each: testable, independently mergeable, < 1 day. Order them.
+
+Each task follows skill:task-definition: verb-led title, single estimate scale
+(T-shirt or Fibonacci, no mixing), acceptance criteria in Gherkin. `> XL` or
+`> 13` → slice smaller before writing.
 
 ## Phase 4: IMPLEMENT
 
