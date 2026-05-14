@@ -64,6 +64,8 @@ Spawn liberally. One task per subagent. Main context stays clean. See skill:suba
 
 Never mark complete without proof. Run full test suite. Run lint. Run type check. Ask: would staff engineer approve?
 
+Run the suite **in parallel** when safe (skill:tdd → Run Parallel When Safe). Serialize the offending tests, not the whole suite.
+
 ## Autonomous Bug Fixing
 
 Bug report → reproduce → fix root cause. No "should I do A or B?" questions. Find answer yourself, then propose fix.

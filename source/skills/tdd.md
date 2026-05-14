@@ -149,6 +149,37 @@ Python: `pytest`, `pytest-asyncio`, `hypothesis`, `freezegun`. Run `pytest -k na
 
 For complex rendered or serialized output: use snapshot tests reviewed like code — never auto-accepted (skill:snapshot-testing). For public API functions: pair tests with runnable doc examples (skill:runnable-doc-examples).
 
+## Run Parallel When Safe
+
+Default the suite to parallel. Tighter RED→GREEN loop, cores earn their keep.
+
+Per stack: `pytest -n auto` (pytest-xdist), `cargo test` (parallel default), `go test ./... -parallel N`, `vitest` (parallel default), `mix test --max-cases N`.
+
+**Serialize only when there is a real race:** shared DB without per-worker schema or transaction, hard-coded port binding, `chdir`, global env mutation, filesystem path collisions, shared monotonic fakes, time freeze that leaks across tests.
+
+Quarantine the offenders, don't downgrade the whole suite: mark them `@pytest.mark.serial`, then `pytest -m "not serial" -n auto` followed by `pytest -m serial -p no:xdist`.
+
+### GOOD
+
+```python
+@pytest.fixture
+def db_url(tmp_path_factory, worker_id):
+    path = tmp_path_factory.mktemp(f"db-{worker_id}") / "test.db"
+    return f"sqlite:///{path}"
+```
+
+Per-worker isolation via `worker_id`. Suite scales with cores; no cross-test bleed.
+
+### BAD
+
+```python
+@pytest.fixture(scope="session")
+def db():
+    return connect("postgres://localhost/test_shared")
+```
+
+Session-scoped shared mutable resource. Workers stomp the same rows → flake → "must be serial" verdict that's actually "must be isolated".
+
 ## Red Flags
 
 - Code without tests.
@@ -157,3 +188,5 @@ For complex rendered or serialized output: use snapshot tests reviewed like code
 - `# noqa`, `@pytest.mark.skip`, or commented-out tests to "pass" the suite.
 - Mock returns shaped to make a buggy implementation pass.
 - “Unit” test hits filesystem, socket, database, or real HTTP — mark integration or use an in-memory fake.
+- Whole suite serialized because two tests can't share a fixture.
+- Test depends on a previous test's side effect (ordering coupling masquerading as "needs serial").
