@@ -1,6 +1,6 @@
 # ADR-0009 — Route codex and pi adapters to their native config directories
 
-**Status:** Accepted  
+**Status:** Accepted; amended by ADR-0010 for Codex skill placement  
 **Date:** 2026-05-12
 
 ## Context

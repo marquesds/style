@@ -64,23 +64,23 @@ adding or modifying an adapter, match the column for that agent below.
 |-------|-------|--------|----------|
 | claude | merged into `<root>/.claude/CLAUDE.md` (managed section) | `<root>/.claude/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | `<root>/.claude/commands/<id>.md` (plain markdown) |
 | cursor | `<root>/.cursor/rules/<id>.mdc` (frontmatter: `description`, `globs`, `alwaysApply`) | `<root>/.cursor/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | `<root>/.cursor/commands/<id>.md` (plain markdown) |
-| codex | merged into `<root>/.codex/AGENTS.md` `## Rules` | merged `## Skills` | merged `## Commands` |
+| codex | merged into `<root>/.codex/AGENTS.md` `## Rules` | `<root>/.agents/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | merged into `<root>/.codex/AGENTS.md` `## Commands` |
 | goose | merged into `<root>/.config/goose/AGENTS.md` | merged | merged |
 | openclaw | merged into `<root>/.openclaw/workspace/AGENTS.md` | merged | merged |
 | opencode | merged into `<root>/.config/opencode/AGENTS.md` | `<root>/.config/opencode/skills/<id>/SKILL.md` | `<root>/.config/opencode/commands/<id>.md` (frontmatter: `description`) |
 | pi | merged into `<root>/.pi/agent/AGENTS.md` | merged | merged |
 | vibe | `<root>/.vibe/rules/<id>.md` | `<root>/.vibe/skills/<id>.md` | `<root>/.vibe/commands/<id>.md` |
 
-Native-skills agents (claude, cursor, opencode) get one frontmatter-bearing file per
-skill in a dedicated directory. Merged-AGENTS.md agents (codex, goose, openclaw, pi)
-collapse everything into a single managed block — no native skill split.
+Native-skills agents (claude, cursor, codex, opencode) get one frontmatter-bearing
+file per skill in a dedicated directory. Merged-AGENTS.md agents (goose, openclaw,
+pi) collapse everything into a single managed block — no native skill split.
 
 ### Prune coverage
 
 Every adapter must implement `prune_all(target_root, dry_run) -> AdapterReport`:
 
-- **Per-file installs** (cursor skills/rules/commands, claude skills/commands, opencode
-  skills/commands, vibe rules/skills/commands): delete files containing the
+- **Per-file installs** (cursor skills/rules/commands, claude skills/commands, codex
+  skills, opencode skills/commands, vibe rules/skills/commands): delete files containing the
   `<!-- style-harness:managed -->` marker. Try to remove emptied parent dirs.
 - **Merged AGENTS.md** (codex, goose, openclaw, pi, claude CLAUDE.md, opencode AGENTS.md):
   strip the `<!-- BEGIN style-harness --> … <!-- END style-harness -->` block. Delete the

@@ -48,7 +48,9 @@ def test_cursor_prune_removes_skill_dir(fake_source_dir: Path, tmp_path: Path) -
     assert not skill.exists()
 
 
-def test_codex_merges_into_agents_md(fake_source_dir: Path, tmp_path: Path) -> None:
+def test_codex_writes_agents_md_and_native_skills(
+    fake_source_dir: Path, tmp_path: Path
+) -> None:
     out = tmp_path / "out"
     pre = out / ".codex" / "AGENTS.md"
     pre.parent.mkdir(parents=True)
@@ -57,7 +59,12 @@ def test_codex_merges_into_agents_md(fake_source_dir: Path, tmp_path: Path) -> N
     text = pre.read_text(encoding="utf-8")
     assert "Pre-existing user content" in text
     assert BEGIN_MARKER in text and END_MARKER in text
-    assert "Code Quality" in text and "TDD" in text
+    assert "Code Quality" in text and "Start TDD cycle" in text
+    assert "## Skills" not in text
+    assert "RED then GREEN" not in text
+    skill = out / ".agents" / "skills" / "tdd" / "SKILL.md"
+    assert skill.exists()
+    assert skill.read_text(encoding="utf-8").startswith("---\nname: tdd\n")
 
 
 def test_codex_install_strips_legacy_root_agents_md(
@@ -74,6 +81,15 @@ def test_codex_install_strips_legacy_root_agents_md(
     result = legacy.read_text(encoding="utf-8")
     assert BEGIN_MARKER not in result
     assert "Keep this" in result
+
+
+def test_codex_prune_removes_native_skills(fake_source_dir: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out"
+    ADAPTERS["codex"].write_all(load_all(fake_source_dir), target_root=out, dry_run=False)
+    skill = out / ".agents" / "skills" / "tdd" / "SKILL.md"
+    assert skill.exists()
+    ADAPTERS["codex"].prune_all(target_root=out, dry_run=False)
+    assert not skill.exists()
 
 
 def test_opencode_writes_layout(fake_source_dir: Path, tmp_path: Path) -> None:
