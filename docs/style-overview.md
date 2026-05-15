@@ -37,6 +37,9 @@ in front of you.
   transaction. External effects after commit, not inside.
 - **Observability is non-negotiable.** Three pillars (logs, traces, metrics),
   correlation IDs, structured logs at every state change, no PII.
+- **Privacy by design.** Minimize collection, declare purpose and lawful basis,
+  enforce retention, honor subject rights. Covers GDPR, LGPD, CCPA, PIPEDA,
+  POPIA, APPI, PDPA. Opt out only with a dated ADR.
 - **Code is a liability.** Two-step removal. Reversible migrations. Deprecation markers
   carry a removal version.
 - **Source-driven development.** Verify framework code against the docs of the version
@@ -46,7 +49,8 @@ in front of you.
 
 ## How to read the rest of the repo
 
-- `source/rules/` — eight always-on rules, including the `skills-catalog` index.
+- `source/rules/` — nine always-on rules, including `privacy-by-design` and the
+  `skills-catalog` index.
 - `source/skills/` — on-demand expertise; see `source/rules/skills-catalog.md` for
   the navigable index with one-line triggers. Skills are grouped loosely by family:
 

@@ -112,6 +112,10 @@ PII in log messages. No retention policy beyond a code comment. Synchronous hard
 that fails halfway and leaves partial records. Cross-border replication of regulated
 data with no residency check.
 
+## See Also
+
+- `rule:privacy-by-design` — always-on principles, opt-out ADR, regime list.
+
 ## Red Flags
 
 - `SELECT *` on PII table with no purpose logged.

@@ -36,7 +36,7 @@ merged config files. User-authored content is never touched.
 
 | Bucket | What it is |
 |--------|-----------|
-| Rules (`source/rules/`) | Always-on guidance: workflow, code quality, design principles, observability, skills catalog |
+| Rules (`source/rules/`) | Always-on guidance: workflow, code quality, design principles, observability, privacy by design, skills catalog |
 | Skills (`source/skills/`) | On-demand expertise loaded from the skills catalog: TDD, bug-first, hexagonal, REST, UoW, code review, threat modeling, caching, rate limiting, and more |
 | Commands (`source/commands/`) | Slash-command prompts: `/spec`, `/plan`, `/tdd`, `/bug`, `/review`, `/done`, `/commit`, `/threat-model`, `/refactor` |
 
