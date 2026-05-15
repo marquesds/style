@@ -57,11 +57,43 @@ Assert invariants across generators (`hypothesis`, `quickcheck`, `fast-check`). 
 
 ## Test smells
 
-Hard-coded “now”; reliance on dict ordering; shared mutable fixtures; `if` in test body; asserting private internals; `sleep` for async; giant setup hiding scenario.
+Hard-coded “now”; unseeded `random` / `uuid4()`; reliance on dict or set ordering; shared mutable fixtures; `if` in test body; asserting private internals; `sleep` for async; giant setup hiding scenario.
 
 ## Testability hooks
 
 Inject clock, randomness, I/O ports; keep core pure — see architecture skills above.
+
+## Determinism
+
+Same input + same env ⇒ same outcome, every run, every order. Flaky test is broken test — quarantine, find source, fix; never `@flaky` and move on.
+
+Sources of non-determinism + fix:
+
+- **Clock** — inject `Clock` port (skill:functional-core-imperative-shell). At shell, freeze with `freezegun` / `time-machine`. Equivalents: Rust `mock_instant`, JS `@sinonjs/fake-timers`, Go `clockwork`, Elixir clock injection.
+- **RNG** — seed per test; inject `random.Random(seed)` instance, never module-global `random.random()`. Hypothesis: pin `seed=` on flaky-prone strategies.
+- **UUIDs** — factory port; deterministic counter or seeded UUID in test.
+- **Timezone / locale** — set `TZ=UTC`, `LC_ALL=C` in fixture or `conftest.py`. Format dates with explicit tz, never naive `datetime.now()`.
+- **Dict / set ordering** — assert against sorted collections; never snapshot a `set` directly.
+- **Hash randomization** — don't depend on `hash()` ordering across runs (`PYTHONHASHSEED`).
+- **Filesystem** — `tmp_path` / `tmp_path_factory` with `worker_id`; no `/tmp/foo` literals; no real `~/.config`.
+- **Network / DNS** — fake at adapter boundary; no live `httpbin.org`, no real DNS.
+- **Concurrency** — no `sleep` for ordering; use barriers / events / deterministic schedulers; assert eventually-consistent invariants with bounded poll + timeout.
+
+```python
+def test_session_expires_after_ttl(freezer):
+    freezer.move_to("2026-05-15T00:00:00Z")
+    s = create_session(ttl=timedelta(minutes=5))
+    freezer.tick(timedelta(minutes=6))
+    assert s.is_expired()
+
+def test_shuffle_stable_under_seed():
+    rng = random.Random(42)
+    assert shuffle([1, 2, 3, 4], rng) == [2, 4, 1, 3]
+```
+
+Frozen clock + seeded RNG = repro by reading test, not by re-running ten times.
+
+## Afferent coupling and tests
 
 ## Afferent coupling and tests
 
@@ -92,3 +124,5 @@ Ten happy-path clones on one partition with no failure or corner-case angle for 
 - New behavior shipped with a single assertion on a single representative input.
 - Failure tests assert the call raised *something*, not the specific contract violation.
 - Corner cases (empty, null, zero, max, boundary neighbors) live only in the developer's head, not the suite.
+- Test reads wall clock, unseeded RNG, real network, or relies on dict / set iteration order.
+- Flaky test marked `@flaky` / `@pytest.mark.flaky` instead of root-caused.
