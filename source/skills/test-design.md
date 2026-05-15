@@ -33,11 +33,37 @@ Every behavior under test **must** assert across three angles:
 - **Failure** — invalid input, contract violations, dependency errors, raised exceptions.
 - **Corner case** — boundaries, empty / null / zero, max size, off-by-one neighbors, concurrency edges.
 
-One angle missing = behavior not pinned. Trivial pure helpers may collapse the three angles into a single parametrized table, but all three must be represented. Specification-based partitioning (below) is how you pick the representatives; the triad is the floor for what gets picked.
+One angle missing = behavior not pinned. Trivial pure helpers may collapse the three angles into a single parametrized table (see `## Parametrize multiple scenarios`), but all three must be represented. Specification-based partitioning (below) is how you pick the representatives; the triad is the floor for what gets picked.
 
 ## Specification-based
 
 Equivalence partitions: pick one representative per class. Boundary values: min, max, just inside/outside, empty, null if allowed. Decision tables for compound rules. Fewer tests, same intent coverage.
+
+## Parametrize multiple scenarios
+
+Behavior with non-trivial input space → parametrize. Single-point happy-path on a behavior that takes varied input is incomplete by construction. One row per partition + boundary (per `## Specification-based`); IDs name each scenario so failures read as a spec line, not "test_double[2]".
+
+```python
+import pytest
+
+@pytest.mark.parametrize(
+    "value, expected",
+    [
+        (1, 2),
+        (5, 10),
+        (10, 20),
+    ],
+    ids=["positive-small", "positive-mid", "boundary-ten"],
+)
+def test_double(value: int, expected: int) -> None:
+    assert double(value) == expected
+```
+
+Split into separate tests when scenarios share **only** the function (different setup, different assertions, different intent) — DAMP wins there. Parametrize when scenarios share **shape** (same arrange/act/assert, varying data).
+
+Stack equivalents: Rust `rstest::rstest` + `#[case]`, JS `it.each` / `test.each`, Go table tests (`for _, tc := range cases`), Elixir `for {input, expected} <- cases, do: test ...`.
+
+Scope: skip parametrize when input space is one (constructor wiring, single-shape adapter glue) — single test reads cleaner.
 
 ## Structural feedback
 
