@@ -16,7 +16,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:spec-driven-development.
+Use skill:spec-driven-development.
 
 Phase: SPECIFY.
 
@@ -27,4 +27,4 @@ Steps:
 3. Fill the six-area template (Objective, Commands, Structure, Code Style, Testing Strategy, Boundaries).
 4. Stop. Wait for human confirmation before moving to PLAN.
 
-Output: a `spec.md` block ready to paste into the project, plus a one-line summary of what's still open.
+Output a `spec.md` block ready to paste into the project, plus a one-line summary of what remains open.

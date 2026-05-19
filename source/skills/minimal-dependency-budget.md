@@ -23,7 +23,7 @@ agents:
 
 # Minimal Dependency Budget
 
-Each dep = tax. Audit before adding; remove when replaceable.
+Each dependency is a tax. Audit before adding one, and remove it when it becomes replaceable.
 
 ## Justify Before Adding
 
@@ -54,12 +54,12 @@ with "0 dependencies" on its README may resolve 15 at install time.
 ## Compact API > Feature Count
 
 A dep with 3 stable functions you actually call beats one with 50 that you call 3 of.
-More API surface = more churn risk on upgrades.
+More API surface means more churn risk during upgrades.
 
 ## Remove When Replaceable
 
-Deps accumulate. Once a year: audit. If a dep does what stdlib now covers → remove it.
-Stale, unmaintained, or CVE-flagged → remove or replace.
+Dependencies accumulate. Audit them once a year. If a dependency does what the stdlib now covers, remove it.
+Remove or replace stale, unmaintained, or CVE-flagged dependencies.
 
 ## GOOD
 

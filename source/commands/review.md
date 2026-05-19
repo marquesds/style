@@ -16,7 +16,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:code-review-and-quality.
+Use skill:code-review-and-quality.
 
 Steps:
 
@@ -32,4 +32,4 @@ Steps:
 4. Label each finding: `Critical:`, `(none)` for required, `Optional:`, `Nit:`, `FYI:`.
 5. Confirm tests + lint + types pass.
 
-Output: a flat list of findings with file:line, severity, and proposed fix.
+Output a flat list of findings with file:line, severity, and proposed fix.

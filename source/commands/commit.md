@@ -16,7 +16,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:pull-request-and-commit-style.
+Use skill:pull-request-and-commit-style.
 
 Steps:
 

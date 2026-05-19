@@ -25,17 +25,17 @@ agents:
 
 # Reuse and Idioms
 
-Build last. Search first.
+Search first, build last.
 
 ## Search First
 
-Nontrivial behavior → pause. Grep / semantic search **this repo** for same problem. Then language **stdlib**. Then **one** well-maintained ecosystem package (official or de-facto standard for that stack).
+For nontrivial behavior, search this repo first, then the language stdlib, then one well-maintained ecosystem package for the stack.
 
-Greenfield 50-line parser for CSV/JSON/dates/paths → stop. Almost always wrong vs stdlib + tests.
+Stop before writing a greenfield 50-line parser for CSV, JSON, dates, or paths. The stdlib plus tests is usually safer.
 
 Outbound **retry / backoff / circuit breaker** → skill:resilience-retries — don’t hand-roll sleep loops.
 
-New dep → justify: saves bugs/time vs tiny glue, maintenance OK, license compatible. See skill:minimal-dependency-budget.
+Justify every new dependency: it should save bugs or time compared with tiny glue, be maintained, and have a compatible license. See skill:minimal-dependency-budget.
 
 ## Idioms
 

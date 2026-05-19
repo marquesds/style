@@ -25,7 +25,7 @@ agents:
 
 # Privacy by Design
 
-Privacy is a property of the design, not a feature added later. Default to least
+Privacy is a design property, not a feature added later. Default to least
 data, declared purpose, enforced retention, honored rights. Silent skip not
 allowed — opt out via ADR.
 

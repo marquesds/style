@@ -16,8 +16,8 @@ from scripts.adapters.base import (
     AdapterReport,
     WriteOp,
     apply_op,
-    replace_managed_section,
     render_skill_markdown,
+    replace_managed_section,
     strip_managed_section,
     walk_managed_files,
 )

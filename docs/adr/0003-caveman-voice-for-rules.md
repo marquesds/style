@@ -2,6 +2,8 @@
 
 Date: 2026-05-07
 
+Status: Superseded by [ADR-0012](0012-concise-technical-prose-for-agent-sources.md)
+
 ## Context
 
 Rules, skills, and commands are loaded into an agent's context window every time the agent runs. Even when the agent isn't actively using a particular skill, fragments of nearby text occupy attention budget and shape generation. Token-for-token, every line of preamble in these files is paid for on every prompt.

@@ -16,12 +16,12 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:pull-request-and-commit-style, skill:task-runner-conventions.
+Use skill:pull-request-and-commit-style, skill:task-runner-conventions.
 
 Steps:
 
 1. Read `CHANGELOG.md`. Confirm an entry exists for the version being released.
-   If the entry is missing → **stop and report**. Do not proceed.
+   If the entry is missing, **stop and report**. Do not proceed.
 2. Determine the next version from the canonical version file: `pyproject.toml`,
    `package.json`, `Cargo.toml`, or `mix.exs`.
 3. Run the bump script if one exists (`scripts/bump-version.sh` or equivalent task
@@ -34,6 +34,6 @@ Steps:
 8. Push commits and tags: `git push && git push --tags`.
 
 Hard stops:
-- `CHANGELOG.md` missing the next version entry → stop at step 1.
-- `<check-verb>` or `<test-verb>` fail → do not tag or push.
-- Unrelated uncommitted working-tree changes present → stash them or stop.
+- If `CHANGELOG.md` is missing the next version entry, stop at step 1.
+- If `<check-verb>` or `<test-verb>` fails, do not tag or push.
+- If unrelated uncommitted working-tree changes are present, stash them or stop.

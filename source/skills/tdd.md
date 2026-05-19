@@ -25,7 +25,7 @@ agents:
 
 # TDD
 
-Test fail first. Code second. Test pass. Refactor. Repeat.
+Make the test fail first, write the code second, pass the test, then refactor. Repeat.
 
 ## Cycle
 
@@ -34,7 +34,7 @@ RED → GREEN → REFACTOR
 write failing test → make it pass → clean up → repeat
 ```
 
-Run suite each step. Green stays green.
+Run the suite at each step so green stays green.
 
 ### RED — Write Failing Test
 
@@ -63,7 +63,7 @@ Improve shape. Tests stay green. No behavior change.
 
 ## Prove-It Pattern (Bug Fixes)
 
-Bug → reproduction test → confirm fail → fix → confirm pass → run full suite. See skill:bug-first-debugging.
+For bugs, write a reproduction test, confirm it fails, fix the root cause, confirm it passes, then run the full suite. See skill:bug-first-debugging.
 
 ## Testing Trophy (Default)
 
@@ -151,7 +151,7 @@ For complex rendered or serialized output: use snapshot tests reviewed like code
 
 ## Run Parallel When Safe
 
-Default the suite to parallel. Tighter RED→GREEN loop, cores earn their keep.
+Run the suite in parallel by default. It tightens the RED to GREEN loop and uses available cores.
 
 Per stack: `pytest -n auto` (pytest-xdist), `cargo test` (parallel default), `go test ./... -parallel N`, `vitest` (parallel default), `mix test --max-cases N`.
 

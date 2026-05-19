@@ -17,7 +17,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:queue-topology-design.
+Use skill:queue-topology-design.
 
 Steps:
 
@@ -32,4 +32,4 @@ Steps:
 5. Report findings as a checklist. Mark each item green (pass), yellow (warning), or red (fail).
 6. For each red or yellow item, propose the minimal fix referencing skill:queue-topology-design.
 
-Output: a flat checklist with queue name, finding, severity, and proposed fix.
+Output a flat checklist with queue name, finding, severity, and proposed fix.

@@ -24,7 +24,7 @@ agents:
 
 # Modular File as Feature Toggle
 
-Split capabilities into files. Optional capability = removable file.
+Split capabilities into files. An optional capability should be a removable file.
 
 ## Shape
 

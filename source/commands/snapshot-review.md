@@ -16,7 +16,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:snapshot-testing.
+Use skill:snapshot-testing.
 
 Steps:
 
@@ -31,12 +31,12 @@ Steps:
    - **Intended** — behavior changed deliberately; update is correct.
    - **Unintended** — output changed unexpectedly; investigate before accepting.
 4. Accept only diffs classified as **Intended**, one at a time.
-5. For each **Unintended** diff → **stop and report** the test name and the unexpected
+5. For each **Unintended** diff, **stop and report** the test name and the unexpected
    change. Do not accept any further diffs until root cause is understood.
 6. After accepting all intended diffs, run the full test suite to confirm no
    remaining failures.
 
 Hard stops:
-- Any unintended diff → stop and report. Do not proceed to remaining diffs.
-- `--update-snapshots` (or equivalent) run without going through this review → reject
+- If any diff is unintended, stop and report. Do not proceed to remaining diffs.
+- If `--update-snapshots` (or equivalent) ran without this review, reject
   the bulk update and undo it.

@@ -24,7 +24,7 @@ agents:
 
 # Design Principles
 
-Pure core. Effects at the edge. Honest interfaces. LSP holds always.
+Keep the core pure, put effects at the edge, design honest interfaces, and preserve LSP.
 
 ## Functional Core / Imperative Shell
 
@@ -38,7 +38,7 @@ See skill:functional-core-imperative-shell.
 
 ## Postpone Side Effects
 
-Compute first. Persist last. Validate, transform, decide → then write to DB / network / disk.
+Compute first and persist last. Validate, transform, and decide before writing to the DB, network, or disk.
 
 ## Sinks, Not Pipes
 

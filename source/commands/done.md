@@ -16,7 +16,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:definition-of-done.
+Use skill:definition-of-done.
 
 Steps:
 
@@ -31,4 +31,4 @@ Steps:
 9. Confirm commit messages follow Conventional Commits. PR template filled (skill:pull-request-and-commit-style).
 10. Confirm risky / cross-team changes are behind a flag with a removal date.
 
-Output: a green/red checklist. If anything is red, do NOT mark complete.
+Output a green/red checklist. If anything is red, do NOT mark complete.

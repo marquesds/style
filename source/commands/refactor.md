@@ -4,7 +4,7 @@ kind: command
 title: Run a refactor cycle
 description: >
   Apply one named structural transformation. Suite green before and after.
-  Never mix refactor with feature work. Engage skill:refactoring.
+  Never mix refactor with feature work. Use skill:refactoring.
 agents:
   claude: { kind: command }
   cursor: { kind: command }
@@ -16,14 +16,14 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:refactoring.
+Use skill:refactoring.
 
 Steps:
 
 1. Confirm test suite is green BEFORE any change. If red, stop and report.
 2. Name the transformation: Extract Function, Inline Variable, Move Method,
    Replace Conditional with Polymorphism, Introduce Parameter Object, etc.
-3. Apply ONE transformation. Run the full suite. Green → continue. Red → revert.
+3. Apply ONE transformation. Run the full suite. If it is green, continue. If it is red, revert.
 4. Commit the refactor as a standalone commit (no feature work mixed in).
 5. Repeat from step 2 for the next transformation, or declare done.
 

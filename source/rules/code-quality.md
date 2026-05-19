@@ -22,7 +22,7 @@ agents:
 
 # Code Quality
 
-Small files. Small functions. Flat logic. No surprises.
+Keep files small, functions short, and logic flat. Avoid surprises.
 
 ## Hard Limits
 
@@ -32,18 +32,18 @@ Small files. Small functions. Flat logic. No surprises.
 | Function length | 10 lines body |
 | Cyclomatic complexity | low; prefer match + iterator chain |
 
-Hit a limit → split. Don't bypass.
+If code hits a limit, split it instead of bypassing the rule.
 
 ## Demand Elegance
 
-Nontrivial change: pause. Ask: more elegant way?
+For a nontrivial change, pause and ask whether there is a simpler shape.
 Hacky fix landed: schedule rewrite. "Knowing now what we know, redo cleanly."
 
-Skip for obvious one-liners. Challenge own work before presenting.
+Skip this for obvious one-liners. Challenge your own work before presenting it.
 
 ## Functional Bias
 
-Iterator chains, comprehensions, pattern matching > nested conditionals + mutation. Logic flat. Data flow obvious.
+Prefer iterator chains, comprehensions, and pattern matching over nested conditionals and mutation. Keep data flow obvious.
 
 ## Streaming / Bounded Memory
 

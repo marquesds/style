@@ -1,8 +1,7 @@
 # Style Overview
 
 One-page philosophy behind the rules, skills, and commands in this repository.
-Written in normal English for newcomers. The rule and skill files use caveman style
-for token efficiency once an agent has loaded them.
+The source files use concise technical prose: brief, direct, and readable.
 
 ## What this is
 
@@ -70,11 +69,13 @@ in front of you.
   `/review`, `/done`, `/commit`, `/threat-model`, `/refactor`, and more.
 - `docs/adr/` — architecture decision records explaining why specific choices were made.
 
-## Why caveman voice
+## Why concise prose
 
-Once an agent has the practices in context, every additional token of preamble costs
-real money and degrades recall. Caveman voice removes filler while preserving every
-technical term, identifier, code block, and error string verbatim. Newcomers read
-these documents in normal English; agents read the caveman versions.
+Once an agent has the practices in context, every extra token of preamble costs
+money and adds noise. The harness still removes filler, hedging, and throat-clearing,
+but it no longer requires full caveman grammar. Concise normal prose keeps the token
+budget low while preserving sequence, danger, and ownership where those details
+matter.
 
-See `docs/adr/0003-caveman-voice-for-rules.md` for the full reasoning.
+See `docs/adr/0012-concise-technical-prose-for-agent-sources.md` for the current
+decision. ADR-0003 records the earlier caveman default.
