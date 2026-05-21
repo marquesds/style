@@ -3,8 +3,8 @@ id: agent-workflow
 kind: rule
 title: Agent Workflow
 description: >
-  Plan mode default. Stop on drift. Subagents for exploration. Verify before done.
-  Bug report = root cause hunt, no hand-holding.
+  Plan mode default. Stop on drift. Subagents for exploration. Manual proof before
+  done. Bug report = root cause hunt, no hand-holding.
 applies_when:
   - any task with 3+ steps
   - architectural decision
@@ -62,7 +62,13 @@ Spawn liberally. One task per subagent. Main context stays clean. See skill:suba
 
 ## Verify Before Done
 
-Never mark complete without proof. Run full test suite. Run lint. Run type check. Ask: would staff engineer approve?
+Never mark complete without proof. Run full test suite. Run lint. Run type check.
+
+Manually exercise each changed user/operator-visible surface before "done". Happy path
+plus relevant failure/edge path. Record exact steps + observed result in final response
+and PR test plan. No record = not done.
+
+Ask: would staff engineer approve?
 
 Run the suite **in parallel** when safe (skill:tdd → Run Parallel When Safe). Serialize the offending tests, not the whole suite.
 
@@ -86,7 +92,8 @@ def reset_session(session_id: SessionId) -> Session:
 ruff check . && pytest && pyright
 ```
 
-Verified all three. Done.
+Manual proof: POST /sessions/{id}/reset succeeds twice; unknown session returns 404.
+Verified all four. Done.
 
 ## BAD
 
@@ -105,3 +112,4 @@ Untyped. Hardcoded date. No transaction. No audit. No tests. Pushed through with
 - Skip tests because "small change".
 - Ask user A-or-B when answer findable in code.
 - Mark complete without running suite.
+- Mark complete without recorded changed-surface manual proof.

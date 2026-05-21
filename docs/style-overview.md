@@ -25,6 +25,9 @@ in front of you.
   logic, few end-to-end tests for critical journeys.
 - **Bug-first debugging.** Reproduce the bug as a failing test before touching
   production code. The fix follows. The test stays as a regression guard.
+- **Changed-surface manual proof.** Before calling work done, manually exercise every
+  changed user/operator-visible surface. Record exact steps and observed results in
+  the final response and PR test plan.
 - **Minimal hexagonal architecture.** Domain depends on nothing. Adapters depend on
   domain ports. Dependency direction always points inward.
 - **Functional core, imperative shell.** Pure functions hold logic. Effects live at

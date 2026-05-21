@@ -24,6 +24,10 @@ See `AGENTS.md` at the repository root for the full set of contributor rules tha
 
 The lint script checks file size, frontmatter, the presence of GOOD/BAD blocks, code-example function length, and cross-skill references.
 
+Before marking a harness change done, manually exercise the changed surface and record
+the exact steps plus observed result. For source-content changes, a targeted
+`scripts.build --dry-run --agent <agent>` preview is usually the right smoke test.
+
 ## Adding a new agent target
 
 Implement `scripts/adapters/<agent>.py` with a class exposing `name: str` and `write_all(sources, target_root, dry_run) -> AdapterReport`. Register the adapter in `scripts/adapters/__init__.py`. Add the agent name to `ALLOWED_AGENTS` in `scripts/source.py`. Cover the new layout with a parametrized case in `tests/test_build.py`.
