@@ -16,7 +16,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:threat-modeling.
+Use skill:threat-modeling.
 
 Steps:
 
@@ -30,7 +30,7 @@ Steps:
    where relevant.
 6. Flag architectural mitigations for an ADR.
 
-Output: a flat threat list in the format:
+Output a flat threat list in this format:
 
 ```
 Element: <component or data flow>

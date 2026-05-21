@@ -4,7 +4,7 @@ kind: skill
 title: SQL Antipatterns
 description: >
   Relational traps: multi-valued scalars, naive trees, weak keys, missing FKs,
-  EAV, polymorphic soup, shredded columns, wide flag matrices. Caveman fixes.
+  EAV, polymorphic soup, shredded columns, and wide flag matrices. Practical fixes.
 applies_when:
   - schema review
   - SQL smell
@@ -23,7 +23,7 @@ agents:
 
 # SQL Antipatterns
 
-Loops that duplicate joins → see [skill:n-plus-one-prevention](source/skills/n-plus-one-prevention.md). Below = storage/model traps.
+For loops that duplicate joins, see [skill:n-plus-one-prevention](source/skills/n-plus-one-prevention.md). This skill covers storage and model traps.
 
 ## Jaywalking (multi-valued scalar)
 

@@ -22,7 +22,7 @@ agents:
 
 # Definition of Done
 
-Walk every step. No "looks done". Done = proven done.
+Walk every step. Do not rely on "looks done". Done means proven done.
 
 ## Checklist
 

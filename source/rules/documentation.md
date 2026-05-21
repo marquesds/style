@@ -23,7 +23,7 @@ agents:
 
 # Documentation
 
-Document what users read. Skip what code says.
+Document the surfaces users read. Do not narrate what the code already says.
 
 ## Scope
 
@@ -41,7 +41,7 @@ Docs explain intent, preconditions, invariants, postconditions, error cases, tra
 
 ## ADRs
 
-Architectural decision = ADR. Title, context, decision, consequences. Short. Dated. Numbered.
+An architectural decision needs an ADR with a title, context, decision, and consequences. Keep it short, dated, and numbered.
 
 ### ADR Lifecycle
 
@@ -63,7 +63,7 @@ For system-level context across many decisions, see skill:architecture-haiku.
 
 ## Keep Current
 
-Doc out of sync with code → delete the doc OR fix it now. Stale > absent because readers trust stale.
+When docs drift from code, delete the doc or fix it immediately. Stale docs are worse than absent docs because readers trust them.
 
 | Change | Update |
 |---|---|

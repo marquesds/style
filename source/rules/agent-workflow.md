@@ -24,13 +24,13 @@ agents:
 
 # Agent Workflow
 
-Plan first. Execute small. Verify hard.
+Plan first, execute in small steps, and verify with proof.
 
 ## Plan Mode Default
 
-Task 3+ steps OR architectural decision → plan mode. Goes sideways → STOP, replan. No pushing through.
+Use plan mode for any task with 3+ steps or an architectural decision. If the work drifts, stop and replan before continuing.
 
-Spec upfront cuts ambiguity. Cheap model for exploration (haiku, flash, composer-2). Expensive model for the actual edit.
+An upfront spec cuts ambiguity. Use a cheap model for exploration (haiku, flash, composer-2), and reserve the expensive model for the edit.
 
 ## Planning: Product + Requirements
 
@@ -54,11 +54,11 @@ What would we measure to know we should revert?
 
 ## Stop The Line
 
-Test fails unexpectedly → stop. Diff bigger than expected → stop. Re-plan immediately. Half-fixed state worse than zero state.
+If a test fails unexpectedly or the diff grows beyond scope, stop and replan. A half-fixed state is worse than no change.
 
 ## Subagents First
 
-Spawn liberally. One task per subagent. Main context stays clean. See skill:subagent-first for triggers.
+Spawn subagents when the triggers apply. Give each subagent one task so the main context stays clean. See skill:subagent-first for details.
 
 ## Verify Before Done
 
@@ -74,7 +74,7 @@ Run the suite **in parallel** when safe (skill:tdd → Run Parallel When Safe). 
 
 ## Autonomous Bug Fixing
 
-Bug report → reproduce → fix root cause. No "should I do A or B?" questions. Find answer yourself, then propose fix.
+For a bug report, reproduce the failure, find the root cause, and propose the fix. Do not ask the user to choose between options that the code can answer.
 
 ## GOOD
 

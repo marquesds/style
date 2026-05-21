@@ -15,7 +15,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:tdd.
+Use skill:tdd.
 
 Steps:
 
@@ -25,6 +25,6 @@ Steps:
 4. Refactor. Tests stay green. No new behavior.
 5. Repeat for the next behavior, or finish.
 
-Output per cycle: the failing test diff, the implementation diff, the suite output proving GREEN.
+For each cycle, output the failing test diff, the implementation diff, and the suite output proving GREEN.
 
 If the test passes on the first run, stop. The test is wrong or already covered.

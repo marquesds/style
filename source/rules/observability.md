@@ -24,7 +24,7 @@ agents:
 
 # Observability
 
-Cannot fix what you cannot see. Three pillars + correlation.
+You cannot fix what you cannot see. Use the three pillars plus correlation.
 
 ## Three Pillars
 
@@ -34,7 +34,7 @@ Cannot fix what you cannot see. Three pillars + correlation.
 | Traces | request paths, latency hotspots, fan-out |
 | Metrics | rates, durations, saturation, error counts |
 
-JSON logs. Span per external boundary. Counters + histograms for SLOs.
+Use JSON logs, spans for external boundaries, and counters plus histograms for SLOs.
 
 ## Correlation
 
@@ -42,11 +42,11 @@ Every request → correlation id (trace id, request id, session id). Propagate t
 
 ## Log At State Changes
 
-Persist, publish, change auth, fail validation, retry → log. Quiet in steady state. Loud at transitions.
+Persist, publish, change auth, fail validation, retry → log. Stay quiet during steady state and log state transitions clearly.
 
 ## No PII
 
-No emails, names, raw tokens, payment data in logs. Hash or redact.
+No emails, names, raw tokens, payment data in logs. Hash or redact sensitive values.
 
 ## Boundary Spans
 

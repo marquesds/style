@@ -24,7 +24,7 @@ agents:
 
 # Pipeline Saga Orchestration
 
-Long-running jobs need checkpoints. A saga = sequence of steps, each persisted
+Long-running jobs need checkpoints. A saga is a sequence of persisted steps
 and claimable independently.
 
 ## Step Lifecycle

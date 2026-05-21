@@ -16,7 +16,7 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:architecture-haiku.
+Use skill:architecture-haiku.
 
 Steps:
 
@@ -27,4 +27,4 @@ Steps:
 5. Check length: if the document exceeds one page (roughly 60 lines of prose), flag it as too long and propose what to move to a spec or ADR.
 6. Output the complete haiku as a fenced markdown block ready to save.
 
-Output: a single `architecture-haiku.md` block. Note any sections still open.
+Output a single `architecture-haiku.md` block. Note any sections still open.

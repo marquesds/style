@@ -48,7 +48,7 @@ before structural change (not a bug fix), see characterization tests in skill:re
 
 ## Regression Tests
 
-Colocated with feature tests. Tagged `@regression`. Name = expected behavior, not bug ID. Link issue / incident in docstring.
+Colocate it with feature tests. Tag it `@regression`. Name it after the expected behavior, not the bug ID. Link the issue or incident in the docstring.
 
 ## Symptom vs Root Cause
 

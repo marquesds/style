@@ -16,12 +16,12 @@ agents:
   vibe:   { kind: command }
 ---
 
-Engage skill:bug-first-debugging.
+Use skill:bug-first-debugging.
 
 Steps:
 
 1. Stop adding features. Preserve the error output, logs, and repro steps verbatim.
-2. Write a failing test that reproduces the bug. Tag `@regression`. Name = expected behavior, not bug ID.
+2. Write a failing test that reproduces the bug. Tag `@regression`. The name should describe expected behavior, not the bug ID.
 3. Run the suite. Confirm the test fails for the same reason the bug does.
 4. Find the root cause. Ask "why?" until the answer is structural, not "this random null".
 5. Fix the root cause. Re-run the suite. Test passes.

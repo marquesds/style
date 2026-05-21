@@ -23,7 +23,7 @@ agents:
 
 # Spec-Driven Development
 
-Code without spec = guessing. Spec first. Gates between phases.
+Code without a spec is guessing. Write the spec first and keep gates between phases.
 
 ## Workflow
 
