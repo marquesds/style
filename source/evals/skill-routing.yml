@@ -1,0 +1,47 @@
+version: 1
+# Offline routing assertions. Each case states a prompt and which skills
+# SHOULD or SHOULD NOT be loaded by an agent that reads the catalog.
+# These are static fixtures only — no LLM is executed. The linter validates
+# that every referenced skill id exists in source/skills/.
+cases:
+  - id: new-feature-tdd
+    prompt: Add a checkout endpoint with happy-path and edge cases.
+    load:
+      - tdd
+      - test-design
+    do_not_load:
+      - bug-first-debugging
+      - refactoring
+
+  - id: bug-report-repro-first
+    prompt: Production users report a 500 on POST /sessions/reset.
+    load:
+      - bug-first-debugging
+      - defensive-programming
+    do_not_load:
+      - tdd
+      - spec-driven-development
+
+  - id: pii-table-add
+    prompt: Add a users table that stores email and date_of_birth.
+    load:
+      - data-privacy-and-retention
+      - threat-modeling
+    do_not_load:
+      - caveman
+
+  - id: slow-query
+    prompt: This LEFT JOIN on orders is taking 3s; suggest indexes.
+    load:
+      - sql-query-performance
+      - n-plus-one-prevention
+    do_not_load:
+      - jsonb-first-search
+
+  - id: review-diff
+    prompt: Review this pull request before merge.
+    load:
+      - code-review-and-quality
+      - definition-of-done
+    do_not_load:
+      - tdd

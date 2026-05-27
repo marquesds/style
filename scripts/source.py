@@ -69,6 +69,22 @@ class Source:
         v = self.frontmatter.get("agents") or {}
         return {str(k): dict(val or {}) for k, val in v.items()}
 
+    @property
+    def do_not_use_when(self) -> list[str]:
+        return [str(x) for x in (self.frontmatter.get("do_not_use_when") or [])]
+
+    @property
+    def related_skills(self) -> list[str]:
+        return [str(x) for x in (self.frontmatter.get("related_skills") or [])]
+
+    @property
+    def conflicts_with(self) -> list[str]:
+        return [str(x) for x in (self.frontmatter.get("conflicts_with") or [])]
+
+    @property
+    def verification_prompts(self) -> list[dict[str, Any]]:
+        return [dict(x) for x in (self.frontmatter.get("verification_prompts") or [])]
+
 
 def parse_text(path: Path, text: str) -> Source:
     """Parse a frontmatter+body Markdown string into a Source."""

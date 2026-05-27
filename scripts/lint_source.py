@@ -18,6 +18,8 @@ import sys
 from collections.abc import Iterable
 from pathlib import Path
 
+from scripts.lint_skill_evals import lint_skill_routing_evals
+from scripts.lint_skill_metadata import lint_static_skill_metadata
 from scripts.source import (
     ALLOWED_AGENTS,
     ALLOWED_KINDS,
@@ -26,6 +28,12 @@ from scripts.source import (
     SourceError,
     load_all,
 )
+
+__all__ = [
+    "lint_all",
+    "lint_skill_routing_evals",
+    "lint_static_skill_metadata",
+]
 
 MAX_FILE_LINES = 200
 MAX_FUNCTION_LINES = 10
@@ -138,6 +146,7 @@ def lint_cross_refs(src: Source, known_ids: set[str]) -> list[str]:
 def lint_all(sources: Iterable[Source]) -> list[str]:
     sources = list(sources)
     known_ids = {s.id for s in sources}
+    known_skill_ids = {s.id for s in sources if s.kind == "skill"}
     errors: list[str] = []
     for s in sources:
         errors.extend(lint_file_size(s))
@@ -145,6 +154,7 @@ def lint_all(sources: Iterable[Source]) -> list[str]:
         errors.extend(lint_examples(s))
         errors.extend(lint_function_length(s))
         errors.extend(lint_cross_refs(s, known_ids))
+        errors.extend(lint_static_skill_metadata(s, known_skill_ids))
     errors.extend(lint_skills_catalog(sources))
     return errors
 
@@ -157,7 +167,7 @@ def main(argv: list[str] | None = None) -> int:
     except SourceError as e:
         print(f"lint: {e}", file=sys.stderr)
         return 2
-    errors = lint_all(sources)
+    errors = lint_all(sources) + lint_skill_routing_evals(source_dir, sources)
     if errors:
         for e in errors:
             print(e, file=sys.stderr)

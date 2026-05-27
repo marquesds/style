@@ -105,6 +105,38 @@ def test_prune_dry_run_does_not_delete(fake_source_dir: Path, tmp_path: Path) ->
     assert any(op.action == "delete" for op in report.ops)
 
 
+@pytest.mark.parametrize("agent_name", sorted(ADAPTERS.keys()))
+def test_static_skill_metadata_renders_without_leaking(
+    fake_source_dir: Path, tmp_path: Path, agent_name: str
+) -> None:
+    """Skills carrying routing metadata render cleanly across every adapter.
+
+    The metadata is repo-only review knowledge — it must not appear in any
+    file installed into downstream agents. The skill body must still appear
+    in the rendered output for native-skill and merged-AGENTS layouts.
+    """
+    skill = fake_source_dir / "skills" / "tdd.md"
+    text = skill.read_text(encoding="utf-8")
+    augmented = text.replace(
+        "agents:",
+        "do_not_use_when:\n  - reviewing a diff\n"
+        "related_skills:\n  - tdd\n"
+        "conflicts_with:\n  - refactoring\n"
+        "verification_prompts:\n  - prompt: Add a feature\n    should_load: true\n"
+        "agents:",
+    )
+    skill.write_text(augmented, encoding="utf-8")
+    out = tmp_path / "out"
+    report = ADAPTERS[agent_name].write_all(load_all(fake_source_dir), out, dry_run=False)
+    assert report.ops, f"{agent_name} produced no ops"
+    for op in report.ops:
+        assert "do_not_use_when" not in op.content
+        assert "verification_prompts" not in op.content
+        assert "conflicts_with" not in op.content
+    rendered = "\n".join(op.content for op in report.ops)
+    assert "RED then GREEN" in rendered or "TDD" in rendered
+
+
 def test_idempotent_rewrite(fake_source_dir: Path, tmp_path: Path) -> None:
     out = tmp_path / "out"
     sources = load_all(fake_source_dir)

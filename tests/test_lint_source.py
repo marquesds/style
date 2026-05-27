@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from textwrap import dedent
 
-from scripts.lint_source import lint_all
+from scripts.lint_source import lint_all, lint_skill_routing_evals
 from scripts.source import load_all
 
 
@@ -106,3 +106,59 @@ def test_lint_skills_catalog_fails_when_skill_missing(tmp_path: Path) -> None:
     _write_catalog(tmp_path, "")
     errors = lint_all(load_all(tmp_path))
     assert any("missing-skill" in e and "skills-catalog: missing rows" in e for e in errors)
+
+
+def test_lint_flags_unknown_static_skill_metadata_refs(tmp_path: Path) -> None:
+    _write_skill(tmp_path, "known")
+    f = tmp_path / "skills" / "known.md"
+    text = f.read_text(encoding="utf-8")
+    f.write_text(
+        text.replace(
+            "agents:\n  claude",
+            "related_skills:\n  - missing-related\n"
+            "conflicts_with:\n  - known\n"
+            "verification_prompts:\n  - prompt: ''\n    should_load: true\n"
+            "agents:\n  claude",
+        ),
+        encoding="utf-8",
+    )
+
+    errors = lint_all(load_all(tmp_path))
+    assert any("related_skills" in e and "missing-related" in e for e in errors)
+    assert any("conflicts_with" in e and "cannot reference itself" in e for e in errors)
+    assert any("verification_prompts" in e and "prompt" in e for e in errors)
+
+
+def test_lint_skill_routing_evals_passes_with_known_skills(tmp_path: Path) -> None:
+    _write_skill(tmp_path, "tdd")
+    evals = tmp_path / "evals"
+    evals.mkdir()
+    (evals / "skill-routing.yml").write_text(
+        "version: 1\n"
+        "cases:\n"
+        "  - id: feature-tdd\n"
+        "    prompt: Add a checkout feature\n"
+        "    load:\n      - tdd\n"
+        "    do_not_load: []\n",
+        encoding="utf-8",
+    )
+
+    assert lint_skill_routing_evals(tmp_path, load_all(tmp_path)) == []
+
+
+def test_lint_skill_routing_evals_flags_bad_refs(tmp_path: Path) -> None:
+    _write_skill(tmp_path, "tdd")
+    evals = tmp_path / "evals"
+    evals.mkdir()
+    (evals / "skill-routing.yml").write_text(
+        "version: 1\n"
+        "cases:\n"
+        "  - id: bad-ref\n"
+        "    prompt: Review this diff\n"
+        "    load:\n      - missing\n"
+        "    do_not_load:\n      - tdd\n",
+        encoding="utf-8",
+    )
+
+    errors = lint_skill_routing_evals(tmp_path, load_all(tmp_path))
+    assert any("unknown skill 'missing'" in e for e in errors)

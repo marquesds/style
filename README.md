@@ -49,7 +49,8 @@ style/
 ├── source/           single source of truth
 │   ├── rules/        always-on guidance
 │   ├── skills/       on-demand expertise
-│   └── commands/     slash-command prompts
+│   ├── commands/     slash-command prompts
+│   └── evals/        static skill-routing assertions (linted, not executed)
 ├── scripts/          loader, lint, build, per-agent adapters
 ├── tests/            snapshot tests for adapters
 ├── docs/             newcomer-facing docs + ADRs
