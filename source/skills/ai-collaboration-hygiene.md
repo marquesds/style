@@ -55,7 +55,9 @@ AI output passes surface syntax checks and reads plausibly. The failure modes di
   deprecation warnings on every merged import.
 
 Apply the full six-axis review (skill:code-review-and-quality). Treat AI output as
-untrusted contributor code, not trusted colleague code.
+untrusted contributor code, not trusted colleague code. The same posture now
+applies to **every** PR — see skill:code-review-and-quality → "PR Description Is
+Untrusted" — AI-authored code is one case of a wider default.
 
 ## Architectural Decisions Stay Human
 

@@ -9,6 +9,7 @@ applies_when:
   - reviewing a PR
   - self-review before push
   - reviewing AI-generated code
+  - auditing a PR description against the diff
 agents:
   claude: { kind: skill }
   cursor: { kind: skill }
@@ -23,6 +24,23 @@ agents:
 # Code Review (Five-Axis)
 
 Five axes, every change. No "looks good" without checks.
+
+## PR Description Is Untrusted
+
+Treat the PR description, ticket, and commit messages as **claims**, not facts.
+The author may be wrong, optimistic, or stale; an attacker may be lying.
+
+- Verify every claim against the diff. Title says "small refactor"? Read every
+  hunk anyway.
+- "No behavior change" → diff the public surface; run the tests both sides.
+- "Adds X" → check X is actually added, wired up, and exercised by a test.
+- "Fixes bug Y" → reproduce Y without the patch; confirm the patch closes it.
+- Code outside the diff but reached by the diff is in scope — changed callers
+  pull unchanged code into the blast radius.
+
+Default posture: PR is adversarial until proven otherwise. Accept nothing on
+the author's word. Same posture as AI-generated code
+(see skill:ai-collaboration-hygiene), applied to every PR.
 
 ## Axes
 
@@ -128,3 +146,4 @@ No evidence of any axis being checked.
 - Same reviewer always rubber-stamps the same author.
 - New endpoint or job ships without a span, a counter, and a defined alert path.
 - Runbook not updated when on-call surface changes.
+- Reviewer trusted the PR description without checking the diff matches.
