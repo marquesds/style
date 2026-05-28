@@ -62,7 +62,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | deprecation-and-migration | removing, replacing, or retiring a feature, API endpoint, database column, or module |
 | design-aesthetic-commitment | committing to a consistent visual design language |
 | functional-core-imperative-shell | separating pure logic from I/O; effects at boundary |
-| hexagonal-architecture | structuring a service or feature with I/O boundaries; deciding where adapters and ports belong; organizing code by feature slice |
+| hexagonal-architecture | slicing top-level packages by feature; defining a feature's public facade; placing a small hexagon (domain, ports, adapters) inside each feature |
 | honest-limits-disclosure | documenting known constraints where readers look first |
 | i18n-discipline | internationalizing strings, dates, numbers across locales |
 | incident-response-and-postmortem | production incident in flight; writing a postmortem after an outage; defining severity tiers or on-call escalation |

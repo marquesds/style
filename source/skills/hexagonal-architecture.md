@@ -1,11 +1,11 @@
 ---
 id: hexagonal-architecture
 kind: skill
-title: Minimal Hexagonal Architecture
+title: Package by Feature with Lightweight Hexagon
 description: >
-  Domain core surrounded by adapters. Domain depends on nothing.
-  Adapters depend on domain ports. Prefer packaging by feature;
-  describe responsibilities, not folder names.
+  Slice top-level packages by feature, not by technical layer. Each
+  feature is a small hexagon (domain, ports, adapters, application) and
+  exposes only its behavior through a facade — not its internals.
 applies_when:
   - new module
   - new service
@@ -22,110 +22,158 @@ agents:
   vibe:   { kind: skill }
 ---
 
-# Minimal Hexagonal Architecture
+# Package by Feature with Lightweight Hexagon
 
-Core knows nothing. Adapters know core. Effects at the edge.
+Top-level cut is the **feature** (a capability you ship as a unit). Inside each feature, a small hexagon: pure domain, ports, adapters, application. Each feature exposes **behavior** — a single facade — and hides everything else.
 
-## Responsibilities (not folder names)
+## Behavior, not content
+
+A feature's public surface is its **API** plus the data shapes callers must construct or receive. Internals — services, ports, adapters, helpers — stay private. External code depends on the facade only.
+
+| Public (re-exported by facade) | Private (no external import) |
+|---|---|
+| `<Feature>API` class / protocol | `_service.py`, `_helpers.py` |
+| Domain value objects callers need | `ports/` (driven ports + protocols) |
+| Feature-specific errors | `adapters/` (concrete I/O) |
+| `create_<feature>_api()` factory | the `domain/` package itself |
+
+Language-native facade: Python `__init__.py` + `__all__`; TS `index.ts` barrel export; Rust `pub use` in `mod.rs`; Go internal packages; Elixir module boundary.
+
+## Feature layout
+
+```text
+src/
+├── main.py                        # composition root — wires APIs
+├── start.py                       # entrypoint
+├── config.py, errors.py           # shared shell
+├── clients/                       # shared outbound clients (auth, datastore)
+├── infrastructure/                # shared infra (queues, metrics, shutdown)
+└── <feature>/
+    ├── __init__.py                # facade: __all__ exports API + VOs + factory
+    ├── api.py                     # <Feature>API — the driving port
+    ├── _service.py                # internal orchestration (underscore = private)
+    ├── _helpers.py                # internal helpers
+    ├── errors.py                  # feature-specific errors (public)
+    ├── domain/                    # pure domain types and rules
+    ├── ports/                     # driven port Protocols (internal)
+    └── adapters/                  # concrete adapter impls (internal)
+```
+
+## Responsibilities (per feature)
 
 | Responsibility | What it does | Depends on |
 |---|---|---|
 | Domain | Pure rules + types | nothing |
 | Ports | Interfaces the domain calls | domain types |
 | Adapters | Concrete I/O (DB, HTTP, queue) | ports |
-| Application | Orchestration use cases | domain + ports |
-| Driving side | HTTP handlers, CLI, jobs | application |
+| Application | Use-case orchestration | domain + ports |
+| Driving side | API class, HTTP handlers, CLI | application |
 
-Folder names per project. Responsibilities universal. See skill:functional-core-imperative-shell for the same idea zoomed-in.
+Folder names per project. Responsibilities universal. Inner pure/shell split: skill:functional-core-imperative-shell.
 
-## Package by feature
-
-**Primary cut:** top-level packages by **feature** (vertical slices — user-visible capability or cohesive capability you ship as a unit). Not by technical layer only (`domain/` everywhere, `services/` dumping ground). Larger systems: a feature bundle may map cleanly to one bounded context; still name the tree for **what it delivers**, not which layer folder it is.
-
-**Inside each feature:** same hexagon — domain, ports, application, driving adapters — dependency direction below applies **per feature**.
-
-**Between features:** explicit seams only — anticorruption layer, published language, events/APIs, shared kernel only when genuinely shared. No “grab their adapter/model because it saved typing.” Aggregate-scoped repos (not table DAOs) + cross-context translators: skill:bounded-context-mapping.
+## Dependency direction (per feature)
 
 ```text
-GOOD (sketch): checkout/{domain,ports,application,adapters}, pricing/{...}
-BAD: src/domain/{orders,invoicing,wms,everything_else}
+driving (API/HTTP/CLI) → application → domain ← ports ← adapters (DB/HTTP/queue)
 ```
 
-## Dependency Direction
+Arrows point inward. Domain has no outward arrows. Each feature is its own hex.
 
-```text
-driving (HTTP/CLI) → application → domain ← ports ← adapters (DB/HTTP/queue)
-```
+## Composition root
 
-Arrows point inward. Domain has no outward arrows.
+`main.py` calls each feature's `create_<feature>_api()` factory once at startup, wires the resulting APIs together, and hands them to driving adapters. Adapters are constructed inside the factory; outside code never sees them.
 
-## Ports = Language-Native Interfaces
+## Shared shell
 
-Python `Protocol`. TS `interface`. Rust `trait`. Go `interface`. Pick what is fluent for the language; LSP holds in all of them.
+`clients/` and `infrastructure/` hold cross-feature primitives (auth clients, queues, metrics, GCS, Redis). They live at the root, not inside any feature. A feature **uses** shared clients via its own port; it does not own them.
+
+## Between features
+
+A feature may import **only** another feature's facade — `from src.sessions import SessionAPI`. Reaching into `src.sessions._service`, `src.sessions.ports`, or `src.sessions.adapters` is forbidden. Richer seams (anticorruption layer, published events, translators, shared kernel when genuinely shared): skill:bounded-context-mapping.
+
+## Ports = language-native interfaces
+
+Python `Protocol`. TS `interface`. Rust `trait`. Go `interface`. LSP holds in all.
 
 ## GOOD
 
+Facade exports behavior + the value objects callers need; everything else stays private.
+
 ```python
-class SessionStore(Protocol):
-    def get(self, id: SessionId) -> Session | None: ...
-    def save(self, s: Session) -> None: ...
+"""sessions/__init__.py — public surface for the sessions feature."""
+from src.sessions.api import SessionAPI
+from src.sessions.domain.session import Session
+from src.sessions.domain.session_status import SessionStatus
+from src.sessions.errors import SessionError
 
-@dataclass(frozen=True)
-class CompleteSession:
-    sessions: SessionStore
-    clock: Clock
 
-    def __call__(self, id: SessionId) -> Session:
-        s = self.sessions.get(id) or raise_not_found(id)
-        completed = s.complete(at=self.clock.now())
-        self.sessions.save(completed)
-        return completed
+def create_session_api() -> SessionAPI:
+    from src.sessions._service import SessionService
+    from src.sessions.adapters.firestore_repo import FirestoreSessionRepo
+    return SessionService(repo=FirestoreSessionRepo())
+
+
+__all__ = [
+    "Session", "SessionAPI", "SessionError",
+    "SessionStatus", "create_session_api",
+]
 ```
 
-Domain (`Session.complete`) pure. Application (`CompleteSession`) orchestrates. `SessionStore` is the port. SQL adapter implements it elsewhere; nobody in domain imports SQL.
+Driving adapter depends on the facade, not internals:
+
+```python
+from src.sessions import SessionAPI, SessionError
+
+async def complete_endpoint(api: SessionAPI, id: str) -> dict:
+    try:
+        return api.complete(id).to_payload()
+    except SessionError as e:
+        return {"error": str(e)}
+```
 
 ## BAD
 
+Cross-feature leak + layer dumping ground:
+
 ```python
-def complete_session(id):
-    s = db.execute("SELECT * FROM sessions WHERE id = ?", id).fetchone()
-    s["completed_at"] = datetime.utcnow()
-    db.execute("UPDATE sessions SET completed_at = ? WHERE id = ?", ...)
-    requests.post("https://billing/api/charge", json={"id": id})
-    return s
+from src.sessions._service import SessionService          # private
+from src.sessions.adapters.firestore_repo import FirestoreSessionRepo  # private
+from src.transcription.domain.word import Word            # ok (VO) — but...
+
+def hand_rolled_pipeline(id: str) -> list[Word]:
+    svc = SessionService(repo=FirestoreSessionRepo())     # rewires adapters
+    return svc.transcribe(id)                              # reaches across features
 ```
 
-Domain glued to SQL + HTTP. Untestable without standing up DB and webhook. Time hardcoded. Refactor cost: total rewrite.
+```text
+src/
+├── domain/{sessions.py, transcription.py, billing.py, ...}   # one bag
+├── services/{everything.py}                                  # dumping ground
+└── adapters/{db.py, http.py, ...}                            # shared per-tech
+```
 
-## Testing Pays Off Here
+Layer-first tree forces edits in every folder for one feature change; nothing hides behind a facade.
 
-Substitute adapters with in-memory fakes. Domain tests run in microseconds with no I/O. Integration tests cover the adapter contract once.
+## When not to apply
 
-## When Not to Apply
+Hexagonal earns its overhead when a domain has invariants worth defending across multiple I/O backends and the system has more than one feature. Skip the strict partition when:
 
-The hexagonal pattern earns its overhead when the domain has invariants worth
-defending across multiple I/O backends. Skip the strict pure/shell partition when:
+- **Single-shot scripts** (<200 lines, one collaborator).
+- **Pure libraries** (parsers, math, codecs) — no I/O boundary.
+- **Prototypes pre-product-fit** — model unstable; premature ports churn.
+- **Single-feature service** — project *is* the feature; don't invent a wrapper folder.
+- **Infra glue** wiring two frameworks with no business logic.
 
-- **Single-shot scripts** (<200 lines, one collaborator, never tested in isolation).
-- **Pure libraries** (parsers, math, codecs) — no I/O boundary exists to push to.
-- **Prototypes pre-product-fit** — the domain model hasn't stabilised; premature ports
-  just move with every pivot.
-- **Infra glue** that wires two frameworks together with no business logic.
+Heuristic: if you can anticipate ≥2 features that will ship from this codebase, or ≥2 adapter implementations behind one port (SQL + in-memory, real queue + fake), apply the pattern. Otherwise keep types + small functions.
 
-Concrete heuristic: if you can realistically anticipate ≥2 adapter implementations
-(SQL + in-memory, gRPC + HTTP, real queue + fake), or if the domain has invariants
-you need to defend across those backends, add the port. Otherwise keep types + small
-functions without the strict layering.
+## Red flags
 
-See skill:functional-core-imperative-shell for the inner pure/shell split, which
-applies even in small scripts.
-
-## Red Flags
-
-- Domain module imports `requests`, `boto3`, `sqlalchemy`, `redis`.
-- Adapter contains business rules.
-- Use case touches three repositories AND publishes events AND sends emails.
+- `from feature_a.adapters.x import ...` or `from feature_a._service import ...` outside `feature_a`.
+- Feature `__init__.py` missing `__all__` — star-import leaks internals.
+- Facade re-exports `_service`, `ports`, or `adapters` modules.
+- Top-level `domain/`, `services/`, `adapters/` folders mixing unrelated features.
+- Shared "service" class that knows about three features.
+- Adapter contains business rules; domain imports `requests`, `boto3`, `sqlalchemy`.
 - Port surfaces leak SQL syntax, HTTP status codes, or Kafka offsets.
-- "Service" classes that are actually god objects.
-- Single global `domain/` mixing multiple unrelated aggregates or languages.
-- Feature B imports Feature A's adapter or internal DTO “for convenience.”
+- Use case touches three repositories AND publishes events AND sends emails.
+- Single-feature project with an empty `<feature>/` folder built "for symmetry".
