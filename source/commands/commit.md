@@ -4,7 +4,7 @@ kind: command
 title: Generate Conventional Commit
 description: >
   Generate a Conventional Commit message for staged changes. Subject in imperative mood,
-  body explains why, footer references issues.
+  body leads with the cause (who hurts without this change), footer references issues.
 agents:
   claude: { kind: command }
   cursor: { kind: command }
@@ -25,7 +25,7 @@ Steps:
 3. Pick the type: `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `chore`, `build`, `ci`, `revert`.
 4. Pick a scope from the changed paths (e.g. directory, module).
 5. Write subject: imperative, ≤ 50 chars, no trailing period.
-6. Write body: **why**, not what. Reference trade-offs or constraints if non-obvious.
+6. Write body: lead with the **cause** — who or what hurts (or what gain is lost) without this change. Add a second paragraph on approach only if the shape needs defense (trade-off, constraint, non-obvious choice).
 7. Footer: `Closes <issue>`, `Refs <ticket>`, or `BREAKING CHANGE:` if applicable.
 
 Output the message inside a code block. Do not run `git commit` automatically — print it for the user to confirm.
