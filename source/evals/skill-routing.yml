@@ -45,3 +45,10 @@ cases:
       - definition-of-done
     do_not_load:
       - tdd
+
+  - id: grill-vague-plan
+    prompt: Grill me on this plan to add SSO; the ticket just says "support login".
+    load:
+      - requirements-crushing
+    do_not_load:
+      - tdd

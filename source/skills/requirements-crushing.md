@@ -87,6 +87,21 @@ Override still needs recorded decision (even one-liner).
 
 Crush the Why first. Sections 4–9 are wasted effort on top of a blurry purpose.
 
+## Grill the Open Questions
+
+Section 5 is not a wishlist — empty it before the gate flips. Interview the
+human about every unresolved branch until understanding is shared.
+
+- One question at a time. Batched questionnaires get skimmed; serial answers
+  expose dependencies between decisions.
+- Walk the decision tree. Resolve the branch a later question depends on first.
+- Recommend an answer per question. A bare question offloads thinking; a
+  recommendation moves the decision forward and surfaces disagreement fast.
+- Explore the codebase instead of asking when the answer lives there. Asking
+  a human what the code already states is a red flag (rule:agent-workflow).
+
+`Ready-to-Code` stays **NO** while any grilled branch is open.
+
 ## GOOD
 
 ```text
