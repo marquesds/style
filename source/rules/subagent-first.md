@@ -36,6 +36,8 @@ Compress context. Cost of wrong subagent < cost of bloated main context.
 | Best-of-N experiment | best-of-n-runner |
 | Broad codebase orientation | explore |
 | Multi-file refactor | generalPurpose |
+| RPI phase (research / plan / implement) | one subagent per phase |
+| Work finished, pre-done gate | code review (best model available) |
 
 ## Why
 
