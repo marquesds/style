@@ -62,9 +62,9 @@ adding or modifying an adapter, match the column for that agent below.
 
 | Agent | Rules | Skills | Commands |
 |-------|-------|--------|----------|
-| claude | merged into `<root>/.claude/CLAUDE.md` (managed section) | `<root>/.claude/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | `<root>/.claude/commands/<id>.md` (plain markdown) |
-| cursor | `<root>/.cursor/rules/<id>.mdc` (frontmatter: `description`, `globs`, `alwaysApply`) | `<root>/.cursor/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | `<root>/.cursor/commands/<id>.md` (plain markdown) |
-| codex | merged into `<root>/.codex/AGENTS.md` `## Rules` | `<root>/.agents/skills/<id>/SKILL.md` (frontmatter: `name`, `description`) | merged into `<root>/.codex/AGENTS.md` `## Commands` |
+| claude | merged into `<root>/.claude/CLAUDE.md` (managed section) | `<root>/.claude/skills/<id>/SKILL.md` (frontmatter: `name`, discovery `description`) | `<root>/.claude/commands/<id>.md` (plain markdown) |
+| cursor | `<root>/.cursor/rules/<id>.mdc` (frontmatter: `description`, `globs`, `alwaysApply`) | `<root>/.cursor/skills/<id>/SKILL.md` (frontmatter: `name`, discovery `description`, optional `paths`) | `<root>/.cursor/commands/<id>.md` (plain markdown) |
+| codex | merged into `<root>/.codex/AGENTS.md` `## Rules` | `<root>/.agents/skills/<id>/SKILL.md` (frontmatter: `name`, discovery `description`) | merged into `<root>/.codex/AGENTS.md` `## Commands` |
 | goose | merged into `<root>/.config/goose/AGENTS.md` | merged | merged |
 | openclaw | merged into `<root>/.openclaw/workspace/AGENTS.md` | merged | merged |
 | opencode | merged into `<root>/.config/opencode/AGENTS.md` | `<root>/.config/opencode/skills/<id>/SKILL.md` | `<root>/.config/opencode/commands/<id>.md` (frontmatter: `description`) |

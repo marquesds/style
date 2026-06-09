@@ -78,9 +78,10 @@ class CursorAdapter:
         return WriteOp(path=path, content=content)
 
     def _skill_op(self, src: Source, root: Path) -> WriteOp:
+        agent_cfg = src.agents.get("cursor") or {}
         return WriteOp(
             path=root / "skills" / src.id / "SKILL.md",
-            content=render_skill_markdown(src),
+            content=render_skill_markdown(src, paths=agent_cfg.get("glob") or src.globs),
         )
 
     def _command_op(self, src: Source, root: Path) -> WriteOp:

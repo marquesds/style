@@ -12,7 +12,7 @@ applies_when:
   - security headers review
 agents:
   claude: { kind: skill }
-  cursor: { kind: skill }
+  cursor: { kind: skill, glob: "**/*.{html,htm,js,jsx,ts,tsx,vue,svelte}" }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

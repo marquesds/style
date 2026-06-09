@@ -13,7 +13,7 @@ applies_when:
   - starting a new web product from scratch
 agents:
   claude: { kind: skill }
-  cursor: { kind: skill }
+  cursor: { kind: skill, glob: "**/*.{css,scss,sass,less,html,jsx,tsx,vue,svelte}" }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

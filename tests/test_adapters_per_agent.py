@@ -14,6 +14,8 @@ def test_claude_writes_skill_dir(fake_source_dir: Path, tmp_path: Path) -> None:
     assert skill.exists()
     text = skill.read_text(encoding="utf-8")
     assert text.startswith("---\nname: tdd\n")
+    assert "Use when: new logic." in text
+    assert "paths:" not in text
     assert "RED then GREEN" in text
 
 
@@ -35,6 +37,8 @@ def test_cursor_writes_skill_dir(fake_source_dir: Path, tmp_path: Path) -> None:
     assert skill.exists()
     text = skill.read_text(encoding="utf-8")
     assert text.startswith("---\nname: tdd\n")
+    assert 'paths: "**/*.py"' in text
+    assert "Use when: new logic." in text
     assert "RED then GREEN" in text
     assert (out / ".cursor" / "rules" / "tdd.mdc").exists() is False
 
@@ -64,7 +68,10 @@ def test_codex_writes_agents_md_and_native_skills(
     assert "RED then GREEN" not in text
     skill = out / ".agents" / "skills" / "tdd" / "SKILL.md"
     assert skill.exists()
-    assert skill.read_text(encoding="utf-8").startswith("---\nname: tdd\n")
+    skill_text = skill.read_text(encoding="utf-8")
+    assert skill_text.startswith("---\nname: tdd\n")
+    assert "Use when: new logic." in skill_text
+    assert "paths:" not in skill_text
 
 
 def test_codex_install_strips_legacy_root_agents_md(

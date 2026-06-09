@@ -13,7 +13,7 @@ applies_when:
   - the build commands are scattered across docs
 agents:
   claude: { kind: skill }
-  cursor: { kind: skill }
+  cursor: { kind: skill, glob: "**/{Makefile,makefile,justfile,Justfile,Taskfile.yml,Taskfile.yaml,package.json,pyproject.toml,*.mk}" }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

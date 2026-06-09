@@ -11,7 +11,7 @@ applies_when:
   - reviewing a binding PR for leaked logic
 agents:
   claude: { kind: skill }
-  cursor: { kind: skill }
+  cursor: { kind: skill, glob: "**/*.{h,hpp,c,cc,cpp,rs,go,py,js,ts,wasm}" }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

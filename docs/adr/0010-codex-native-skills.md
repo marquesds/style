@@ -27,8 +27,8 @@ delete managed skill files under `.agents/skills`.
 ## Consequences
 
 - Codex no longer reads full skill bodies from AGENTS.md on every turn.
-- Skill descriptions remain discoverable, and full instructions load only when
-  Codex selects a skill.
+- Skill descriptions remain discoverable, include `applies_when` triggers, and full
+  instructions load only when Codex selects a skill.
 - The Codex adapter is intentionally hybrid: `.codex/AGENTS.md` for durable
   guidance, `.agents/skills` for reusable workflows.
 - ADR-0009 still governs the legacy `~/AGENTS.md` cleanup path.

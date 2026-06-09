@@ -102,13 +102,14 @@ def strip_managed_section(existing: str) -> str:
     return (before + "\n" + after).rstrip("\n") + "\n" if (before or after).strip() else ""
 
 
-def render_skill_markdown(src: Source) -> str:
+def render_skill_markdown(src: Source, *, paths: str | None = None) -> str:
     """Render a skill source into frontmatter + body for native-skill agents."""
-    indented = src.description.replace("\n", "\n  ")
-    return (
-        f"---\nname: {src.id}\ndescription: >\n  {indented}\n---\n\n"
-        f"{FILE_MARKER_HTML}\n{src.body.lstrip()}"
-    )
+    frontmatter = ["---", f"name: {src.id}", "description: >"]
+    frontmatter.extend(f"  {line}" for line in src.discovery_description.splitlines())
+    if paths:
+        frontmatter.append(f'paths: "{paths.replace(chr(34), chr(92) + chr(34))}"')
+    frontmatter.append("---")
+    return "\n".join(frontmatter) + f"\n\n{FILE_MARKER_HTML}\n{src.body.lstrip()}"
 
 
 def render_command_markdown(src: Source) -> str:

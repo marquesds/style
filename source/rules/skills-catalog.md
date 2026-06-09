@@ -111,9 +111,10 @@ guidance intact. Exception: skills whose topic is the language or format itself
 ## How to Load
 
 Skill name in catalog matches `~/.claude/skills/<id>/SKILL.md` (Claude),
-`.cursor/rules/<id>.mdc` (Cursor), and the `## Skills` heading in `AGENTS.md`
-(Codex, Goose, OpenClaw, Pi). `skill:<id>` references inside other rules resolve
-via the lint cross-ref check. Load one skill at a time; never batch-load.
+`.cursor/skills/<id>/SKILL.md` (Cursor), `.agents/skills/<id>/SKILL.md`
+(Codex), and the `## Skills` heading in `AGENTS.md` (Goose, OpenClaw, Pi).
+`skill:<id>` references inside other rules resolve via the lint cross-ref check.
+Load one skill at a time; never batch-load.
 
 ## GOOD
 

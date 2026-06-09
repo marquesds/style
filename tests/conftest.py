@@ -80,7 +80,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
               - new logic
             agents:
               claude: { kind: skill }
-              cursor: { kind: skill }
+              cursor: { kind: skill, glob: "**/*.py" }
               codex:  { section: skills }
               goose:  { section: skills }
               openclaw: { section: skills }

@@ -131,6 +131,7 @@ def test_static_skill_metadata_renders_without_leaking(
     assert report.ops, f"{agent_name} produced no ops"
     for op in report.ops:
         assert "do_not_use_when" not in op.content
+        assert "applies_when" not in op.content
         assert "verification_prompts" not in op.content
         assert "conflicts_with" not in op.content
     rendered = "\n".join(op.content for op in report.ops)

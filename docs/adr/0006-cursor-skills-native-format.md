@@ -29,6 +29,8 @@ All 57 `source/skills/*.md` files have their `cursor:` agent block updated from
 ## Consequences
 
 - Skills appear in Cursor's native skill panel and are loaded on demand by description.
+- Current adapter behavior folds `applies_when` into the emitted `description` and
+  emits Cursor `paths` when a skill declares `agents.cursor.glob`.
 - Existing installs retain stale `.cursor/rules/<id>.mdc` skill files until
   `./uninstall.sh --agent cursor` (or a manual sweep) cleans them up.
 - The `CursorAdapter` test fixture is updated; `test_cursor_writes_skill_dir` asserts

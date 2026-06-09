@@ -12,7 +12,7 @@ applies_when:
   - multi-column FK design
 agents:
   claude: { kind: skill }
-  cursor: { kind: skill }
+  cursor: { kind: skill, glob: "**/*.{sql,ddl,psql,pgsql},**/migrations/**/*,**/schema.prisma" }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

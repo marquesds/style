@@ -7,6 +7,7 @@ Checks (fail closed):
 - Rules and skills contain a `## GOOD` and `## BAD` example block.
 - Python `def` blocks in code examples <= 10 lines (heuristic).
 - Cross-skill references like `skill:<id>` resolve to a known id.
+- Native skills emit spec-compliant discovery metadata.
 
 Caveman quality is NOT linted — that is a review concern.
 """
@@ -37,12 +38,15 @@ __all__ = [
 
 MAX_FILE_LINES = 200
 MAX_FUNCTION_LINES = 10
+MAX_SKILL_DESCRIPTION_CHARS = 1024
+SOURCE_ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 SKILL_REF_RE = re.compile(r"\bskill:([a-z0-9][a-z0-9-]*)")
 PY_FENCE_RE = re.compile(r"```python\n(.*?)```", re.DOTALL)
 PY_DEF_RE = re.compile(r"^(\s*)def\s+\w+\(", re.MULTILINE)
 HEADING_GOOD = re.compile(r"^##\s+GOOD\b", re.MULTILINE)
 HEADING_BAD = re.compile(r"^##\s+BAD\b", re.MULTILINE)
 CATALOG_ROW_RE = re.compile(r"^\|\s*([a-z][a-z0-9-]+)\s*\|", re.MULTILINE)
+XML_TAG_RE = re.compile(r"</?[A-Za-z][^>]*>")
 
 
 def lint_file_size(src: Source) -> list[str]:
@@ -77,6 +81,32 @@ def lint_examples(src: Source) -> list[str]:
         errors.append(f"{src.path}: missing '## GOOD' example block")
     if not HEADING_BAD.search(src.body):
         errors.append(f"{src.path}: missing '## BAD' example block")
+    return errors
+
+
+def lint_native_skill_spec(src: Source) -> list[str]:
+    errors: list[str] = []
+    src_id = str(src.frontmatter.get("id") or "")
+    if src_id and not SOURCE_ID_RE.fullmatch(src_id):
+        errors.append(f"{src.path}: id '{src_id}' must be lowercase words separated by hyphens")
+    if src_id and src.path.stem != src_id:
+        errors.append(f"{src.path}: id '{src_id}' must match file name '{src.path.stem}'")
+    if src.frontmatter.get("kind") != "skill":
+        return errors
+    if not src.applies_when:
+        errors.append(f"{src.path}: skill must declare applies_when for discovery")
+    if "description" not in src.frontmatter:
+        return errors
+    description = src.discovery_description.strip()
+    if not description:
+        errors.append(f"{src.path}: skill discovery description must be non-empty")
+    if len(description) > MAX_SKILL_DESCRIPTION_CHARS:
+        errors.append(
+            f"{src.path}: skill discovery description exceeds "
+            f"{MAX_SKILL_DESCRIPTION_CHARS} chars ({len(description)})"
+        )
+    if XML_TAG_RE.search(description):
+        errors.append(f"{src.path}: skill discovery description must not contain XML tags")
     return errors
 
 
@@ -151,6 +181,7 @@ def lint_all(sources: Iterable[Source]) -> list[str]:
     for s in sources:
         errors.extend(lint_file_size(s))
         errors.extend(lint_frontmatter(s))
+        errors.extend(lint_native_skill_spec(s))
         errors.extend(lint_examples(s))
         errors.extend(lint_function_length(s))
         errors.extend(lint_cross_refs(s, known_ids))

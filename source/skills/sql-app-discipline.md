@@ -12,7 +12,7 @@ applies_when:
   - stored procedure decisions
 agents:
   claude: { kind: skill }
-  cursor: { kind: skill }
+  cursor: { kind: skill, glob: "**/*.{sql,ddl,psql,pgsql},**/migrations/**/*,**/schema.prisma" }
   codex:  { section: skills }
   goose:  { section: skills }
   openclaw: { section: skills }

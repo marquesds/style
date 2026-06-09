@@ -5,7 +5,7 @@ This repo is my single source of truth that compiles into per-agent native files
 ## Adding or editing a rule, skill, or command
 
 1. Drop a Markdown file under the appropriate directory: `source/rules/<id>.md`, `source/skills/<id>.md`, or `source/commands/<id>.md`.
-2. Use the same frontmatter shape as any neighboring file. Required fields: `id`, `kind`, `title`, `description`, `agents`. Optional: `applies_when`, `always_apply`, `globs`. Skills may also declare `do_not_use_when` (negative routing hints), `related_skills` (ids to load alongside), `conflicts_with` (ids that should not load together), and `verification_prompts` (offline routing assertions: list of `{prompt, should_load}`).
+2. Use the same frontmatter shape as any neighboring file. Required fields: `id`, `kind`, `title`, `description`, `agents`. Skills also require `applies_when`; the adapter folds it into the emitted native skill `description` as `Use when: ...` so Claude, Codex, and Cursor can discover the skill. Optional: `always_apply`, `globs`. Skills may also declare `do_not_use_when` (negative routing hints), `related_skills` (ids to load alongside), `conflicts_with` (ids that should not load together), and `verification_prompts` (offline routing assertions: list of `{prompt, should_load}`).
 3. Write the body in concise technical prose: brief, direct, and low-filler, but use normal grammar whenever it improves clarity. Code examples stay in normal style.
 4. Include a `## GOOD` and a `## BAD` example block. The lint script enforces this for rules and skills.
 5. Keep the file under 200 lines and any code example function under 10 body lines.
@@ -29,7 +29,7 @@ See `AGENTS.md` at the repository root for the full set of contributor rules tha
 .venv/bin/python -m ruff check scripts tests      # Python style
 ```
 
-The lint script checks file size, frontmatter, the presence of GOOD/BAD blocks, code-example function length, cross-skill references, optional skill metadata (`related_skills`, `conflicts_with`, `verification_prompts`), and `source/evals/skill-routing.yml` integrity.
+The lint script checks file size, frontmatter, native skill metadata (`id` shape, required `applies_when`, discovery description length/XML), the presence of GOOD/BAD blocks, code-example function length, cross-skill references, optional skill metadata (`related_skills`, `conflicts_with`, `verification_prompts`), and `source/evals/skill-routing.yml` integrity.
 
 Before marking a harness change done, manually exercise the changed surface and record
 the exact steps plus observed result. For source-content changes, a targeted

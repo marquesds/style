@@ -13,7 +13,9 @@ def _write_skill(tmp_path: Path, skill_id: str) -> None:
     title = skill_id.replace("-", " ").title()
     f.write_text(
         f"---\nid: {skill_id}\nkind: skill\ntitle: {title}\n"
-        "description: >\n  A test skill.\nagents:\n  claude: { kind: skill }\n---\n\n"
+        "description: >\n  A test skill.\n"
+        "applies_when:\n  - testing lint behavior\n"
+        "agents:\n  claude: { kind: skill }\n---\n\n"
         f"# {title}\n\n## GOOD\n\n```python\nx = 1\n```\n\n## BAD\n\n```python\ny = 2\n```\n",
         encoding="utf-8",
     )
@@ -48,6 +50,8 @@ def test_lint_flags_missing_examples(tmp_path: Path) -> None:
             title: No Examples
             description: >
               Missing required example blocks.
+            applies_when:
+              - testing missing examples
             agents:
               claude: { kind: skill }
             ---
@@ -71,6 +75,7 @@ def test_lint_flags_long_function(tmp_path: Path) -> None:
     f.write_text(
         "---\n"
         "id: long-fn\nkind: skill\ntitle: Long\ndescription: >\n  d\n"
+        "applies_when:\n  - testing long functions\n"
         "agents: { claude: { kind: skill } }\n---\n\n"
         "## GOOD\n\n```python\n"
         f"def big():\n{body}\n```\n\n"
@@ -86,6 +91,7 @@ def test_lint_flags_unknown_skill_ref(tmp_path: Path) -> None:
     f.parent.mkdir(parents=True)
     f.write_text(
         "---\nid: ref\nkind: skill\ntitle: Ref\ndescription: >\n  d\n"
+        "applies_when:\n  - testing unknown references\n"
         "agents: { claude: { kind: skill } }\n---\n\n"
         "Refer to skill:does-not-exist.\n\n## GOOD\n\n```python\nx=1\n```\n\n"
         "## BAD\n\n```python\ny=2\n```\n",
@@ -127,6 +133,34 @@ def test_lint_flags_unknown_static_skill_metadata_refs(tmp_path: Path) -> None:
     assert any("related_skills" in e and "missing-related" in e for e in errors)
     assert any("conflicts_with" in e and "cannot reference itself" in e for e in errors)
     assert any("verification_prompts" in e and "prompt" in e for e in errors)
+
+
+def test_lint_flags_native_skill_spec_violations(tmp_path: Path) -> None:
+    skill = tmp_path / "skills" / "bad-name.md"
+    skill.parent.mkdir(parents=True)
+    skill.write_text(
+        "---\n"
+        "id: Bad_Name\nkind: skill\ntitle: Bad\ndescription: >\n  Uses <xml/> tags.\n"
+        "agents: { claude: { kind: skill } }\n---\n\n"
+        "## GOOD\n\n```python\nx = 1\n```\n\n## BAD\n\n```python\ny = 2\n```\n",
+        encoding="utf-8",
+    )
+
+    errors = lint_all(load_all(tmp_path))
+    assert any("must be lowercase words separated by hyphens" in e for e in errors)
+    assert any("must match file name" in e for e in errors)
+    assert any("must declare applies_when" in e for e in errors)
+    assert any("must not contain XML tags" in e for e in errors)
+
+
+def test_lint_flags_long_skill_discovery_description(tmp_path: Path) -> None:
+    _write_skill(tmp_path, "long-description")
+    skill = tmp_path / "skills" / "long-description.md"
+    text = skill.read_text(encoding="utf-8")
+    skill.write_text(text.replace("A test skill.", "x" * 1100), encoding="utf-8")
+
+    errors = lint_all(load_all(tmp_path))
+    assert any("skill discovery description exceeds 1024 chars" in e for e in errors)
 
 
 def test_lint_skill_routing_evals_passes_with_known_skills(tmp_path: Path) -> None:

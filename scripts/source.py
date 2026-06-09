@@ -51,6 +51,11 @@ class Source:
         return str(self.frontmatter["description"]).strip()
 
     @property
+    def discovery_description(self) -> str:
+        triggers = "; ".join(self.applies_when)
+        return f"{self.description} Use when: {triggers}." if triggers else self.description
+
+    @property
     def applies_when(self) -> list[str]:
         v = self.frontmatter.get("applies_when") or []
         return [str(x) for x in v]
