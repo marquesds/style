@@ -10,7 +10,7 @@ practices into any AI coding agent.
 ## Install
 
 ```bash
-git clone https://github.com/<you>/style ~/.style
+git clone https://github.com/marquesds/style ~/.style
 cd ~/.style
 ./install.sh                   # installs into all detected agents
 ./install.sh --agent claude    # only one agent
