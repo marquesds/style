@@ -34,13 +34,27 @@ An upfront spec cuts ambiguity. Use a cheap model for exploration (haiku, flash,
 
 ## Planning: Product + Requirements
 
-User-facing, cross-team, or high-impact → plan step **surfaces product-relevant questions**: who affected, success metric, compliance, rollout, UX copy, edge users.
+Every implementation task starts by running **skill:requirements-crushing** before
+non-markdown edits. Feature, fix, refactor, integration, UX, business rule, and
+test work all pass through the gate. Trivial, unambiguous work may use the
+skill's micro-brief; any open question upgrades it to the full brief.
 
-**Refine requirements before implementation.** Spec/request incomplete or ambiguous → run **skill:requirements-crushing**; need **`Ready-to-Code: YES`** (or explicit human override) before large diffs.
+Need **`Ready-to-Code: YES`** before code. If the brief has unanswered open
+questions, stop the line: ask, recommend an answer, and do nothing else until
+the human answers. Do not scaffold, edit the "safe parts", or proceed on silent
+assumptions.
 
-Pure engineering bug (wrong line, crash, perf regression) → still **autonomous root cause** below.
+The only override is the human writing **`blind mode`** for the current task.
+Then follow skill:requirements-crushing: record the AI-assumed answers and add
+the required PR disclosure. Blind mode does not carry into the next task.
 
-Behavior / product / compliance uncertainty → questions belong **in planning**, not ticket hand-holding disguised as "which line broke?".
+User-facing, cross-team, or high-impact → plan step **surfaces product-relevant
+questions**: who affected, success metric, compliance, rollout, UX copy, edge
+users. Pure engineering bugs still need autonomous root cause below, but the
+brief captures why, reproduction, and the expected behavior before the fix.
+
+Behavior / product / compliance uncertainty → questions belong **in planning**,
+not ticket hand-holding disguised as "which line broke?".
 
 **Staff+/owner lens.** In **plan mode**, planning output **must** include explicit **trade-offs** (we gain X / we pay Y—e.g. latency vs complexity, speed vs reversibility, build vs buy, scope vs timeline), not only a risk list, plus questions whose answers change whether the work is worth doing or how it is shaped:
 
@@ -111,5 +125,7 @@ Untyped. Hardcoded date. No transaction. No audit. No tests. Pushed through with
 - Edit 5 files before scoping work.
 - Skip tests because "small change".
 - Ask user A-or-B when answer findable in code.
+- Implement while the requirements brief still has unanswered questions.
+- Assume answers without the human writing `blind mode`.
 - Mark complete without running suite.
 - Mark complete without recorded changed-surface manual proof.

@@ -83,7 +83,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | queue-topology-design | adding background jobs or workers; designing a message queue setup; choosing queue concurrency, dead-letter, or worker isolation |
 | rate-limiting-and-throttling | adding rate limiting to an endpoint or API; protecting a service from abuse, overuse, or noisy tenants |
 | refactoring | structural change without behavior change; legacy code without tests |
-| requirements-crushing | crushing vague specs into a Ready-to-Code brief; grilling/stress-testing a plan one question at a time |
+| requirements-crushing | starting any implementation task before code; open questions block Ready-to-Code; user invoked blind mode |
 | resilience-retries | handling failures in outbound HTTP or queue calls; adding retry logic; making a service resilient to downstream failures |
 | restful-http-design | designing or reviewing an HTTP API; adding or changing endpoints, versioning, status codes, or pagination |
 | rollout-and-feature-flags | safely shipping a risky or partial feature; adding a kill switch or feature flag; managing gradual rollout to users |

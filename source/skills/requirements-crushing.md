@@ -4,12 +4,12 @@ kind: skill
 title: Requirements Crushing
 description: >
   Coding last. Crush ticket into crisp brief; brief leads with Why; gate on
-  Ready-to-Code. Use when ask vague ("should", "support", "improve"),
-  UX/business rule, or big blast radius.
+  Ready-to-Code. Use before every implementation task; hard-stop on unanswered
+  questions unless the human writes blind mode.
 applies_when:
-  - incomplete or ambiguous request before implementation
-  - user-facing, cross-team, compliance, or high-impact change
-  - planning reveals unanswered product questions
+  - starting any implementation task before writing code
+  - open questions block Ready-to-Code
+  - user invokes blind mode after unanswered questions
 agents:
   claude: { kind: skill }
   cursor: { kind: skill }
@@ -30,7 +30,10 @@ detailed sections 6–9 look.
 
 ## When
 
-Implement / fix / integrate / refactor / UX / business rule / tests from ticket — especially vague verbs. Big change + fuzzy goal → crush first. Large blast radius → crushing/planning should still cover the **Staff+/owner lens** in **rule:agent-workflow** (trade-offs, downside, opportunity cost—not product questions alone).
+Implement / fix / integrate / refactor / UX / business rule / tests from ticket
+→ crush first. Trivial, unambiguous work may use **Micro-Brief**. Big change +
+fuzzy goal → full brief. Large blast radius → include the **Staff+/owner lens**
+in **rule:agent-workflow** (trade-offs, downside, opportunity cost).
 
 ## Required Output
 
@@ -54,6 +57,19 @@ REQUIREMENTS CRUSHING BRIEF
 The **Why** field is the gate, not decoration. Sections 4–9 explain *how* and
 *what*; without a sharp *why* they design the wrong thing precisely.
 
+### Micro-Brief
+
+Use only for trivial, unambiguous work. Emit 2–3 lines:
+
+```text
+MICRO REQUIREMENTS BRIEF
+Why: <one sentence with victim or measurable gain>
+Ready-to-Code: YES
+```
+
+Any open question, product branch, unclear source, or non-trivial behavior
+upgrades the task to the full brief.
+
 ## Source Hierarchy
 
 Use top item that exists; downgrade if missing.
@@ -68,9 +84,11 @@ Unknown source → state gap + **risk if wrong**.
 
 ## Rule
 
-**No code** until `Ready-to-Code: YES`, unless human **explicitly** overrides **after** gaps listed in brief.
+**No code** until `Ready-to-Code: YES`. If Section 5 has unanswered questions,
+stop and do nothing else until the human answers.
 
-Override still needs recorded decision (even one-liner).
+Do not scaffold, edit the "safe parts", or proceed on silent assumptions. The
+only override is the human writing **`blind mode`** after the gaps are listed.
 
 ## Why Gate
 
@@ -100,7 +118,31 @@ human about every unresolved branch until understanding is shared.
 - Explore the codebase instead of asking when the answer lives there. Asking
   a human what the code already states is a red flag (rule:agent-workflow).
 
-`Ready-to-Code` stays **NO** while any grilled branch is open.
+`Ready-to-Code` stays **NO** while any grilled branch is open. After asking,
+end the turn and wait unless the human answers or writes `blind mode`.
+
+## Blind Mode
+
+Blind mode is the per-task override for unanswered questions. It starts only
+when the human writes **`blind mode`** after the open questions are visible.
+
+Before editing, record each skipped question and the AI-recommended answer:
+
+```text
+BLIND MODE DECISION
+- Q: <question> -> Assumed: <recommendation>
+```
+
+Any PR created from blind-mode work must include:
+
+```text
+## Blind Mode Disclosure
+Open questions were not answered; implementation follows AI-suggested answers.
+- Q: <question> -> Assumed: <AI recommendation>
+```
+
+Blind mode ends when the current task ends. The next task gates again.
+
 
 ## GOOD
 
@@ -138,3 +180,5 @@ ticket. No who's affected. `Ready-to-Code` skipped. Code before crush = redo loo
 - Vague verb and zero clarifying questions.
 - Single-source rumor treated as spec with no confidence note.
 - Large diff while section 5 still long.
+- Editing after unanswered questions without `blind mode`.
+- PR from blind-mode work missing the disclosure block.

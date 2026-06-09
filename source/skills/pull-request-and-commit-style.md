@@ -97,6 +97,9 @@ after reading the first section will not give a useful review of *how* it was
 built. If `Why` is blank, vague, or paraphrases the PR title, send it back to
 the author before reading the diff.
 
+If the work used `blind mode`, include the `Blind Mode Disclosure` block from
+skill:requirements-crushing in the PR description.
+
 ## Feature Flags When Applicable
 
 Risky / cross-team / partial change → ship behind a flag. Default off. Rollout in stages. Flag has a removal date.
@@ -172,6 +175,7 @@ Why paraphrases the PR title with a verb. No victim, no metric. Bounce.
 - [ ] Definition of Done walked (skill:definition-of-done).
 - [ ] Commit messages tell the story; no `wip` / `fix typo` mixed in.
 - [ ] AI assistance disclosed if applicable (skill:ai-contribution-disclosure).
+- [ ] Blind-mode work discloses unanswered questions and assumed answers.
 
 ## Red Flags
 
@@ -181,6 +185,7 @@ Why paraphrases the PR title with a verb. No victim, no metric. Bounce.
 - PR `## Why` is blank, paraphrases the title, or reads "improve / better /
   cleaner" with no named victim or metric.
 - PR description: "see commits".
+- Blind-mode PR missing the `Blind Mode Disclosure` block.
 - Reviewer can't say what breaks if the PR doesn't merge after reading the
   first section.
 - 30 commits, 12 of them `wip`.

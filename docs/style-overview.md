@@ -18,6 +18,9 @@ in front of you.
 
 ## The practices
 
+- **Requirements before implementation.** Every implementation task starts with
+  requirements-crushing. Unanswered questions stop the agent unless the human
+  explicitly writes `blind mode`, which must be disclosed in the PR.
 - **Test-driven development.** Write a failing test for the next behavior, then write
   the smallest implementation that makes it pass, then refactor. Default shape is the
   Testing Trophy: thick integration tests on real seams, focused unit tests for pure
