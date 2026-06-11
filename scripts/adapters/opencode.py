@@ -15,8 +15,8 @@ from scripts.adapters.base import (
     AdapterReport,
     WriteOp,
     apply_op,
-    render_skill_markdown,
     replace_managed_section,
+    skill_bundle_ops,
     strip_managed_section,
     walk_managed_files,
 )
@@ -39,14 +39,10 @@ class OpenCodeAdapter:
             if "opencode" not in s.agents:
                 continue
             if s.kind == "skill":
-                op = self._skill_op(s, root)
+                for op in self._skill_ops(s, root):
+                    report.add(op)
             elif s.kind == "command":
-                op = self._command_op(s, root)
-            elif s.kind == "rule":
-                continue
-            else:
-                continue
-            report.add(op)
+                report.add(self._command_op(s, root))
 
         rules = [s for s in sources if s.kind == "rule" and "opencode" in s.agents]
         if rules:
@@ -75,11 +71,8 @@ class OpenCodeAdapter:
                 apply_op(op)
         return report
 
-    def _skill_op(self, src: Source, root: Path) -> WriteOp:
-        return WriteOp(
-            path=root / "skills" / src.id / "SKILL.md",
-            content=render_skill_markdown(src),
-        )
+    def _skill_ops(self, src: Source, root: Path) -> list[WriteOp]:
+        return skill_bundle_ops(src, root / "skills" / src.id)
 
     def _command_op(self, src: Source, root: Path) -> WriteOp:
         path = root / "commands" / f"{src.id}.md"

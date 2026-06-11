@@ -8,6 +8,8 @@ Checks (fail closed):
 - Python `def` blocks in code examples <= 10 lines (heuristic).
 - Cross-skill references like `skill:<id>` resolve to a known id.
 - Native skills emit spec-compliant discovery metadata.
+- Skill bundles: kind skill, id matches directory, aux files plain markdown
+  (see scripts/lint_bundle.py).
 
 Caveman quality is NOT linted — that is a review concern.
 """
@@ -19,6 +21,13 @@ import sys
 from collections.abc import Iterable
 from pathlib import Path
 
+from scripts.lint_bundle import (
+    MAX_FILE_LINES,
+    SOURCE_ID_RE,
+    def_length_errors,
+    lint_auxiliary,
+    lint_bundle_kind,
+)
 from scripts.lint_skill_evals import lint_skill_routing_evals
 from scripts.lint_skill_metadata import lint_static_skill_metadata
 from scripts.source import (
@@ -36,13 +45,8 @@ __all__ = [
     "lint_static_skill_metadata",
 ]
 
-MAX_FILE_LINES = 200
-MAX_FUNCTION_LINES = 10
 MAX_SKILL_DESCRIPTION_CHARS = 1024
-SOURCE_ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 SKILL_REF_RE = re.compile(r"\bskill:([a-z0-9][a-z0-9-]*)")
-PY_FENCE_RE = re.compile(r"```python\n(.*?)```", re.DOTALL)
-PY_DEF_RE = re.compile(r"^(\s*)def\s+\w+\(", re.MULTILINE)
 HEADING_GOOD = re.compile(r"^##\s+GOOD\b", re.MULTILINE)
 HEADING_BAD = re.compile(r"^##\s+BAD\b", re.MULTILINE)
 CATALOG_ROW_RE = re.compile(r"^\|\s*([a-z][a-z0-9-]+)\s*\|", re.MULTILINE)
@@ -89,7 +93,11 @@ def lint_native_skill_spec(src: Source) -> list[str]:
     src_id = str(src.frontmatter.get("id") or "")
     if src_id and not SOURCE_ID_RE.fullmatch(src_id):
         errors.append(f"{src.path}: id '{src_id}' must be lowercase words separated by hyphens")
-    if src_id and src.path.stem != src_id:
+    if src_id and src.is_bundle and src.path.parent.name != src_id:
+        errors.append(
+            f"{src.path}: id '{src_id}' must match directory name '{src.path.parent.name}'"
+        )
+    if src_id and not src.is_bundle and src.path.stem != src_id:
         errors.append(f"{src.path}: id '{src_id}' must match file name '{src.path.stem}'")
     if src.frontmatter.get("kind") != "skill":
         return errors
@@ -111,38 +119,7 @@ def lint_native_skill_spec(src: Source) -> list[str]:
 
 
 def lint_function_length(src: Source) -> list[str]:
-    errors: list[str] = []
-    for fence in PY_FENCE_RE.findall(src.body):
-        for match in PY_DEF_RE.finditer(fence):
-            body_len = _python_def_length(fence, match)
-            if body_len > MAX_FUNCTION_LINES:
-                errors.append(
-                    f"{src.path}: example function exceeds {MAX_FUNCTION_LINES} lines "
-                    f"({body_len} body lines)"
-                )
-    return errors
-
-
-def _python_def_length(fence: str, def_match: re.Match[str]) -> int:
-    """Count body lines until dedent or end of fence."""
-    indent = def_match.group(1)
-    after = fence[def_match.end() :]
-    lines = after.splitlines()
-    body_indent = indent + "    "
-    body_count = 0
-    seen_body = False
-    for line in lines[1:]:
-        if not line.strip():
-            if seen_body:
-                continue
-            else:
-                continue
-        if line.startswith(body_indent):
-            body_count += 1
-            seen_body = True
-        elif seen_body and not line.startswith(indent + " "):
-            break
-    return body_count
+    return def_length_errors(src.path, src.body)
 
 
 def lint_skills_catalog(sources: list[Source]) -> list[str]:
@@ -165,12 +142,13 @@ def lint_skills_catalog(sources: list[Source]) -> list[str]:
 
 
 def lint_cross_refs(src: Source, known_ids: set[str]) -> list[str]:
-    errors: list[str] = []
-    for match in SKILL_REF_RE.finditer(src.body):
-        ref = match.group(1)
-        if ref not in known_ids:
-            errors.append(f"{src.path}: unknown reference 'skill:{ref}'")
-    return errors
+    texts = [(src.path, src.body)] + [(a.path, a.content) for a in src.auxiliary]
+    return [
+        f"{path}: unknown reference 'skill:{m.group(1)}'"
+        for path, text in texts
+        for m in SKILL_REF_RE.finditer(text)
+        if m.group(1) not in known_ids
+    ]
 
 
 def lint_all(sources: Iterable[Source]) -> list[str]:
@@ -184,6 +162,8 @@ def lint_all(sources: Iterable[Source]) -> list[str]:
         errors.extend(lint_native_skill_spec(s))
         errors.extend(lint_examples(s))
         errors.extend(lint_function_length(s))
+        errors.extend(lint_bundle_kind(s))
+        errors.extend(lint_auxiliary(s))
         errors.extend(lint_cross_refs(s, known_ids))
         errors.extend(lint_static_skill_metadata(s, known_skill_ids))
     errors.extend(lint_skills_catalog(sources))

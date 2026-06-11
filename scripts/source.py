@@ -6,7 +6,7 @@ Pure functions only — no I/O side effects beyond `Path.read_text`.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +25,15 @@ class SourceError(ValueError):
 
 
 @dataclass(frozen=True)
+class AuxFile:
+    """A non-SKILL.md markdown file inside a skill bundle directory."""
+
+    path: Path
+    name: str
+    content: str
+
+
+@dataclass(frozen=True)
 class Source:
     """A loaded source file."""
 
@@ -33,6 +42,11 @@ class Source:
     body: str
     body_line_offset: int = 0
     raw_lines: tuple[str, ...] = field(default_factory=tuple)
+    auxiliary: tuple[AuxFile, ...] = ()
+
+    @property
+    def is_bundle(self) -> bool:
+        return self.path.name == "SKILL.md"
 
     @property
     def id(self) -> str:
@@ -123,10 +137,22 @@ def parse(path: Path) -> Source:
     return parse_text(path, path.read_text(encoding="utf-8"))
 
 
+def parse_bundle(dir_path: Path) -> Source:
+    """Parse a skill bundle: `SKILL.md` plus sibling `*.md` reference files."""
+    base = parse(dir_path / "SKILL.md")
+    siblings = sorted(p for p in dir_path.glob("*.md") if p.name != "SKILL.md")
+    aux = tuple(
+        AuxFile(path=p, name=p.name, content=p.read_text(encoding="utf-8")) for p in siblings
+    )
+    return replace(base, auxiliary=aux)
+
+
 def load_all(source_dir: Path) -> list[Source]:
-    """Load every `*.md` file under `source_dir`, sorted by (kind, id)."""
-    files = sorted(source_dir.rglob("*.md"))
-    sources = [parse(p) for p in files]
+    """Load every `*.md` under `source_dir`; dirs with `SKILL.md` are bundles."""
+    bundle_dirs = sorted({p.parent for p in source_dir.rglob("SKILL.md")})
+    bundle_files = {p for d in bundle_dirs for p in d.glob("*.md")}
+    flat = [p for p in sorted(source_dir.rglob("*.md")) if p not in bundle_files]
+    sources = [parse(p) for p in flat] + [parse_bundle(d) for d in bundle_dirs]
     return sorted(sources, key=lambda s: (s.kind, s.id))
 
 

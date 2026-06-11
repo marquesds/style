@@ -80,6 +80,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | password-hashing-storage | implementing user authentication; storing or verifying passwords; choosing a password hashing algorithm |
 | pipeline-saga-orchestration | designing a multi-step workflow that must survive deploys or partial failures; implementing a durable background job, saga, or compensating transaction |
 | pull-request-and-commit-style | writing a commit message or PR description; preparing a change for code review |
+| python-best-practices | writing or reviewing Python code; choosing Python idioms, data structures, type hints, or a concurrency model |
 | queue-topology-design | adding background jobs or workers; designing a message queue setup; choosing queue concurrency, dead-letter, or worker isolation |
 | rate-limiting-and-throttling | adding rate limiting to an endpoint or API; protecting a service from abuse, overuse, or noisy tenants |
 | refactoring | structural change without behavior change; legacy code without tests |

@@ -52,3 +52,10 @@ cases:
       - requirements-crushing
     do_not_load:
       - tdd
+
+  - id: python-idiom-choice
+    prompt: Should this Python service use a namedtuple, TypedDict, or dataclass for config records?
+    load:
+      - python-best-practices
+    do_not_load:
+      - sql-antipatterns

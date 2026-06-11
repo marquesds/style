@@ -16,8 +16,8 @@ from scripts.adapters.base import (
     AdapterReport,
     WriteOp,
     apply_op,
-    render_skill_markdown,
     replace_managed_section,
+    skill_bundle_ops,
     strip_managed_section,
     walk_managed_files,
 )
@@ -25,6 +25,14 @@ from scripts.source import Source
 
 SECTIONS = (("rule", "Rules"), ("skill", "Skills"), ("command", "Commands"))
 CODEX_AGENTS_SECTIONS = (("rule", "Rules"), ("command", "Commands"))
+AUX_NOT_INSTALLED_NOTE = "_Reference files are not installed for this agent; use the index above._"
+
+
+def _merged_entry(s: Source) -> list[str]:
+    parts = [f"### {s.title}", "", s.description, "", s.body.strip(), ""]
+    if s.auxiliary:
+        parts.extend([AUX_NOT_INSTALLED_NOTE, ""])
+    return parts
 
 
 def render_merged_agents_block(
@@ -37,15 +45,9 @@ def render_merged_agents_block(
         items = [s for s in sources if s.kind == kind]
         if not items:
             continue
-        parts.append(f"## {label}")
-        parts.append("")
+        parts.extend([f"## {label}", ""])
         for s in items:
-            parts.append(f"### {s.title}")
-            parts.append("")
-            parts.append(s.description)
-            parts.append("")
-            parts.append(s.body.strip())
-            parts.append("")
+            parts.extend(_merged_entry(s))
     return "\n".join(parts).rstrip() + "\n"
 
 
@@ -76,7 +78,8 @@ class CodexAdapter:
             return report
 
         for skill in [s for s in eligible if s.kind == "skill"]:
-            report.add(self._skill_op(skill, target_root))
+            for op in self._skill_ops(skill, target_root):
+                report.add(op)
 
         path = target_root / ".codex" / "AGENTS.md"
         existing = path.read_text(encoding="utf-8") if path.exists() else ""
@@ -92,11 +95,8 @@ class CodexAdapter:
                 apply_op(op)
         return report
 
-    def _skill_op(self, src: Source, target_root: Path) -> WriteOp:
-        return WriteOp(
-            path=target_root / ".agents" / "skills" / src.id / "SKILL.md",
-            content=render_skill_markdown(src),
-        )
+    def _skill_ops(self, src: Source, target_root: Path) -> list[WriteOp]:
+        return skill_bundle_ops(src, target_root / ".agents" / "skills" / src.id)
 
     def prune_all(self, target_root: Path, dry_run: bool) -> AdapterReport:
         report = AdapterReport(agent=self.name)

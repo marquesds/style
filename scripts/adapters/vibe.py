@@ -18,11 +18,37 @@ from scripts.adapters.base import (
     AdapterReport,
     WriteOp,
     apply_op,
+    render_aux_markdown,
     walk_managed_files,
 )
 from scripts.source import Source
 
 KIND_DIR = {"rule": "rules", "skill": "skills", "command": "commands"}
+
+
+def _vibe_markdown(s: Source) -> str:
+    return (
+        "---\n"
+        f"id: {s.id}\n"
+        f"kind: {s.kind}\n"
+        f"title: {s.title}\n"
+        "---\n\n"
+        f"{FILE_MARKER_HTML}\n\n"
+        f"# {s.title}\n\n"
+        f"{s.description}\n\n"
+        f"{s.body.strip()}\n"
+    )
+
+
+def _vibe_ops(s: Source, kind_dir: Path) -> list[WriteOp]:
+    if not s.is_bundle:
+        return [WriteOp(path=kind_dir / f"{s.id}.md", content=_vibe_markdown(s))]
+    bundle_dir = kind_dir / s.id
+    skill_op = WriteOp(path=bundle_dir / "SKILL.md", content=_vibe_markdown(s))
+    aux_ops = [
+        WriteOp(path=bundle_dir / a.name, content=render_aux_markdown(a)) for a in s.auxiliary
+    ]
+    return [skill_op, *aux_ops]
 
 
 class VibeAdapter:
@@ -43,19 +69,8 @@ class VibeAdapter:
             subdir = KIND_DIR.get(s.kind)
             if subdir is None:
                 continue
-            path = root / subdir / f"{s.id}.md"
-            content = (
-                "---\n"
-                f"id: {s.id}\n"
-                f"kind: {s.kind}\n"
-                f"title: {s.title}\n"
-                "---\n\n"
-                f"{FILE_MARKER_HTML}\n\n"
-                f"# {s.title}\n\n"
-                f"{s.description}\n\n"
-                f"{s.body.strip()}\n"
-            )
-            report.add(WriteOp(path=path, content=content))
+            for op in _vibe_ops(s, root / subdir):
+                report.add(op)
 
         if not dry_run:
             for op in report.ops:

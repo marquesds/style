@@ -12,6 +12,23 @@ This repo is my single source of truth that compiles into per-agent native files
 6. When adding a new skill, also add a row to `source/rules/skills-catalog.md` in the same commit. The lint guard (`lint_skills_catalog`) will fail the build if the catalog drifts.
 7. When changing routing wording (catalog entries, descriptions, `applies_when`, `do_not_use_when`), add or update cases in `source/evals/skill-routing.yml`. Each case lists a prompt with `load` and `do_not_load` skill ids. The linter validates that referenced ids exist; the file is a static fixture (no LLM is executed).
 
+## Multi-file skill bundles
+
+A skill that needs reference material beyond one file is a bundle: a directory
+`source/skills/<id>/` holding `SKILL.md` (the router, normal skill frontmatter and
+GOOD/BAD blocks) plus auxiliary `*.md` reference files alongside it. The skill `id`
+must match the directory name. Auxiliary files are plain markdown: no frontmatter,
+at most 200 lines each, python example defs at most 10 body lines, and lowercase
+hyphenated file stems. Cross-references (`skill:<id>`) inside auxiliary files are
+linted like any body.
+
+Native-skill agents (Claude, Cursor, Codex, OpenCode, Vibe) install the whole
+bundle directory. Merged-AGENTS agents (Goose, OpenClaw, Pi) only inline the
+`SKILL.md` body and append a note that reference files are not installed — keep the
+router body self-sufficient as an index. Renaming or deleting an auxiliary file
+leaves the old copy installed; run uninstall/prune and reinstall to clear stale
+files.
+
 ## Editing skills
 
 Prefer small bounded edits — add, delete, or replace a discrete block — over full rewrites. Skills are versioned artifacts; bounded patches make review and rollback cheap and keep cross-agent rendering predictable. Full rewrites are fine when a skill is genuinely off-spec, but they should be justified in the PR description.

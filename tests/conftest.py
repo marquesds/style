@@ -11,6 +11,60 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 
+AUX_SENTINEL = "py-bundle-aux-sentinel"
+
+
+def _write_bundle(root: Path) -> None:
+    """Multi-file skill bundle: SKILL.md plus one auxiliary reference file."""
+    bundle = root / "skills" / "py-bundle"
+    bundle.mkdir(parents=True)
+    (bundle / "SKILL.md").write_text(
+        dedent(
+            """\
+            ---
+            id: py-bundle
+            kind: skill
+            title: Py Bundle
+            description: >
+              Python idioms router with reference files.
+            applies_when:
+              - python idiom lookup
+            agents:
+              claude: { kind: skill }
+              cursor: { kind: skill, glob: "**/*.py" }
+              codex:  { section: skills }
+              goose:  { section: skills }
+              openclaw: { section: skills }
+              opencode: { kind: skill }
+              pi:       { section: skills }
+              vibe:   { kind: skill }
+            ---
+
+            # Py Bundle
+
+            Index: see data-model.md for data structures.
+
+            ## GOOD
+
+            ```python
+            x = [i for i in range(3)]
+            ```
+
+            ## BAD
+
+            ```python
+            y = list(map(lambda i: i, range(3)))
+            ```
+            """
+        ),
+        encoding="utf-8",
+    )
+    (bundle / "data-model.md").write_text(
+        f"# Data Model\n\n{AUX_SENTINEL}\n\nPlain markdown reference file.\n",
+        encoding="utf-8",
+    )
+
+
 @pytest.fixture
 def fake_source_dir(tmp_path: Path) -> Path:
     """Tiny source/ tree covering all three kinds and every agent."""
@@ -110,6 +164,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
         ),
         encoding="utf-8",
     )
+    _write_bundle(root)
     (root / "commands" / "tdd.md").write_text(
         dedent(
             """\

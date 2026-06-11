@@ -17,7 +17,7 @@ from scripts.adapters.base import (
     WriteOp,
     apply_op,
     render_command_markdown,
-    render_skill_markdown,
+    skill_bundle_ops,
     walk_managed_files,
 )
 from scripts.source import Source
@@ -41,7 +41,8 @@ class CursorAdapter:
             if s.kind == "rule":
                 report.add(self._mdc_op(s, root))
             elif s.kind == "skill":
-                report.add(self._skill_op(s, root))
+                for op in self._skill_ops(s, root):
+                    report.add(op)
             elif s.kind == "command":
                 report.add(self._command_op(s, root))
 
@@ -77,12 +78,10 @@ class CursorAdapter:
         content = "\n".join(fm_lines) + f"\n\n{FILE_MARKER_HTML}\n\n{src.body.lstrip()}"
         return WriteOp(path=path, content=content)
 
-    def _skill_op(self, src: Source, root: Path) -> WriteOp:
+    def _skill_ops(self, src: Source, root: Path) -> list[WriteOp]:
         agent_cfg = src.agents.get("cursor") or {}
-        return WriteOp(
-            path=root / "skills" / src.id / "SKILL.md",
-            content=render_skill_markdown(src, paths=agent_cfg.get("glob") or src.globs),
-        )
+        skill_dir = root / "skills" / src.id
+        return skill_bundle_ops(src, skill_dir, paths=agent_cfg.get("glob") or src.globs)
 
     def _command_op(self, src: Source, root: Path) -> WriteOp:
         return WriteOp(

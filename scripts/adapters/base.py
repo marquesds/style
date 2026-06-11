@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Protocol
 
-from scripts.source import Source
+from scripts.source import AuxFile, Source
 
 MARKER_ID = "style-harness"
 BEGIN_MARKER = f"<!-- BEGIN {MARKER_ID} -->"
@@ -110,6 +110,21 @@ def render_skill_markdown(src: Source, *, paths: str | None = None) -> str:
         frontmatter.append(f'paths: "{paths.replace(chr(34), chr(92) + chr(34))}"')
     frontmatter.append("---")
     return "\n".join(frontmatter) + f"\n\n{FILE_MARKER_HTML}\n{src.body.lstrip()}"
+
+
+def render_aux_markdown(aux: AuxFile) -> str:
+    """Render a bundle auxiliary file with the managed marker on the first line."""
+    return f"{FILE_MARKER_HTML}\n\n{aux.content.lstrip()}"
+
+
+def skill_bundle_ops(src: Source, skill_dir: Path, *, paths: str | None = None) -> list[WriteOp]:
+    """SKILL.md plus one WriteOp per auxiliary file in the bundle."""
+    skill_op = WriteOp(path=skill_dir / "SKILL.md", content=render_skill_markdown(src, paths=paths))
+    aux_ops = [
+        WriteOp(path=skill_dir / aux.name, content=render_aux_markdown(aux))
+        for aux in src.auxiliary
+    ]
+    return [skill_op, *aux_ops]
 
 
 def render_command_markdown(src: Source) -> str:
