@@ -11,3 +11,6 @@ build/
 *.egg-info/
 .DS_Store
 .style-cache/
+# Reserved scratch when this checkout itself is ~/.style. Scratch outside this
+# checkout is already outside its Git worktree.
+/specs/quint/

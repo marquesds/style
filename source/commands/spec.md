@@ -22,9 +22,12 @@ Phase: SPECIFY.
 
 Steps:
 
-1. State assumptions explicitly. Ask user to confirm or correct before continuing.
-2. Reframe vague asks as measurable success criteria.
-3. Fill the six-area template (Objective, Commands, Structure, Code Style, Testing Strategy, Boundaries).
-4. Stop. Wait for human confirmation before moving to PLAN.
+1. Follow skill:spec-driven-development's Behavioral Modeling Protocol with
+   `workflow=spec`: create and execute a fresh task-specific model, or record
+   explicit logical fallback when Quint is unavailable/broken.
+2. State assumptions explicitly. Ask user to confirm or correct before continuing.
+3. Reframe vague asks as measurable success criteria and behavioral traces.
+4. Fill the six-area template (Objective, Commands, Structure, Code Style, Testing Strategy, Boundaries).
+5. Stop. Wait for human confirmation before moving to PLAN.
 
 Output a `spec.md` block ready to paste into the project, plus a one-line summary of what remains open.

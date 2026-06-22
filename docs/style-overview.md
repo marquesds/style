@@ -25,6 +25,11 @@ in front of you.
   the smallest implementation that makes it pass, then refactor. Default shape is the
   Testing Trophy: thick integration tests on real seams, focused unit tests for pure
   logic, few end-to-end tests for critical journeys.
+- **Behavior modeled per invocation.** Every PR review, design/spec, test-design
+  task, and TDD cycle gets a fresh logical model of states, transitions,
+  accepted/forbidden traces, and invariants. If Quint is on `PATH`, agents also
+  create and execute a fresh scratch spec under ignored
+  `~/.style/specs/quint/`; missing/broken tooling is reported, never hidden.
 - **Bug-first debugging.** Reproduce the bug as a failing test before touching
   production code. The fix follows. The test stays as a regression guard.
 - **Changed-surface manual proof.** Before calling work done, manually exercise every

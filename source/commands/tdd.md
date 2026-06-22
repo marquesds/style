@@ -19,11 +19,13 @@ Use skill:tdd.
 
 Steps:
 
-1. State the behavior to add or change in one sentence.
-2. Write a failing test that pins exactly that behavior. Run the suite. Confirm RED with the actual error.
-3. Write the minimum implementation to pass. Run the suite. Confirm GREEN.
-4. Refactor. Tests stay green. No new behavior.
-5. Repeat for the next behavior, or finish.
+1. State and classify behavior Added/Removed/Changed/Unchanged.
+2. For this cycle, follow skill:spec-driven-development's Behavioral Modeling
+   Protocol with `workflow=tdd`; create/execute a fresh model or record fallback.
+3. Write a failing test from accepted/forbidden traces. Run suite. Confirm RED.
+4. Write minimum implementation. Run suite. Confirm GREEN.
+5. Refactor. Tests stay green. No new behavior.
+6. Repeat from step 1 with a new invocation, or finish.
 
 For each cycle, output the failing test diff, the implementation diff, and the suite output proving GREEN.
 

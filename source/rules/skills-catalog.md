@@ -51,7 +51,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | ci-pipeline-design | designing or improving a CI/CD pipeline; setting up or modifying GitHub Actions or CI configuration |
 | caveman | optional terse response style when the user explicitly asks for caveman mode or extreme brevity |
 | centralized-ui-components | building UI components; enforcing one catalog source before page use |
-| code-review-and-quality | reviewing a diff or PR across five axes |
+| code-review-and-quality | reviewing a diff or PR across six axes |
 | code-simplification | reducing complexity in tested code, one change at a time |
 | compile-time-feature-flags | making a dependency or integration optional at build time; shipping a minimal variant without heavy optional deps |
 | concurrency-correctness | writing or reviewing concurrent code; shared state; locks |
@@ -92,7 +92,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | secrets-never-in-repo | no credentials, tokens, or PEMs in VCS |
 | snapshot-testing | snapshot / golden-file tests; when to use and update |
 | source-driven-development | verify framework code against installed-version docs |
-| spec-driven-development | planning a non-trivial implementation before writing code; turning a vague ask into a concrete spec and task list |
+| spec-driven-development | creating or updating a design, technical specification, implementation plan, feature, module, or architectural decision |
 | sql-antipatterns | relational traps: jaywalking, EAV, naive trees, keyless entry |
 | sql-app-discipline | application-side SQL hygiene: pseudokeys, error handling, review, stored procs |
 | sql-foreign-keys | foreign key implementation mistakes: direction, types, lifecycle, operational |
@@ -103,7 +103,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | task-runner-conventions | Makefile / justfile conventions; standard task names |
 | tdd | implementing new features, functions, or modules; writing any new code; adding behavior to the codebase |
 | threat-modeling | designing a feature that crosses trust boundaries; security review before implementing auth, data handling, or external integrations |
-| test-design | deciding what tests to write and how many; choosing between unit and integration tests; picking test doubles or fakes for a module |
+| test-design | designing a test strategy; writing regression, contract, or behavior tests; choosing test levels or doubles |
 | twelve-factor-app | designing or auditing a cloud-native service for production readiness; configuring environment-based config, logging, or deployment |
 | unit-of-work-and-transactions | writing a use case that touches multiple repositories or needs an atomic DB transaction; designing event publishing alongside a DB write |
 | wide-events-and-cardinality | adding observability to a service; designing structured logging or metrics; setting up SLOs or alerting |

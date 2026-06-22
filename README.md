@@ -66,3 +66,9 @@ See `docs/contributing.md` and `AGENTS.md`.
 
 - Python 3.10+.
 - `pyyaml` (the installer will `pip install --user pyyaml` if it's missing).
+- Optional: [Quint](https://quint-lang.org/) on `PATH`. When present, every PR
+  review, design/spec, test-design task, and TDD cycle creates and executes a
+  fresh task-specific model under ignored `~/.style/specs/quint/`. Without it,
+  agents perform and record logical behavioral analysis instead. `/specs/quint/`
+  is reserved by this repo's `.gitignore` when checkout itself lives at
+  `~/.style`; scratch under a separate `~/.style` is outside this worktree.

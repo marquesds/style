@@ -3,10 +3,12 @@ id: test-design
 kind: skill
 title: Test Design
 description: >
-  What to test, how much, which doubles. Default Testing Trophy + fan-in-aware
-  rigor. Specs, boundaries, mutation, properties. Ties to TDD + architecture.
+  Design regression, contract, and behavior tests. Choose coverage, test level,
+  and doubles with Testing Trophy + fan-in-aware rigor.
 applies_when:
   - new test suite
+  - designing tests for behavior changes
+  - writing regression, contract, or behavior tests
   - weak assertions
   - choosing mocks
   - shrinking flaky or huge suites
@@ -24,6 +26,26 @@ agents:
 # Test Design
 
 Builds on [skill:tdd](source/skills/tdd.md). Shape code for seams via [skill:functional-core-imperative-shell](source/skills/functional-core-imperative-shell.md) + [skill:hexagonal-architecture](source/skills/hexagonal-architecture.md).
+
+## Behavioral Contract First
+
+Load skill:spec-driven-development and follow its Behavioral Modeling Protocol
+with `workflow=test` for every test-design or behavior-test invocation. Always
+write logical states, transitions, accepted traces, forbidden traces, and
+invariants. If Quint is found, create and execute a fresh `model.qnt`; no
+trivial/stateless exemption. Missing/broken Quint requires recorded fallback.
+
+Map model evidence into durable executable tests:
+
+- Accepted trace → positive test covering observable outcome and side effects.
+- Forbidden trace/counterexample → regression or negative test.
+- Invariant → property, integration contract, or focused example test.
+- Added/Removed/Changed behavior → new or updated test that fails on wrong side.
+- Unchanged behavior → characterization/contract test when regression risk exists.
+
+Record model scope and assumption gaps. Simulation does not prove code/model
+equivalence, and zero sampled witnesses do not prove impossibility. Humans
+choose whether behavior is intended; tests preserve that accepted decision.
 
 ## Coverage triad
 

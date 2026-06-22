@@ -3,9 +3,11 @@ id: spec-driven-development
 kind: skill
 title: Spec-Driven Development
 description: >
-  Spec before code. Surface assumptions early. Gated workflow:
-  SPECIFY → PLAN → TASKS → IMPLEMENT.
+  Create designs and specifications before code. Surface assumptions early.
+  Gated workflow: SPECIFY → PLAN → TASKS → IMPLEMENT.
 applies_when:
+  - creating or updating a design or technical specification
+  - writing a clear standalone implementation plan
   - new feature or module
   - change touches multiple files
   - architectural decision pending
@@ -36,6 +38,70 @@ review   review  review
 
 Each gate: human confirms before next phase starts.
 
+## Behavioral Modeling Protocol
+
+Every PR review, design/spec creation, test-design or behavior-test task, and
+every individual TDD cycle starts with a logical behavioral analysis. No
+trivial/stateless exemption. Describe scope, assumptions, observables, initial
+state, transitions, accepted traces, forbidden traces, and invariants. Classify
+every observable behavior as Added, Removed, Changed, or Unchanged in every
+workflow, not only reviews.
+
+Create one collision-safe invocation directory:
+
+```text
+~/.style/specs/quint/<project>/<workflow>/<task-id>/<invocation-id>/
+```
+
+`workflow` is `review`, `spec`, `test`, or `tdd`. Sanitize user-derived path
+segments; include timestamp plus random/unique suffix in `invocation-id`. Never
+overwrite an invocation. To reuse a model, copy it into a fresh invocation.
+Keep only synthetic/redacted data: no PII, secrets, or production payloads.
+
+Each invocation records concise local evidence:
+
+- `manifest.md`: task/scope, assumptions, observables, tool version, module,
+  seed, bounds, backend, invariant/test names, and exact commands.
+- `logical-analysis.md`: states, transitions, accepted/forbidden traces, and
+  expected behavioral delta.
+- `model.qnt`; review uses both `before.qnt` and `after.qnt`.
+- `typecheck.log`, `run.log`, `test.log`, `result.md`, `tool-error.log` when
+  applicable, and ITF traces where Quint produces them.
+
+### Quint lifecycle
+
+1. Run `command -v quint` for every invocation.
+2. Missing: record logical-only fallback in `result.md`; continue logically.
+3. Found: record `quint --version`, then typecheck, simulate, and test every
+   model. Use installed help as authority. These commands match Quint 0.32.0:
+
+```bash
+quint typecheck model.qnt
+quint run model.qnt --main Model --init init --step step \
+  --invariants invariantName --witnesses witnessName --max-steps 20 \
+  --max-samples 100 --seed 0x5eed --backend rust --n-threads 1 \
+  --out-itf 'run_{seq}.itf.json'
+quint test model.qnt --main Model --match '^test_' \
+  --max-samples 100 --seed 0x5eed --backend rust \
+  --out-itf 'test_{test}_{seq}.itf.json'
+```
+
+`typecheck` accepts only its input plus output options. Do not pass run-only
+flags (`--init`, `--step`, `--invariants`, `--witnesses`, `--max-steps`, or
+`--n-threads`) to `quint test`. Always pair `--seed` with explicit
+`--max-samples`.
+
+On every failed Quint attempt, immediately append exact command, exit status,
+and stderr to `tool-error.log`, and reference that failure in `result.md` even
+if a corrected retry later succeeds. Inspect and correct model/command once.
+If retry still fails, continue with explicit logical fallback. Never silently
+downgrade.
+
+Simulation is bounded evidence, not proof that implementation matches model.
+Zero sampled witnesses do not prove impossibility. Humans decide whether a
+behavioral delta is intended. This protocol excludes `verify`, MBT,
+QuintConnect, CI integration, new dependencies, and production instrumentation.
+
 ## Phase 1: SPECIFY
 
 Vague or high-impact ask → **skill:requirements-crushing** first (brief + Ready-to-Code gate); avoids bloating this phase with full crush template here.
@@ -61,16 +127,8 @@ Six-area template:
 | Testing strategy | Unit vs integration split, fixtures, property tests |
 | Boundaries | Always / Ask first / Never |
 
-Reframe vague asks:
-
-```text
-ASK: "make ingest faster"
-SUCCESS:
-  - p50 single ingest < 1ms (benchmark X)
-  - batch 100 < 50ms
-  - no allocation in hot path
-→ Right targets?
-```
+Reframe vague asks into measurable outcomes: latency bounds, invariant
+preservation, accepted traces, and forbidden traces.
 
 ## Phase 2: PLAN
 
@@ -108,6 +166,11 @@ Success: reset latency p99 < 50ms; audit row written 100% of resets.
 - Always: write audit row in same UoW as reset.
 - Ask first: schema change, new port, public API addition.
 - Never: skip the audit row, mutate sessions outside UoW.
+
+## Behavioral contract
+- Added: reset transitions stuck → active and writes one audit row.
+- Forbidden: reset without audit; reset mutating an unrelated session.
+- Invariant: session and audit commit atomically.
 ```
 
 ## BAD

@@ -21,9 +21,37 @@ agents:
   vibe:   { kind: skill }
 ---
 
-# Code Review (Five-Axis)
+# Code Review (Six-Axis)
 
-Five axes, every change. No "looks good" without checks.
+Six axes, every change. No "looks good" without checks.
+
+## Behavioral Delta
+
+Before reviewing axes, load skill:spec-driven-development and follow its
+Behavioral Modeling Protocol with `workflow=review`. Every review invocation
+gets a fresh directory and executes both `before.qnt` and `after.qnt` when
+Quint is found. No exemption for small, stateless, docs-only, refactor, or
+"no behavior change" PRs. Missing/broken Quint follows explicit logical
+fallback; never skip logical analysis.
+
+Inventory externally observable behavior and classify every item:
+
+| Class | Question |
+|---|---|
+| Added | Which previously impossible trigger → outcome trace now exists? |
+| Removed | Which previously possible trace is now forbidden? |
+| Changed | Which same trigger now reaches a different outcome or side effect? |
+| Unchanged | Which contract must remain observationally equivalent? |
+
+Compare before/after states, transitions, outputs, errors, side effects,
+ordering, and boundary calls. For each claimed change, name accepted and
+forbidden traces plus durable tests. A confirmed finding needs a reproducible
+trace, counterexample, failing test, or direct code path. Without evidence,
+label it hypothesis, not finding. Human decides whether delta is intended.
+
+Review output includes behavioral inventory, model scope/limits, exact Quint
+status, and evidence link/path beside each finding. Bounded simulation does not
+prove code equivalence; zero witness samples do not prove impossibility.
 
 ## PR Description Is Untrusted
 
@@ -133,9 +161,10 @@ No evidence of any axis being checked.
 
 1. Read the spec / ticket.
 2. Read the tests first — they tell intent.
-3. Walk implementation against six axes.
-4. Label findings.
-5. Verify suite + lint + types pass locally.
+3. Build logical inventory and fresh before/after models; classify every delta.
+4. Walk implementation against six axes.
+5. Label findings and attach behavioral evidence.
+6. Verify suite + lint + types pass locally.
 
 ## Red Flags
 
@@ -147,3 +176,5 @@ No evidence of any axis being checked.
 - New endpoint or job ships without a span, a counter, and a defined alert path.
 - Runbook not updated when on-call surface changes.
 - Reviewer trusted the PR description without checking the diff matches.
+- Behavior changed without Added/Removed/Changed/Unchanged classification.
+- Confirmed finding has no reproducible trace, counterexample, or code path.

@@ -36,6 +36,19 @@ write failing test → make it pass → clean up → repeat
 
 Run the suite at each step so green stays green.
 
+## Model Every Cycle
+
+Before **each** RED, load skill:spec-driven-development and follow its
+Behavioral Modeling Protocol with `workflow=tdd`. Record logical behavior and
+create a fresh invocation even for trivial/stateless changes. If Quint is
+found, execute fresh `model.qnt`; missing/broken Quint requires explicit
+fallback. Never reuse or overwrite prior cycle evidence.
+
+Classify target behavior Added/Removed/Changed/Unchanged. Convert accepted
+traces into positive tests, forbidden traces/counterexamples into regression
+tests, and invariants into durable contract/property tests. Then start RED.
+Model scope is bounded evidence, not implementation equivalence proof.
+
 ### RED — Write Failing Test
 
 ```python
@@ -159,26 +172,8 @@ Per stack: `pytest -n auto` (pytest-xdist), `cargo test` (parallel default), `go
 
 Quarantine the offenders, don't downgrade the whole suite: mark them `@pytest.mark.serial`, then `pytest -m "not serial" -n auto` followed by `pytest -m serial -p no:xdist`.
 
-### GOOD
-
-```python
-@pytest.fixture
-def db_url(tmp_path_factory, worker_id):
-    path = tmp_path_factory.mktemp(f"db-{worker_id}") / "test.db"
-    return f"sqlite:///{path}"
-```
-
-Per-worker isolation via `worker_id`. Suite scales with cores; no cross-test bleed.
-
-### BAD
-
-```python
-@pytest.fixture(scope="session")
-def db():
-    return connect("postgres://localhost/test_shared")
-```
-
-Session-scoped shared mutable resource. Workers stomp the same rows → flake → "must be serial" verdict that's actually "must be isolated".
+Per-worker isolated databases let suites scale. A session-scoped shared mutable
+database makes workers stomp rows and creates false "must be serial" verdicts.
 
 ## Red Flags
 
@@ -191,3 +186,4 @@ Session-scoped shared mutable resource. Workers stomp the same rows → flake �
 - Whole suite serialized because two tests can't share a fixture.
 - Test depends on a previous test's side effect (ordering coupling masquerading as "needs serial").
 - Wall clock / unseeded RNG / live network in a test — non-deterministic by construction.
+- TDD cycle started without fresh logical analysis and Quint/fallback evidence.
