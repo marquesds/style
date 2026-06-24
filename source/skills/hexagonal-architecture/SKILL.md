@@ -59,6 +59,10 @@ src/
     └── adapters/                  # concrete adapter impls (internal)
 ```
 
+Abstract skeleton above. For a **fully worked tree** — a `style` service with two
+features (`sessions`, `transcriptions`) side by side, each a complete hexagon — read
+`example-structure.md` (same directory) when this feels too sparse to copy from.
+
 ## Responsibilities (per feature)
 
 | Responsibility | What it does | Depends on |
