@@ -58,7 +58,9 @@ Implement `scripts/adapters/<agent>.py` with a class exposing `name: str` and `w
 
 ## Voice
 
-Source files use concise technical prose. Keep them short, but do not force caveman grammar. README, this file, `docs/style-overview.md`, and ADRs also use normal prose so contributors have one writing style across the repo.
+Source files use concise technical prose. Keep them short and use normal grammar
+where it improves clarity. README, this file, `docs/style-overview.md`, and ADRs
+use the same prose style so contributors have one writing style across the repo.
 
 ## ADRs
 

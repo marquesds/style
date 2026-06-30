@@ -19,6 +19,7 @@ from scripts.adapters.base import (
     WriteOp,
     apply_op,
     render_aux_markdown,
+    stale_managed_delete_ops,
     walk_managed_files,
 )
 from scripts.source import Source
@@ -70,6 +71,11 @@ class VibeAdapter:
             if subdir is None:
                 continue
             for op in _vibe_ops(s, root / subdir):
+                report.add(op)
+
+        keep = [op.path for op in report.ops]
+        for subdir in ("rules", "skills", "commands"):
+            for op in stale_managed_delete_ops(root / subdir, keep):
                 report.add(op)
 
         if not dry_run:

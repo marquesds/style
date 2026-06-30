@@ -11,7 +11,7 @@ Checks (fail closed):
 - Skill bundles: kind skill, id matches directory, aux files plain markdown
   (see scripts/lint_bundle.py).
 
-Caveman quality is NOT linted — that is a review concern.
+Prose quality is NOT linted — that is a review concern.
 """
 
 from __future__ import annotations

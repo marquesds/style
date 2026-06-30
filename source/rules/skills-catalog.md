@@ -49,7 +49,6 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | capacity-and-cost-engineering | sizing infrastructure for launch; planning capacity for peak load; setting up cost budgets or guardrails; running a load test |
 | canonical-reference-in-docstrings | documenting an algorithm, protocol, or formula |
 | ci-pipeline-design | designing or improving a CI/CD pipeline; setting up or modifying GitHub Actions or CI configuration |
-| caveman | optional terse response style when the user explicitly asks for caveman mode or extreme brevity |
 | centralized-ui-components | building UI components; enforcing one catalog source before page use |
 | code-review-and-quality | reviewing a diff or PR across six axes |
 | code-simplification | reducing complexity in tested code, one change at a time |

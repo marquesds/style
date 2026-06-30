@@ -8,6 +8,7 @@ from scripts.adapters.base import (
     WriteOp,
     apply_op,
     replace_managed_section,
+    stale_managed_delete_ops,
     strip_managed_section,
     walk_managed_files,
 )
@@ -38,6 +39,7 @@ __all__ = [
     "WriteOp",
     "apply_op",
     "replace_managed_section",
+    "stale_managed_delete_ops",
     "strip_managed_section",
     "walk_managed_files",
 ]

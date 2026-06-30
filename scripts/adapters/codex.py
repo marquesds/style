@@ -18,6 +18,7 @@ from scripts.adapters.base import (
     apply_op,
     replace_managed_section,
     skill_bundle_ops,
+    stale_managed_delete_ops,
     strip_managed_section,
     walk_managed_files,
 )
@@ -89,6 +90,10 @@ class CodexAdapter:
         report.add(WriteOp(path=path, content=merged))
 
         prune_merged_agents_md(target_root / "AGENTS.md", report)
+
+        keep = [op.path for op in report.ops]
+        for op in stale_managed_delete_ops(target_root / ".agents" / "skills", keep):
+            report.add(op)
 
         if not dry_run:
             for op in report.ops:

@@ -17,6 +17,7 @@ from scripts.adapters.base import (
     render_command_markdown,
     replace_managed_section,
     skill_bundle_ops,
+    stale_managed_delete_ops,
     strip_managed_section,
     walk_managed_files,
 )
@@ -47,6 +48,11 @@ class ClaudeAdapter:
         rules = [s for s in sources if s.kind == "rule" and "claude" in s.agents]
         if rules:
             report.add(self._claude_md_op(rules, root))
+
+        keep = [op.path for op in report.ops]
+        for directory in (root / "skills", root / "commands"):
+            for op in stale_managed_delete_ops(directory, keep):
+                report.add(op)
 
         if not dry_run:
             for op in report.ops:

@@ -2,7 +2,7 @@
 
 Date: 2026-05-19
 
-Status: Accepted
+Status: Superseded by [ADR-0013](0013-remove-optional-response-skill.md)
 
 Supersedes: [ADR-0003](0003-caveman-voice-for-rules.md)
 
