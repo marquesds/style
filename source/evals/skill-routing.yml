@@ -27,8 +27,6 @@ cases:
     load:
       - data-privacy-and-retention
       - threat-modeling
-    do_not_load:
-      - caveman
 
   - id: slow-query
     prompt: This LEFT JOIN on orders is taking 3s; suggest indexes.

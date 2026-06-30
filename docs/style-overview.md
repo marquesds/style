@@ -83,10 +83,7 @@ in front of you.
 ## Why concise prose
 
 Once an agent has the practices in context, every extra token of preamble costs
-money and adds noise. The harness still removes filler, hedging, and throat-clearing,
-but it no longer requires full caveman grammar. Concise normal prose keeps the token
-budget low while preserving sequence, danger, and ownership where those details
-matter.
+money and adds noise. The harness removes filler, hedging, and throat-clearing
+while keeping normal grammar where sequence, danger, and ownership matter.
 
-See `docs/adr/0012-concise-technical-prose-for-agent-sources.md` for the current
-decision. ADR-0003 records the earlier caveman default.
+See `docs/adr/0013-remove-optional-response-skill.md` for the current decision.

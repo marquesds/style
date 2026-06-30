@@ -6,7 +6,7 @@ Pure functions for content transformation; only `apply_op` performs I/O.
 from __future__ import annotations
 
 import contextlib
-from collections.abc import Iterator
+from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Protocol
@@ -145,3 +145,13 @@ def walk_managed_files(directory: Path) -> Iterator[Path]:
                 yield path
         except OSError:
             continue
+
+
+def stale_managed_delete_ops(directory: Path, keep_paths: Iterable[Path]) -> list[WriteOp]:
+    """Delete managed files under `directory` that current install no longer writes."""
+    keep = set(keep_paths)
+    return [
+        WriteOp(path=path, content="", action="delete")
+        for path in walk_managed_files(directory)
+        if path not in keep
+    ]

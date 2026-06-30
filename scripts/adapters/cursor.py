@@ -18,6 +18,7 @@ from scripts.adapters.base import (
     apply_op,
     render_command_markdown,
     skill_bundle_ops,
+    stale_managed_delete_ops,
     walk_managed_files,
 )
 from scripts.source import Source
@@ -45,6 +46,11 @@ class CursorAdapter:
                     report.add(op)
             elif s.kind == "command":
                 report.add(self._command_op(s, root))
+
+        keep = [op.path for op in report.ops]
+        for directory in (root / "rules", root / "skills", root / "commands"):
+            for op in stale_managed_delete_ops(directory, keep):
+                report.add(op)
 
         if not dry_run:
             for op in report.ops:

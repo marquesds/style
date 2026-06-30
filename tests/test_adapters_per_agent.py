@@ -2,9 +2,31 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from scripts.adapters import ADAPTERS
-from scripts.adapters.base import BEGIN_MARKER, END_MARKER
+from scripts.adapters.base import BEGIN_MARKER, END_MARKER, FILE_MARKER_HTML
 from scripts.source import load_all
+
+STALE_SKILL_PATHS = [
+    ("claude", ".claude/skills/caveman/SKILL.md"),
+    ("codex", ".agents/skills/caveman/SKILL.md"),
+    ("cursor", ".cursor/skills/caveman/SKILL.md"),
+    ("opencode", ".config/opencode/skills/caveman/SKILL.md"),
+    ("vibe", ".vibe/skills/caveman.md"),
+]
+
+
+@pytest.mark.parametrize(("agent_name", "rel_path"), STALE_SKILL_PATHS)
+def test_install_deletes_obsolete_managed_skill(
+    agent_name: str, rel_path: str, fake_source_dir: Path, tmp_path: Path
+) -> None:
+    out = tmp_path / "out"
+    stale = out / rel_path
+    stale.parent.mkdir(parents=True)
+    stale.write_text(f"{FILE_MARKER_HTML}\nold skill\n", encoding="utf-8")
+    ADAPTERS[agent_name].write_all(load_all(fake_source_dir), target_root=out, dry_run=False)
+    assert not stale.exists()
 
 
 def test_claude_writes_skill_dir(fake_source_dir: Path, tmp_path: Path) -> None:
