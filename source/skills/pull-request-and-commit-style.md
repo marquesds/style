@@ -174,7 +174,6 @@ Why paraphrases the PR title with a verb. No victim, no metric. Bounce.
 - [ ] Self-review against five axes (skill:code-review-and-quality).
 - [ ] Definition of Done walked (skill:definition-of-done).
 - [ ] Commit messages tell the story; no `wip` / `fix typo` mixed in.
-- [ ] AI assistance disclosed if applicable (skill:ai-contribution-disclosure).
 - [ ] Blind-mode work discloses unanswered questions and assumed answers.
 
 ## Red Flags

@@ -39,7 +39,6 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | accessibility-and-inclusive-ui | building or reviewing a frontend UI; adding a form, modal, or interactive widget; auditing keyboard or screen-reader support |
 | agents-md-checklists | authoring an AGENTS.md file for a project |
 | ai-collaboration-hygiene | reviewing AI-generated code before merging; deciding what to delegate to AI; setting AI contribution policy |
-| ai-contribution-disclosure | disclosing AI-generated content in docs or PRs |
 | api-and-interface-design | designing or changing a public interface, port, or API |
 | architecture-haiku | very short architectural description needed |
 | bindings-as-thin-wrappers | writing FFI or language bindings to a native library |
