@@ -51,6 +51,13 @@ cases:
     do_not_load:
       - tdd
 
+  - id: clarify-before-coding
+    prompt: Before coding this billing export, ask me the questions you need answered.
+    load:
+      - requirements-crushing
+    do_not_load:
+      - tdd
+
   - id: python-idiom-choice
     prompt: Should this Python service use a namedtuple, TypedDict, or dataclass for config records?
     load:

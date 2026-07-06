@@ -5,10 +5,12 @@ title: Requirements Crushing
 description: >
   Coding last. Crush ticket into crisp brief; brief leads with Why; gate on
   Ready-to-Code. Use before every implementation task; hard-stop on unanswered
-  questions unless the human writes blind mode.
+  questions by asking the next blocking question unless the human writes blind
+  mode.
 applies_when:
   - starting any implementation task before writing code
   - open questions block Ready-to-Code
+  - user asks to grill, refine, or clarify requirements before coding
   - user invokes blind mode after unanswered questions
 agents:
   claude: { kind: skill }
@@ -37,7 +39,8 @@ in **rule:agent-workflow** (trade-offs, downside, opportunity cost).
 
 ## Required Output
 
-Emit **Requirements Crushing Brief**. Paste template once; fill compact.
+Emit **Requirements Crushing Brief**. Paste template once; fill compact. When
+`Ready-to-Code` is **NO**, end with `NEXT QUESTION` and stop.
 
 ```text
 REQUIREMENTS CRUSHING BRIEF
@@ -52,6 +55,7 @@ REQUIREMENTS CRUSHING BRIEF
 8. Edge cases:
 9. Implementation walkthrough (outline only, no code):
 10. Ready-to-Code: YES | NO
+NEXT QUESTION: <one blocking question + recommended answer>
 ```
 
 The **Why** field is the gate, not decoration. Sections 4–9 explain *how* and
@@ -85,7 +89,8 @@ Unknown source → state gap + **risk if wrong**.
 ## Rule
 
 **No code** until `Ready-to-Code: YES`. If Section 5 has unanswered questions,
-stop and do nothing else until the human answers.
+ask the next blocking question in `NEXT QUESTION`, then stop and do nothing else
+until the human answers.
 
 Do not scaffold, edit the "safe parts", or proceed on silent assumptions. The
 only override is the human writing **`blind mode`** after the gaps are listed.
@@ -107,19 +112,23 @@ Crush the Why first. Sections 4–9 are wasted effort on top of a blurry purpose
 
 ## Grill the Open Questions
 
-Section 5 is not a wishlist — empty it before the gate flips. Interview the
-human about every unresolved branch until understanding is shared.
+Section 5 is not a parking lot — it is the interview queue. Empty it before the
+gate flips. Interview the human about every unresolved branch until
+understanding is shared.
 
-- One question at a time. Batched questionnaires get skimmed; serial answers
-  expose dependencies between decisions.
+- Ask one blocking question per turn in `NEXT QUESTION`. It must be the final
+  line of the response.
+- Do not dump a questionnaire and proceed. Batched questions get skimmed;
+  serial answers expose dependencies between decisions.
 - Walk the decision tree. Resolve the branch a later question depends on first.
-- Recommend an answer per question. A bare question offloads thinking; a
+- Recommend one answer in the question. A bare question offloads thinking; a
   recommendation moves the decision forward and surfaces disagreement fast.
 - Explore the codebase instead of asking when the answer lives there. Asking
   a human what the code already states is a red flag (rule:agent-workflow).
 
-`Ready-to-Code` stays **NO** while any grilled branch is open. After asking,
-end the turn and wait unless the human answers or writes `blind mode`.
+`Ready-to-Code` stays **NO** while any grilled branch is open. The next agent
+turn updates the brief from the human answer, asks the next blocking question if
+one remains, or flips to **YES**.
 
 ## Blind Mode
 
