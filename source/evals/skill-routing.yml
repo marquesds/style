@@ -58,6 +58,21 @@ cases:
     do_not_load:
       - tdd
 
+  - id: adr-for-service-split
+    prompt: Write an ADR for moving the WebSocket runtime out of the monolith into a dedicated service.
+    load:
+      - adr-writing
+      - context-gathering
+      - requirements-crushing
+    do_not_load:
+      - bug-first-debugging
+
+  - id: gather-context-before-asking
+    prompt: Before I ask the team about the retry policy, what context should I gather?
+    load:
+      - context-gathering
+    do_not_load:
+      - tdd
   - id: python-idiom-choice
     prompt: Should this Python service use a namedtuple, TypedDict, or dataclass for config records?
     load:

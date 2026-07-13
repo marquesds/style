@@ -37,6 +37,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | Skill ID | Load when |
 |----------|-----------|
 | accessibility-and-inclusive-ui | building or reviewing a frontend UI; adding a form, modal, or interactive widget; auditing keyboard or screen-reader support |
+| adr-writing | creating or updating ADRs for architecture decisions using the SMART + STAR ADR format; load context-gathering and requirements-crushing first |
 | agents-md-checklists | authoring an AGENTS.md file for a project |
 | ai-collaboration-hygiene | reviewing AI-generated code before merging; deciding what to delegate to AI; setting AI contribution policy |
 | api-and-interface-design | designing or changing a public interface, port, or API |
@@ -51,6 +52,7 @@ guidance intact. Exception: skills whose topic is the language or format itself
 | centralized-ui-components | building UI components; enforcing one catalog source before page use |
 | code-review-and-quality | reviewing a diff or PR across six axes |
 | code-simplification | reducing complexity in tested code, one change at a time |
+| context-gathering | gathering project context before requirements work; checking Linear, Datadog, Notion, Slack, docs, and repo history when available |
 | compile-time-feature-flags | making a dependency or integration optional at build time; shipping a minimal variant without heavy optional deps |
 | concurrency-correctness | writing or reviewing concurrent code; shared state; locks |
 | data-privacy-and-retention | handling PII, retention limits, or right-to-erasure |
