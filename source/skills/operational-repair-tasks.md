@@ -2,11 +2,7 @@
 id: operational-repair-tasks
 kind: skill
 title: Operational Repair Tasks
-description: >
-  Named idempotent CLI tasks for post-deploy repair without DB surgery.
-  Three archetypes: reanalyze (replay analysis), refresh (rebuild from
-  snapshots), crossref (recompute relationships). Each idempotent, safe to
-  rerun, documented with when-to-use guidance.
+description: "Named idempotent CLI tasks for post-deploy repair without DB surgery. Three archetypes: reanalyze (replay analysis), refresh (rebuild from snapshots), crossref (recompute relationships). Each idempotent, safe to rerun, documented with when-to-use guidance."
 applies_when:
   - post-deploy data repair needed
   - logic changed and historical records need reprocessing

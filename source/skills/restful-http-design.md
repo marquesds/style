@@ -2,9 +2,7 @@
 id: restful-http-design
 kind: skill
 title: RESTful HTTP Design
-description: >
-  Nouns not verbs. URL versioning. RFC 7807 errors. Cursor pagination.
-  ETags + conditional requests. Idempotency keys for non-idempotent POSTs.
+description: "Nouns not verbs. URL versioning. RFC 7807 errors. Cursor pagination. ETags + conditional requests. Idempotency keys for non-idempotent POSTs."
 applies_when:
   - new HTTP endpoint
   - new HTTP API

@@ -20,6 +20,7 @@ from scripts.adapters.base import (
     stale_managed_delete_ops,
     strip_managed_section,
     walk_managed_files,
+    yaml_quoted,
 )
 from scripts.source import Source
 
@@ -82,10 +83,9 @@ class OpenCodeAdapter:
 
     def _command_op(self, src: Source, root: Path) -> WriteOp:
         path = root / "commands" / f"{src.id}.md"
-        desc_folded = src.description.replace(chr(10), chr(10) + "  ")
         content = (
             "---\n"
-            f"description: >\n  {desc_folded}\n"
+            f"description: {yaml_quoted(src.description)}\n"
             "---\n\n"
             f"{FILE_MARKER_HTML}\n\n"
             f"# /{src.id}\n\n"

@@ -25,8 +25,7 @@ def _write_bundle(root: Path) -> None:
             id: py-bundle
             kind: skill
             title: Py Bundle
-            description: >
-              Python idioms router with reference files.
+            description: "Python idioms router with reference files."
             applies_when:
               - python idiom lookup
             agents:
@@ -80,8 +79,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
             id: code-quality
             kind: rule
             title: Code Quality
-            description: >
-              Max 200 lines per file. Max 10 lines per function.
+            description: "Production code: max 200 lines. Docs and tests are exempt."
             applies_when:
               - any source change
             always_apply: true
@@ -128,8 +126,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
             id: tdd
             kind: skill
             title: TDD
-            description: >
-              Test fail first. Code second.
+            description: "Test fail first. Code second."
             applies_when:
               - new logic
             agents:
@@ -172,8 +169,7 @@ def fake_source_dir(tmp_path: Path) -> Path:
             id: tdd
             kind: command
             title: Start TDD cycle
-            description: >
-              Kick off RED-GREEN-REFACTOR for the current target.
+            description: "Kick off RED-GREEN-REFACTOR for the current target."
             agents:
               claude: { kind: command }
               cursor: { kind: command }

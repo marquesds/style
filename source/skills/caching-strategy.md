@@ -2,10 +2,7 @@
 id: caching-strategy
 kind: skill
 title: Caching Strategy
-description: >
-  Cache-aside vs write-through vs write-behind per surface. Key completeness.
-  TTL discipline with jitter. Singleflight for hot keys. Negative caching.
-  Event-driven invalidation via outbox. HTTP caching lives in restful-http-design.
+description: "Cache-aside vs write-through vs write-behind per surface. Key completeness. TTL discipline with jitter. Singleflight for hot keys. Negative caching. Event-driven invalidation via outbox. HTTP caching lives in restful-http-design."
 applies_when:
   - adding a cache layer to a hot read path
   - investigating stale-data or cache-poisoning bugs

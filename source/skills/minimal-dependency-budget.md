@@ -2,9 +2,7 @@
 id: minimal-dependency-budget
 kind: skill
 title: Minimal Dependency Budget
-description: >
-  Each dependency is a tax. Justify against stdlib + transitive footprint before
-  adding. Prefer compact API over many features. Audit and remove when replaceable.
+description: "Each dependency is a tax. Justify against stdlib + transitive footprint before adding. Prefer compact API over many features. Audit and remove when replaceable."
 applies_when:
   - adding a new dependency
   - choosing between two libraries

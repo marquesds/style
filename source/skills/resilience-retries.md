@@ -2,10 +2,7 @@
 id: resilience-retries
 kind: skill
 title: Resilience — Retries, Idempotency, Breakers
-description: >
-  Retries only with idempotency or dedupe. Capped exponential backoff + jitter.
-  Circuit breaker when downstream is unhealthy. Observability on attempts and
-  breaker state.
+description: "Retries only with idempotency or dedupe. Capped exponential backoff + jitter. Circuit breaker when downstream is unhealthy. Observability on attempts and breaker state."
 applies_when:
   - outbound HTTP or RPC with failures
   - worker retries or pollers

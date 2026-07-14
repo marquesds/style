@@ -2,9 +2,7 @@
 id: n-plus-one-prevention
 kind: skill
 title: N+1 Prevention
-description: >
-  Detect and eliminate N+1 query patterns. Eager-load, batch, or DataLoader.
-  Perf budget enforced at review time.
+description: "Detect and eliminate N+1 query patterns. Eager-load, batch, or DataLoader. Perf budget enforced at review time."
 applies_when:
   - listing endpoint
   - serializing nested objects

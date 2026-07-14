@@ -2,10 +2,7 @@
 id: wide-events-and-cardinality
 kind: skill
 title: Wide Events + Cardinality
-description: >
-  One wide structured event per request. High cardinality on event fields is a
-  feature; high cardinality on metric labels is expensive. SLOs from event counts.
-  Tail-based sampling for slow or failing traces.
+description: "One wide structured event per request. High cardinality on event fields is a feature; high cardinality on metric labels is expensive. SLOs from event counts. Tail-based sampling for slow or failing traces."
 applies_when:
   - designing instrumentation for a new service
   - debugging unknown unknowns in production

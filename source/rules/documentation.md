@@ -2,9 +2,7 @@
 id: documentation
 kind: rule
 title: Documentation
-description: >
-  Document only user-facing surfaces (HTTP, CLI, public libs) and ADRs.
-  Never narrate obvious code. Stale docs worse than no docs.
+description: "Document only user-facing surfaces (HTTP, CLI, public libs) and ADRs. Never narrate obvious code. Stale docs worse than no docs."
 applies_when:
   - any public API change
   - any architectural decision

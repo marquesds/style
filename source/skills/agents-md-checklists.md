@@ -2,10 +2,7 @@
 id: agents-md-checklists
 kind: skill
 title: AGENTS.md Checklists
-description: >
-  Explicit ordered checklists per change type in AGENTS.md. Agents run them without
-  prompting. Four kinds: after any code change, after a new feature, before a PR,
-  after a bug fix.
+description: "Explicit ordered checklists per change type in AGENTS.md. Agents run them without prompting. Four kinds: after any code change, after a new feature, before a PR, after a bug fix."
 applies_when:
   - writing or reviewing AGENTS.md / CLAUDE.md
   - onboarding a new agent to a repo

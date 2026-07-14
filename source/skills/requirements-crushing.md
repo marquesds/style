@@ -2,11 +2,7 @@
 id: requirements-crushing
 kind: skill
 title: Requirements Crushing
-description: >
-  Coding last. Crush ticket into crisp brief; brief leads with Why; gate on
-  Ready-to-Code. Use before every implementation task; hard-stop on unanswered
-  questions by asking the next blocking question unless the human writes blind
-  mode.
+description: "Coding last. Crush ticket into crisp brief; brief leads with Why; gate on Ready-to-Code. Use before every implementation task; hard-stop on unanswered questions by asking the next blocking question unless the human writes blind mode."
 applies_when:
   - starting any implementation task before writing code
   - open questions block Ready-to-Code

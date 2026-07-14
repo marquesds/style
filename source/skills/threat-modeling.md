@@ -2,10 +2,7 @@
 id: threat-modeling
 kind: skill
 title: Threat Modeling
-description: >
-  Map trust boundaries and walk STRIDE before code exists. Abuse cases alongside
-  use cases. Mitigations recorded in ADRs. Lightweight DFD for the surface.
-  Distinct from owasp-top-ten (post-hoc map) and defensive-programming (runtime).
+description: "Map trust boundaries and walk STRIDE before code exists. Abuse cases alongside use cases. Mitigations recorded in ADRs. Lightweight DFD for the surface. Distinct from owasp-top-ten (post-hoc map) and defensive-programming (runtime)."
 applies_when:
   - new feature with external-facing surface
   - cross-service or cross-tenant boundary

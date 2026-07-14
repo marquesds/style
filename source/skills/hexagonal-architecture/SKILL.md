@@ -2,10 +2,7 @@
 id: hexagonal-architecture
 kind: skill
 title: Package by Feature with Lightweight Hexagon
-description: >
-  Slice top-level packages by feature, not by technical layer. Each
-  feature is a small hexagon (domain, ports, adapters, application) and
-  exposes only its behavior through a facade — not its internals.
+description: "Slice top-level packages by feature, not by technical layer. Each feature is a small hexagon (domain, ports, adapters, application) and exposes only its behavior through a facade — not its internals."
 applies_when:
   - new module
   - new service

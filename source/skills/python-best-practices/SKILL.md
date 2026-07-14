@@ -2,11 +2,7 @@
 id: python-best-practices
 kind: skill
 title: Python Best Practices
-description: >
-  Idiomatic Python best practices. Router skill: index of per-topic reference
-  files — data model, sequences, dicts, dataclasses, mutability, functions,
-  type hints, decorators, protocols, iterators, concurrency, metaprogramming.
-  Load only the matching file.
+description: "Idiomatic Python best practices. Router skill: index of per-topic reference files — data model, sequences, dicts, dataclasses, mutability, functions, type hints, decorators, protocols, iterators, concurrency, metaprogramming. Load only the matching file."
 applies_when:
   - writing or reviewing Python code
   - choosing a Python data structure or idiom

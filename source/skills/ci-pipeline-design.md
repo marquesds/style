@@ -2,10 +2,7 @@
 id: ci-pipeline-design
 kind: skill
 title: CI Pipeline Design
-description: >
-  Fail-fast ordering: lint → types → unit → integration → smoke. Matrix discipline.
-  Cache hygiene. Stage segregation by branch. Secrets via vault. One paved path per
-  repo. Cross-refs: task-runner-conventions, definition-of-done, secrets-never-in-repo.
+description: "Fail-fast ordering: lint → types → unit → integration → smoke. Matrix discipline. Cache hygiene. Stage segregation by branch. Secrets via vault. One paved path per repo. Cross-refs: task-runner-conventions, definition-of-done, secrets-never-in-repo."
 applies_when:
   - new CI workflow or pipeline change
   - adding a test stage or deployment step

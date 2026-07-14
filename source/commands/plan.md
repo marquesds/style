@@ -2,8 +2,7 @@
 id: plan
 kind: command
 title: Force plan mode
-description: >
-  Switch to plan mode. Map the change surface before any edit.
+description: "Switch to plan mode. Map the change surface before any edit."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

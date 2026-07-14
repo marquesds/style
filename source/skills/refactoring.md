@@ -2,10 +2,7 @@
 id: refactoring
 kind: skill
 title: Refactoring
-description: >
-  Behavior-preserving structural change. Fowler's discipline when tests exist;
-  Feathers' Legacy Code Algorithm when they don't. Named transformations catalog.
-  Two hats: never mix refactoring with feature work.
+description: "Behavior-preserving structural change. Fowler's discipline when tests exist; Feathers' Legacy Code Algorithm when they don't. Named transformations catalog. Two hats: never mix refactoring with feature work."
 applies_when:
   - structural change without behavior change
   - extracting, inlining, or moving code

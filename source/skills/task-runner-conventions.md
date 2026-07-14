@@ -2,10 +2,7 @@
 id: task-runner-conventions
 kind: skill
 title: Task Runner Conventions
-description: >
-  Single canonical task file per repo. Short stable verbs (serve, test, check, fmt).
-  AGENTS.md references task verbs, not raw commands. Task file is the entry point
-  for agents and new developers alike.
+description: "Single canonical task file per repo. Short stable verbs (serve, test, check, fmt). AGENTS.md references task verbs, not raw commands. Task file is the entry point for agents and new developers alike."
 applies_when:
   - setting up a new repo or project
   - writing AGENTS.md or CLAUDE.md instructions

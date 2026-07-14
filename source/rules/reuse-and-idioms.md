@@ -2,10 +2,7 @@
 id: reuse-and-idioms
 kind: rule
 title: Reuse and Idioms
-description: >
-  Search repo, stdlib, ecosystem before new implementation. Prefer maintained
-  solution over bespoke reimplementation. Write idiomatic code per language;
-  verify APIs from docs for installed version.
+description: "Search repo, stdlib, ecosystem before new implementation. Prefer maintained solution over bespoke reimplementation. Write idiomatic code per language; verify APIs from docs for installed version."
 applies_when:
   - new helper or utility
   - nontrivial parsing, dates, paths, retries, serialization

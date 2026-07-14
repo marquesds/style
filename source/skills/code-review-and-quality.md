@@ -2,9 +2,7 @@
 id: code-review-and-quality
 kind: skill
 title: Code Review (Six-Axis)
-description: >
-  Multi-axis review before merge: correctness, readability, architecture,
-  security, performance, operability. Severity labels keep signal clear.
+description: "Multi-axis review before merge: correctness, readability, architecture, security, performance, operability. Severity labels keep signal clear."
 applies_when:
   - reviewing a PR
   - self-review before push

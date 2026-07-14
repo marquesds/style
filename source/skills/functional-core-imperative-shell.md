@@ -2,9 +2,7 @@
 id: functional-core-imperative-shell
 kind: skill
 title: Functional Core / Imperative Shell
-description: >
-  Pure logic in the core. I/O at the boundary. Effects postponed to last stage.
-  Tests run fast and deterministic.
+description: "Pure logic in the core. I/O at the boundary. Effects postponed to last stage. Tests run fast and deterministic."
 applies_when:
   - any new module with logic and I/O
   - mixing computation with side effects

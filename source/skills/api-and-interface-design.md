@@ -2,9 +2,7 @@
 id: api-and-interface-design
 kind: skill
 title: API + Interface Design
-description: >
-  Stable, hard-to-misuse interfaces. Contract first. Validate at boundaries.
-  Addition over modification. Hyrum's Law respected.
+description: "Stable, hard-to-misuse interfaces. Contract first. Validate at boundaries. Addition over modification. Hyrum's Law respected."
 applies_when:
   - new public function or module
   - new port / Protocol / interface / trait

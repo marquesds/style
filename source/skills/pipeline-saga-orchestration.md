@@ -2,10 +2,7 @@
 id: pipeline-saga-orchestration
 kind: skill
 title: Pipeline Saga Orchestration
-description: >
-  Multi-step jobs that survive deploys. One step = one persisted record with
-  lifecycle. Claim under lock, idempotent re-run, stale-step reaper, max-step
-  budget. Distinct from a single-use-case UoW or a single-call retry.
+description: "Multi-step jobs that survive deploys. One step = one persisted record with lifecycle. Claim under lock, idempotent re-run, stale-step reaper, max-step budget. Distinct from a single-use-case UoW or a single-call retry."
 applies_when:
   - long-running jobs that span requests or deploys
   - multi-step processing pipeline

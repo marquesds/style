@@ -36,6 +36,7 @@ def test_claude_writes_skill_dir(fake_source_dir: Path, tmp_path: Path) -> None:
     assert skill.exists()
     text = skill.read_text(encoding="utf-8")
     assert text.startswith("---\nname: tdd\n")
+    assert 'description: "Test fail first. Code second. Use when: new logic."' in text
     assert "Use when: new logic." in text
     assert "paths:" not in text
     assert "RED then GREEN" in text
@@ -48,7 +49,7 @@ def test_cursor_writes_mdc(fake_source_dir: Path, tmp_path: Path) -> None:
     assert mdc.exists()
     head = mdc.read_text(encoding="utf-8").splitlines()[:6]
     assert head[0] == "---"
-    assert any(line.startswith("description: ") for line in head)
+    assert 'description: "Production code: max 200 lines. Docs and tests are exempt."' in head
     assert any("alwaysApply: true" in line for line in head)
 
 
@@ -59,6 +60,7 @@ def test_cursor_writes_skill_dir(fake_source_dir: Path, tmp_path: Path) -> None:
     assert skill.exists()
     text = skill.read_text(encoding="utf-8")
     assert text.startswith("---\nname: tdd\n")
+    assert 'description: "Test fail first. Code second. Use when: new logic."' in text
     assert 'paths: "**/*.py"' in text
     assert "Use when: new logic." in text
     assert "RED then GREEN" in text
@@ -92,6 +94,7 @@ def test_codex_writes_agents_md_and_native_skills(
     assert skill.exists()
     skill_text = skill.read_text(encoding="utf-8")
     assert skill_text.startswith("---\nname: tdd\n")
+    assert 'description: "Test fail first. Code second. Use when: new logic."' in skill_text
     assert "Use when: new logic." in skill_text
     assert "paths:" not in skill_text
 
@@ -132,7 +135,8 @@ def test_opencode_writes_layout(fake_source_dir: Path, tmp_path: Path) -> None:
     assert skill.exists()
     assert skill.read_text(encoding="utf-8").startswith("---\nname: tdd\n")
     cmd = out / ".config" / "opencode" / "commands" / "tdd.md"
-    assert "---\ndescription: >\n" in cmd.read_text(encoding="utf-8")
+    cmd_text = cmd.read_text(encoding="utf-8")
+    assert 'description: "Kick off RED-GREEN-REFACTOR for the current target."' in cmd_text
 
 
 def test_openclaw_merges_workspace_agents(fake_source_dir: Path, tmp_path: Path) -> None:

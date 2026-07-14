@@ -20,6 +20,7 @@ from scripts.adapters.base import (
     skill_bundle_ops,
     stale_managed_delete_ops,
     walk_managed_files,
+    yaml_quoted,
 )
 from scripts.source import Source
 
@@ -76,7 +77,7 @@ class CursorAdapter:
         agent_cfg = src.agents.get("cursor") or {}
         always_apply = agent_cfg.get("always_apply", src.always_apply)
         globs = agent_cfg.get("glob") or src.globs
-        fm_lines = ["---", f"description: {src.description.splitlines()[0]}"]
+        fm_lines = ["---", f"description: {yaml_quoted(src.description)}"]
         if globs:
             fm_lines.append(f"globs: {globs}")
         fm_lines.append(f"alwaysApply: {str(bool(always_apply)).lower()}")

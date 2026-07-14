@@ -2,9 +2,7 @@
 id: review
 kind: command
 title: Six-axis review of current diff
-description: >
-  Review the working diff (or PR) against correctness, readability, architecture,
-  security, performance, operability. Label findings by severity.
+description: "Review the working diff (or PR) against correctness, readability, architecture, security, performance, operability. Label findings by severity."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

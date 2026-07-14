@@ -2,10 +2,7 @@
 id: bounded-context-mapping
 kind: skill
 title: Bounded Context + Domain Mapping (DDD)
-description: >
-  Slice by bounded context. Repositories are aggregate/context ports, not
-  table DAOs. Map explicitly at seams (ACL / translators); keep row↔aggregate
-  mapping inside the context adapter.
+description: "Slice by bounded context. Repositories are aggregate/context ports, not table DAOs. Map explicitly at seams (ACL / translators); keep row↔aggregate mapping inside the context adapter."
 applies_when:
   - bounded context boundaries
   - defining repositories or persistence ports

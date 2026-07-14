@@ -2,9 +2,7 @@
 id: unit-of-work-and-transactions
 kind: skill
 title: Unit of Work + Transactions
-description: >
-  One UoW per use case. Atomic boundary. Repositories registered in the UoW.
-  Commit at the end of the use case, never inside the domain.
+description: "One UoW per use case. Atomic boundary. Repositories registered in the UoW. Commit at the end of the use case, never inside the domain."
 applies_when:
   - use case touches multiple aggregates
   - need atomicity across writes

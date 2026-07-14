@@ -2,9 +2,7 @@
 id: bug-first-debugging
 kind: skill
 title: Bug-First Debugging
-description: >
-  Never fix first. Reproduce as failing test, then fix. Regression test stays
-  forever. Find root cause, not symptom.
+description: "Never fix first. Reproduce as failing test, then fix. Regression test stays forever. Find root cause, not symptom."
 applies_when:
   - bug report
   - failing test

@@ -2,9 +2,7 @@
 id: concurrency-correctness
 kind: skill
 title: Concurrency Correctness
-description: >
-  Shared mutable state, structured concurrency, lock ordering, atomicity vs
-  ordering, async-specific traps, optimistic concurrency for shared records.
+description: "Shared mutable state, structured concurrency, lock ordering, atomicity vs ordering, async-specific traps, optimistic concurrency for shared records."
 applies_when:
   - async or threaded code
   - shared mutable state

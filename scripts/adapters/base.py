@@ -6,6 +6,7 @@ Pure functions for content transformation; only `apply_op` performs I/O.
 from __future__ import annotations
 
 import contextlib
+import json
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -102,10 +103,18 @@ def strip_managed_section(existing: str) -> str:
     return (before + "\n" + after).rstrip("\n") + "\n" if (before or after).strip() else ""
 
 
+def yaml_quoted(value: str) -> str:
+    """Return a single-line, JSON-compatible quoted YAML string."""
+    return json.dumps(" ".join(value.split()), ensure_ascii=False)
+
+
 def render_skill_markdown(src: Source, *, paths: str | None = None) -> str:
     """Render a skill source into frontmatter + body for native-skill agents."""
-    frontmatter = ["---", f"name: {src.id}", "description: >"]
-    frontmatter.extend(f"  {line}" for line in src.discovery_description.splitlines())
+    frontmatter = [
+        "---",
+        f"name: {src.id}",
+        f"description: {yaml_quoted(src.discovery_description)}",
+    ]
     if paths:
         frontmatter.append(f'paths: "{paths.replace(chr(34), chr(92) + chr(34))}"')
     frontmatter.append("---")

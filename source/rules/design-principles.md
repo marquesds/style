@@ -2,10 +2,7 @@
 id: design-principles
 kind: rule
 title: Design Principles
-description: >
-  Functional core / imperative shell. Favor referentially transparent
-  functions for logic. Parnas information hiding; weaker connascence; GRASP.
-  SOLID with LSP first. High cohesion, low coupling. Law of Demeter. YAGNI.
+description: "Functional core / imperative shell. Favor referentially transparent functions for logic. Parnas information hiding; weaker connascence; GRASP. SOLID with LSP first. High cohesion, low coupling. Law of Demeter. YAGNI."
 applies_when:
   - any new module
   - any architectural decision

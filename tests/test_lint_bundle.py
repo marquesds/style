@@ -6,7 +6,7 @@ from scripts.lint_source import lint_all
 from scripts.source import load_all
 
 SKILL_TEMPLATE = (
-    "---\nid: {skill_id}\nkind: {kind}\ntitle: Bundle\ndescription: >\n  A bundle.\n"
+    "---\nid: {skill_id}\nkind: {kind}\ntitle: Bundle\ndescription: \"A bundle.\"\n"
     "applies_when:\n  - testing bundles\n"
     "agents: {{ claude: {{ kind: skill }} }}\n---\n\n"
     "# Bundle\n\n## GOOD\n\n```python\nx = 1\n```\n\n## BAD\n\n```python\ny = 2\n```\n"
@@ -44,11 +44,10 @@ def test_lint_flags_bundle_with_rule_kind(tmp_path: Path) -> None:
     assert any("bundle must be kind 'skill'" in e for e in errors)
 
 
-def test_lint_flags_aux_over_200_lines(tmp_path: Path) -> None:
+def test_lint_allows_large_auxiliary_documentation(tmp_path: Path) -> None:
     long_aux = "# Long\n" + "line\n" * 200
     _write_bundle(tmp_path, aux={"long.md": long_aux})
-    errors = lint_all(load_all(tmp_path))
-    assert any("long.md" in e and "exceeds 200 max" in e for e in errors)
+    assert lint_all(load_all(tmp_path)) == []
 
 
 def test_lint_flags_aux_long_python_def(tmp_path: Path) -> None:

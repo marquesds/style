@@ -2,10 +2,7 @@
 id: architecture-haiku
 kind: skill
 title: Architecture Haiku
-description: >
-  Single-page living architecture overview. Required sections include quality
-  attributes in explicit priority order. Updated when architecture shifts, not
-  when features ship. Distinct from a feature spec or a single-decision ADR.
+description: "Single-page living architecture overview. Required sections include quality attributes in explicit priority order. Updated when architecture shifts, not when features ship. Distinct from a feature spec or a single-decision ADR."
 applies_when:
   - onboarding new engineers to the system
   - architecture review or trade-off discussion

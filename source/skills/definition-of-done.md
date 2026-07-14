@@ -2,9 +2,7 @@
 id: definition-of-done
 kind: skill
 title: Definition of Done
-description: >
-  Tests + changed-surface manual proof + lint + types + coverage + observability +
-  perf budget + 5-axis review. Walk before pushing or marking task complete.
+description: "Tests + changed-surface manual proof + lint + types + coverage + observability + perf budget + 5-axis review. Walk before pushing or marking task complete."
 applies_when:
   - about to push
   - about to mark a task complete

@@ -2,10 +2,7 @@
 id: integration-design
 kind: skill
 title: Integration Design (Syntactic / Semantic / Domain)
-description: >
-  Build integrations that split API shape from business meaning and behavior.
-  Syntactic layer normalizes external contracts; semantic layer translates
-  meaning; domain layer runs rules, invariants, workflows, domain events.
+description: "Build integrations that split API shape from business meaning and behavior. Syntactic layer normalizes external contracts; semantic layer translates meaning; domain layer runs rules, invariants, workflows, domain events."
 applies_when:
   - external API or webhook integration
   - partner feeds, streams, file ingest

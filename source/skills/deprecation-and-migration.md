@@ -2,9 +2,7 @@
 id: deprecation-and-migration
 kind: skill
 title: Deprecation + Migration
-description: >
-  Code is liability. Less code = less to maintain. Two-step removal.
-  Reversible migrations. Schema vs data migrations separate.
+description: "Code is liability. Less code = less to maintain. Two-step removal. Reversible migrations. Schema vs data migrations separate."
 applies_when:
   - removing or replacing existing system
   - schema change

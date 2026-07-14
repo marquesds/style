@@ -2,9 +2,7 @@
 id: centralized-ui-components
 kind: skill
 title: Centralized UI Components
-description: >
-  Build UI components into a catalog before any page imports them. One source
-  of truth per element; story file collocated; no hand-rolled duplicates on pages.
+description: "Build UI components into a catalog before any page imports them. One source of truth per element; story file collocated; no hand-rolled duplicates on pages."
 applies_when:
   - building or reviewing a frontend UI
   - adding a new reusable element (button, badge, modal, form field)

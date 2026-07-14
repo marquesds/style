@@ -2,9 +2,7 @@
 id: owasp-top-ten
 kind: skill
 title: OWASP Top 10 (2021) Map
-description: >
-  Ten-category web risk map. Failure mode + primary control + drill-down skills.
-  OWASP Top 10 2021 alignment.
+description: "Ten-category web risk map. Failure mode + primary control + drill-down skills. OWASP Top 10 2021 alignment."
 applies_when:
   - threat model sketch
   - security review

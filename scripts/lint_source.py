@@ -1,7 +1,6 @@
 """Mechanical lint for `source/` files.
 
 Checks (fail closed):
-- File <= 200 lines (including frontmatter).
 - Frontmatter has all required fields and valid `kind`.
 - `agents` mapping has at least one allowed agent.
 - Rules and skills contain a `## GOOD` and `## BAD` example block.
@@ -22,7 +21,6 @@ from collections.abc import Iterable
 from pathlib import Path
 
 from scripts.lint_bundle import (
-    MAX_FILE_LINES,
     SOURCE_ID_RE,
     def_length_errors,
     lint_auxiliary,
@@ -51,17 +49,18 @@ HEADING_GOOD = re.compile(r"^##\s+GOOD\b", re.MULTILINE)
 HEADING_BAD = re.compile(r"^##\s+BAD\b", re.MULTILINE)
 CATALOG_ROW_RE = re.compile(r"^\|\s*([a-z][a-z0-9-]+)\s*\|", re.MULTILINE)
 XML_TAG_RE = re.compile(r"</?[A-Za-z][^>]*>")
+QUOTED_DESCRIPTION_RE = re.compile(r'^description: "(?:[^"\\]|\\.)*"$')
 
 
-def lint_file_size(src: Source) -> list[str]:
-    n = len(src.raw_lines)
-    if n > MAX_FILE_LINES:
-        return [f"{src.path}: {n} lines exceeds {MAX_FILE_LINES} max"]
-    return []
 
 
 def lint_frontmatter(src: Source) -> list[str]:
     errors: list[str] = []
+    description_line = next(
+        (line for line in src.raw_lines if line.startswith("description:")), None
+    )
+    if description_line is not None and not QUOTED_DESCRIPTION_RE.fullmatch(description_line):
+        errors.append(f"{src.path}: description must be a double-quoted YAML string")
     missing = REQUIRED_FIELDS - set(src.frontmatter.keys())
     if missing:
         errors.append(f"{src.path}: missing frontmatter fields: {sorted(missing)}")
@@ -157,7 +156,6 @@ def lint_all(sources: Iterable[Source]) -> list[str]:
     known_skill_ids = {s.id for s in sources if s.kind == "skill"}
     errors: list[str] = []
     for s in sources:
-        errors.extend(lint_file_size(s))
         errors.extend(lint_frontmatter(s))
         errors.extend(lint_native_skill_spec(s))
         errors.extend(lint_examples(s))

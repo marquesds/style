@@ -2,10 +2,7 @@
 id: sql-query-antipatterns
 kind: skill
 title: SQL Query Antipatterns
-description: >
-  Query smells: NULL handling, GROUP BY non-aggregates, RAND() sort,
-  LIKE full-text, spaghetti queries, SELECT *. Fix each without rewriting
-  the schema.
+description: "Query smells: NULL handling, GROUP BY non-aggregates, RAND() sort, LIKE full-text, spaghetti queries, SELECT *. Fix each without rewriting the schema."
 applies_when:
   - query review
   - slow query investigation

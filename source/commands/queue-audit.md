@@ -2,10 +2,7 @@
 id: queue-audit
 kind: command
 title: Queue topology audit
-description: >
-  Walk the queue topology audit checklist. Engages skill:queue-topology-design.
-  Per queue: subscriber exists, stale reaper exists, worker not embedded in web,
-  dedicated thread pool when noisy.
+description: "Walk the queue topology audit checklist. Engages skill:queue-topology-design. Per queue: subscriber exists, stale reaper exists, worker not embedded in web, dedicated thread pool when noisy."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

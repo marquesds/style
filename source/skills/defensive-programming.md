@@ -2,10 +2,7 @@
 id: defensive-programming
 kind: skill
 title: Defensive Programming
-description: >
-  Harden edges: validate once, explicit contracts, fail-safe errors, bounded
-  resources, concurrency hygiene. Use when hardening APIs, parsing untrusted
-  input, concurrency, or "fail safe" / resilience reviews.
+description: "Harden edges: validate once, explicit contracts, fail-safe errors, bounded resources, concurrency hygiene. Use when hardening APIs, parsing untrusted input, concurrency, or \"fail safe\" / resilience reviews."
 applies_when:
   - boundary validation and error strategy
   - untrusted or cross-service input

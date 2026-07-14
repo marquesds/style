@@ -13,7 +13,7 @@ def _write_skill(tmp_path: Path, skill_id: str) -> None:
     title = skill_id.replace("-", " ").title()
     f.write_text(
         f"---\nid: {skill_id}\nkind: skill\ntitle: {title}\n"
-        "description: >\n  A test skill.\n"
+        "description: \"A test skill.\"\n"
         "applies_when:\n  - testing lint behavior\n"
         "agents:\n  claude: { kind: skill }\n---\n\n"
         f"# {title}\n\n## GOOD\n\n```python\nx = 1\n```\n\n## BAD\n\n```python\ny = 2\n```\n",
@@ -26,7 +26,7 @@ def _write_catalog(tmp_path: Path, rows: str) -> None:
     catalog.parent.mkdir(parents=True, exist_ok=True)
     catalog.write_text(
         "---\nid: skills-catalog\nkind: rule\ntitle: Skills Catalog\n"
-        "description: >\n  Index of every skill.\n"
+        "description: \"Index of every skill.\"\n"
         "always_apply: true\nglobs: \"**/*\"\nagents:\n  claude: { kind: rule }\n---\n\n"
         "# Skills Catalog\n\n## Catalog\n\n| Skill ID | Load when |\n|----------|----------|\n"
         f"{rows}\n## GOOD\n\nOne skill → load it.\n\n## BAD\n\nPreload all skills.\n",
@@ -36,6 +36,21 @@ def _write_catalog(tmp_path: Path, rows: str) -> None:
 
 def test_lint_clean_on_fixture(fake_source_dir: Path) -> None:
     assert lint_all(load_all(fake_source_dir)) == []
+
+
+def test_lint_requires_double_quoted_description(tmp_path: Path) -> None:
+    skill = tmp_path / "skills" / "unquoted.md"
+    skill.parent.mkdir(parents=True)
+    skill.write_text(
+        "---\nid: unquoted\nkind: skill\ntitle: Unquoted\ndescription: unquoted\n"
+        "applies_when:\n  - testing description syntax\n"
+        "agents: { claude: { kind: skill } }\n---\n\n"
+        "## GOOD\n\n```python\nx = 1\n```\n\n## BAD\n\n```python\ny = 2\n```\n",
+        encoding="utf-8",
+    )
+
+    errors = lint_all(load_all(tmp_path))
+    assert any("description must be a double-quoted YAML string" in error for error in errors)
 
 
 def test_lint_flags_missing_examples(tmp_path: Path) -> None:
@@ -48,8 +63,7 @@ def test_lint_flags_missing_examples(tmp_path: Path) -> None:
             id: no-examples
             kind: skill
             title: No Examples
-            description: >
-              Missing required example blocks.
+            description: "Missing required example blocks."
             applies_when:
               - testing missing examples
             agents:
@@ -74,7 +88,7 @@ def test_lint_flags_long_function(tmp_path: Path) -> None:
     body = "\n".join([f"    line_{i} = {i}" for i in range(15)])
     f.write_text(
         "---\n"
-        "id: long-fn\nkind: skill\ntitle: Long\ndescription: >\n  d\n"
+        "id: long-fn\nkind: skill\ntitle: Long\ndescription: \"d\"\n"
         "applies_when:\n  - testing long functions\n"
         "agents: { claude: { kind: skill } }\n---\n\n"
         "## GOOD\n\n```python\n"
@@ -90,7 +104,7 @@ def test_lint_flags_unknown_skill_ref(tmp_path: Path) -> None:
     f = tmp_path / "skills" / "ref.md"
     f.parent.mkdir(parents=True)
     f.write_text(
-        "---\nid: ref\nkind: skill\ntitle: Ref\ndescription: >\n  d\n"
+        "---\nid: ref\nkind: skill\ntitle: Ref\ndescription: \"d\"\n"
         "applies_when:\n  - testing unknown references\n"
         "agents: { claude: { kind: skill } }\n---\n\n"
         "Refer to skill:does-not-exist.\n\n## GOOD\n\n```python\nx=1\n```\n\n"
@@ -140,7 +154,7 @@ def test_lint_flags_native_skill_spec_violations(tmp_path: Path) -> None:
     skill.parent.mkdir(parents=True)
     skill.write_text(
         "---\n"
-        "id: Bad_Name\nkind: skill\ntitle: Bad\ndescription: >\n  Uses <xml/> tags.\n"
+        "id: Bad_Name\nkind: skill\ntitle: Bad\ndescription: \"Uses <xml/> tags.\"\n"
         "agents: { claude: { kind: skill } }\n---\n\n"
         "## GOOD\n\n```python\nx = 1\n```\n\n## BAD\n\n```python\ny = 2\n```\n",
         encoding="utf-8",

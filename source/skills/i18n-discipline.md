@@ -2,10 +2,7 @@
 id: i18n-discipline
 kind: skill
 title: i18n Discipline
-description: >
-  No hardcoded user-facing strings at the boundary. Locale files as single
-  source of truth. Locale-aware date/number formatting. ICU pluralization.
-  LLM prose follows configured locale; machine fields stay in the system language.
+description: "No hardcoded user-facing strings at the boundary. Locale files as single source of truth. Locale-aware date/number formatting. ICU pluralization. LLM prose follows configured locale; machine fields stay in the system language."
 applies_when:
   - adding any user-facing string
   - date or number rendering

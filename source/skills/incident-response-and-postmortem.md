@@ -2,9 +2,7 @@
 id: incident-response-and-postmortem
 kind: skill
 title: Incident Response and Postmortem
-description: >
-  Severity tiers, incident roles, mitigate-first discipline, and blameless
-  postmortem template. Action items must produce a code artefact before closing.
+description: "Severity tiers, incident roles, mitigate-first discipline, and blameless postmortem template. Action items must produce a code artefact before closing."
 applies_when:
   - production incident in flight
   - on-call paged or escalating an alert

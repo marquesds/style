@@ -2,9 +2,7 @@
 id: haiku
 kind: command
 title: Write or refresh the Architecture Haiku
-description: >
-  Guide through writing or refreshing the Architecture Haiku. Engages
-  skill:architecture-haiku. Hard stop if Quality Attributes are not ranked.
+description: "Guide through writing or refreshing the Architecture Haiku. Engages skill:architecture-haiku. Hard stop if Quality Attributes are not ranked."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

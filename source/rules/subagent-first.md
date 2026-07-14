@@ -2,8 +2,7 @@
 id: subagent-first
 kind: rule
 title: Subagent-First
-description: >
-  Spawn subagent when triggers fire. Compress context. Keep main window clean.
+description: "Spawn subagent when triggers fire. Compress context. Keep main window clean."
 applies_when:
   - exploring 3+ files
   - 5+ shell commands for one task

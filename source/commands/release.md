@@ -2,9 +2,7 @@
 id: release
 kind: command
 title: Release
-description: >
-  Bump version, update CHANGELOG, commit, tag, push. Hard stop if CHANGELOG
-  is missing the next version entry or if tests fail.
+description: "Bump version, update CHANGELOG, commit, tag, push. Hard stop if CHANGELOG is missing the next version entry or if tests fail."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

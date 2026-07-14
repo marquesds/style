@@ -2,9 +2,7 @@
 id: sql-physical-design
 kind: skill
 title: SQL Physical Design
-description: >
-  Physical design traps: money types, ENUM lookups, file storage in DB.
-  Rounding errors, rigid enums, phantom files.
+description: "Physical design traps: money types, ENUM lookups, file storage in DB. Rounding errors, rigid enums, phantom files."
 applies_when:
   - schema design
   - money or decimal columns

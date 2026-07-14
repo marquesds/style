@@ -2,10 +2,7 @@
 id: compile-time-feature-flags
 kind: skill
 title: Compile-Time Feature Flags
-description: >
-  Build-time mode switches for optional integrations, heavy deps, or platform
-  code. Default build always compiles clean. Matrix-test meaningful combos.
-  Distinct from runtime toggles (skill:rollout-and-feature-flags).
+description: "Build-time mode switches for optional integrations, heavy deps, or platform code. Default build always compiles clean. Matrix-test meaningful combos. Distinct from runtime toggles (skill:rollout-and-feature-flags)."
 applies_when:
   - adding an optional integration or heavy transitive dep
   - platform-specific or no_std code paths

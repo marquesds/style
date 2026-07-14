@@ -2,10 +2,7 @@
 id: queue-topology-design
 kind: skill
 title: Queue Topology Design
-description: >
-  Split queues by failure mode and cost. Per-queue worker pool with isolated
-  concurrency. Recurring jobs subscribed to their own queue. Workers never
-  embedded in the web process. Stale-job reapers for DB-backed queues.
+description: "Split queues by failure mode and cost. Per-queue worker pool with isolated concurrency. Recurring jobs subscribed to their own queue. Workers never embedded in the web process. Stale-job reapers for DB-backed queues."
 applies_when:
   - background job system design
   - adding a new job type with different SLA or cost

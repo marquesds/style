@@ -2,10 +2,7 @@
 id: capacity-and-cost-engineering
 kind: skill
 title: Capacity and Cost Engineering
-description: >
-  Capacity models, pre-launch load tests, per-service cost guardrails, and
-  right-sizing loops. Distinct from per-request rate limiting and post-hoc
-  spend observability.
+description: "Capacity models, pre-launch load tests, per-service cost guardrails, and right-sizing loops. Distinct from per-request rate limiting and post-hoc spend observability."
 applies_when:
   - sizing infrastructure for a launch or peak event
   - planning capacity for expected traffic growth

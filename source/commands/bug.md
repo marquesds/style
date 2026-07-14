@@ -2,9 +2,7 @@
 id: bug
 kind: command
 title: Bug-first reproduction
-description: >
-  Reproduce the bug as a failing test before any fix. Stop the line until
-  reproduction is locked in.
+description: "Reproduce the bug as a failing test before any fix. Stop the line until reproduction is locked in."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

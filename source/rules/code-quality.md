@@ -2,9 +2,7 @@
 id: code-quality
 kind: rule
 title: Code Quality
-description: >
-  Max 200 lines per file. Max 10 lines per function. Low cyclomatic complexity.
-  Iterator chains over loops. Demand elegance on nontrivial change.
+description: "Production implementation modules: max 200 lines per file and 10 lines per function. Keep complexity low; prefer iterator chains over loops. Docs, skills, specs, and tests are exempt from the file cap."
 applies_when:
   - any source change
 always_apply: true
@@ -28,11 +26,15 @@ Keep files small, functions short, and logic flat. Avoid surprises.
 
 | Limit | Value |
 |---|---|
-| File length | 200 lines (incl. `.md`) |
+| Production implementation module length | 200 lines |
 | Function length | 10 lines body |
 | Cyclomatic complexity | low; prefer match + iterator chain |
 
-If code hits a limit, split it instead of bypassing the rule.
+If production implementation code hits a limit, split it instead of bypassing the rule.
+
+Documentation, skills, specifications, tests, fixtures, generated files, and data declarations
+are exempt from the **file-length** cap. Keep those files readable, but do not split cohesive
+content merely to reach an arbitrary line count.
 
 ## Demand Elegance
 
@@ -120,7 +122,7 @@ If yes, split. If no (it's a data declaration), the carve-out applies.
 
 ## Red Flags
 
-- File creeping past 200 lines.
+- Production implementation module creeping past 200 lines.
 - Function past 10 lines body.
 - Three+ levels of nesting.
 - Boolean parameters that select different behaviors.

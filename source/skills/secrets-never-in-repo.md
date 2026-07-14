@@ -2,9 +2,7 @@
 id: secrets-never-in-repo
 kind: skill
 title: Secrets Never in Repo
-description: >
-  No API keys, tokens, PEMs, real .env, or credential literals in VCS or tests.
-  Env, vault, CI secrets; scan; rotate if leaked.
+description: "No API keys, tokens, PEMs, real .env, or credential literals in VCS or tests. Env, vault, CI secrets; scan; rotate if leaked."
 applies_when:
   - new service config
   - CI pipeline

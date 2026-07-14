@@ -2,9 +2,7 @@
 id: spec
 kind: command
 title: Start spec-driven development
-description: >
-  Kick off the SPECIFY phase: surface assumptions, define success criteria,
-  fill the six-area template before any code.
+description: "Kick off the SPECIFY phase: surface assumptions, define success criteria, fill the six-area template before any code."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

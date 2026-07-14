@@ -20,7 +20,7 @@ Split `CursorAdapter.write_all` into three branches:
 
 1. `kind == "rule"` → `_mdc_op` (unchanged, emits `.cursor/rules/<id>.mdc`).
 2. `kind == "skill"` → new `_skill_op` (emits `.cursor/skills/<id>/SKILL.md` with
-   `name` + folded `description` frontmatter, matching Claude's skill format).
+   `name` + double-quoted `description` frontmatter, matching Claude's skill format).
 3. `kind == "command"` → `_command_op` (unchanged).
 
 All 57 `source/skills/*.md` files have their `cursor:` agent block updated from

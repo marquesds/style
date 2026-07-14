@@ -2,10 +2,7 @@
 id: modular-file-as-feature-toggle
 kind: skill
 title: Modular File as Feature Toggle
-description: >
-  Split source by capability axis. Optional capability = removable file. Document
-  the toggle at the top of each optional file. Complements compile-time feature flags
-  when the capability boundary is clean enough that a file is the feature.
+description: "Split source by capability axis. Optional capability = removable file. Document the toggle at the top of each optional file. Complements compile-time feature flags when the capability boundary is clean enough that a file is the feature."
 applies_when:
   - designing a library with optional or variant capabilities
   - separating mutable from immutable variants

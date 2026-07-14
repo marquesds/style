@@ -2,12 +2,7 @@
 id: agent-workflow
 kind: rule
 title: Agent Workflow
-description: >
-  Plan mode default. RPI (research, plan, implement) with one subagent per phase.
-  Tiered models per phase: flagship for research, plan, review; one tier below for
-  implement. Stop on drift. Subagents for exploration. Manual proof before done.
-  Mandatory flagship review subagent on the diff before done. Bug report = root
-  cause hunt, no hand-holding.
+description: "Plan mode default. RPI (research, plan, implement) with one subagent per phase. Tiered models per phase: flagship for research, plan, review; one tier below for implement. Stop on drift. Subagents for exploration. Manual proof before done. Mandatory flagship review subagent on the diff before done. Bug report = root cause hunt, no hand-holding."
 applies_when:
   - any task with 3+ steps
   - architectural decision

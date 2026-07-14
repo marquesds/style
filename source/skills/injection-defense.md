@@ -2,9 +2,7 @@
 id: injection-defense
 kind: skill
 title: Injection Defense
-description: >
-  SQLi via parameters. Command / LDAP / SSTI / path traversal callouts.
-  No string concat for structure.
+description: "SQLi via parameters. Command / LDAP / SSTI / path traversal callouts. No string concat for structure."
 applies_when:
   - raw SQL or shell
   - dynamic query building

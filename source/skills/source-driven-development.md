@@ -2,9 +2,7 @@
 id: source-driven-development
 kind: skill
 title: Source-Driven Development
-description: >
-  Cite official docs before writing framework code. Detect versions first.
-  Don't implement from training-data memory.
+description: "Cite official docs before writing framework code. Detect versions first. Don't implement from training-data memory."
 applies_when:
   - using unfamiliar framework API
   - is-this-the-right-way question about a third-party API

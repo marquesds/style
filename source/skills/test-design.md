@@ -2,9 +2,7 @@
 id: test-design
 kind: skill
 title: Test Design
-description: >
-  Design regression, contract, and behavior tests. Choose coverage, test level,
-  and doubles with Testing Trophy + fan-in-aware rigor.
+description: "Design regression, contract, and behavior tests. Choose coverage, test level, and doubles with Testing Trophy + fan-in-aware rigor."
 applies_when:
   - new test suite
   - designing tests for behavior changes

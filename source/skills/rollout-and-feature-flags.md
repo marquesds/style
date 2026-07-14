@@ -2,9 +2,7 @@
 id: rollout-and-feature-flags
 kind: skill
 title: Rollout + Feature Flags
-description: >
-  Four flag archetypes, progressive delivery, flag debt with removal date,
-  flag vs config distinction, automated rollback signals tied to SLO burn.
+description: "Four flag archetypes, progressive delivery, flag debt with removal date, flag vs config distinction, automated rollback signals tied to SLO burn."
 applies_when:
   - shipping risky or partial changes
   - gradual rollout or canary release

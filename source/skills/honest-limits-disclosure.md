@@ -2,10 +2,7 @@
 id: honest-limits-disclosure
 kind: skill
 title: Honest Limits Disclosure
-description: >
-  State known non-features, constraints, and limitations where readers look first.
-  Specific and actionable, not vague. Trade-offs are disclosures too.
-  No surprises after adoption.
+description: "State known non-features, constraints, and limitations where readers look first. Specific and actionable, not vague. Trade-offs are disclosures too. No surprises after adoption."
 applies_when:
   - writing a README or module-level doc comment
   - documenting a public library API

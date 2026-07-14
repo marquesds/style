@@ -2,9 +2,7 @@
 id: observability
 kind: rule
 title: Observability
-description: >
-  Three pillars: logs, traces, metrics. Correlation IDs everywhere.
-  Log at state changes. No PII in logs. Tooling-agnostic.
+description: "Three pillars: logs, traces, metrics. Correlation IDs everywhere. Log at state changes. No PII in logs. Tooling-agnostic."
 applies_when:
   - any state change
   - any external boundary call

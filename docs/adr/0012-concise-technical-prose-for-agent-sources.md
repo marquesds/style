@@ -54,7 +54,6 @@ stay compact because the source now asks for concise prose directly.
 **Negative.** Some source files may grow modestly. Merged-agent outputs should be
 watched because they still load many files into one block.
 
-**Mitigation.** Keep the 200-line source-file limit, preserve native skill loading
-for agents that support it, and measure generated merged-block size when large
-rewrites land. Revisit this ADR if merged output grows by more than 20% without a
-clear readability or correctness benefit.
+**Mitigation.** Preserve native skill loading for agents that support it and measure
+generated merged-block size when large rewrites land. Revisit this ADR if merged
+output grows by more than 20% without a clear readability or correctness benefit.

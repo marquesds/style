@@ -2,9 +2,7 @@
 id: refactor
 kind: command
 title: Run a refactor cycle
-description: >
-  Apply one named structural transformation. Suite green before and after.
-  Never mix refactor with feature work. Use skill:refactoring.
+description: "Apply one named structural transformation. Suite green before and after. Never mix refactor with feature work. Use skill:refactoring."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

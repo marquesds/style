@@ -2,10 +2,7 @@
 id: snapshot-testing
 kind: skill
 title: Snapshot Testing
-description: >
-  Diff-reviewed output pinned to file. Use for complex rendered or serialized
-  output. Review like code; never auto-accept. Pair with property and example
-  tests, not as a replacement.
+description: "Diff-reviewed output pinned to file. Use for complex rendered or serialized output. Review like code; never auto-accept. Pair with property and example tests, not as a replacement."
 applies_when:
   - testing rendered templates, CLI output, or serialized formats
   - large complex output where field assertions are brittle

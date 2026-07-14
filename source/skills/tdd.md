@@ -2,11 +2,7 @@
 id: tdd
 kind: skill
 title: TDD
-description: >
-  Write failing test first. Implementation second. Default test shape is the
-  Testing Trophy (static + thick integration + unit + few E2E). Prefer Chicago
-  school: state-based checks, real in-process collaborators, doubles only at
-  non-deterministic or external boundaries. Tests are proof, not afterthought.
+description: "Write failing test first. Implementation second. Default test shape is the Testing Trophy (static + thick integration + unit + few E2E). Prefer Chicago school: state-based checks, real in-process collaborators, doubles only at non-deterministic or external boundaries. Tests are proof, not afterthought."
 applies_when:
   - new logic
   - bug fix

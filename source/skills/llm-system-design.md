@@ -2,10 +2,7 @@
 id: llm-system-design
 kind: skill
 title: LLM System Design
-description: >
-  LLM as product-layer planner and synthesizer over retrieved evidence, never
-  sole oracle. Explicit confidence scoring, structured outputs, fake client for
-  tests, conservative fallback, token-cost accounting.
+description: "LLM as product-layer planner and synthesizer over retrieved evidence, never sole oracle. Explicit confidence scoring, structured outputs, fake client for tests, conservative fallback, token-cost accounting."
 applies_when:
   - shipping an LLM-powered product feature
   - multi-source evidence synthesis

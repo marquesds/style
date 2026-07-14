@@ -2,9 +2,7 @@
 id: password-hashing-storage
 kind: skill
 title: Password Hashing + Storage
-description: >
-  Argon2id / bcrypt / scrypt. Random salt per password stored with verify record.
-  No plaintext. Constant-time verify. Pepper in vault only.
+description: "Argon2id / bcrypt / scrypt. Random salt per password stored with verify record. No plaintext. Constant-time verify. Pepper in vault only."
 applies_when:
   - signup / login / password reset
   - credential storage design

@@ -2,8 +2,7 @@
 id: tdd
 kind: command
 title: Run a TDD cycle
-description: >
-  Drive the next change RED → GREEN → REFACTOR. Test fails first.
+description: "Drive the next change RED → GREEN → REFACTOR. Test fails first."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

@@ -2,10 +2,7 @@
 id: pull-request-and-commit-style
 kind: skill
 title: PR + Commit Style
-description: >
-  Conventional Commits. ~100-line PRs. One logical change per PR. Feature flags
-  when applicable. Commit body and PR description lead with the cause — who
-  hurts or what gain is lost without this change — before the approach.
+description: "Conventional Commits. ~100-line PRs. One logical change per PR. Feature flags when applicable. Commit body and PR description lead with the cause — who hurts or what gain is lost without this change — before the approach."
 applies_when:
   - opening a PR
   - writing commit messages

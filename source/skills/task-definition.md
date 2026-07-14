@@ -2,10 +2,7 @@
 id: task-definition
 kind: skill
 title: Task Definition
-description: >
-  Four disciplines for a pickup-ready task: a one-sentence Why naming a
-  victim and a metric, a clear title, a single agreed estimate scale (no
-  T-shirt/Fibonacci mixing), and acceptance criteria in Gherkin.
+description: "Four disciplines for a pickup-ready task: a one-sentence Why naming a victim and a metric, a clear title, a single agreed estimate scale (no T-shirt/Fibonacci mixing), and acceptance criteria in Gherkin."
 applies_when:
   - writing a backlog ticket, story, or task
   - defining a unit of work for someone else to pick up

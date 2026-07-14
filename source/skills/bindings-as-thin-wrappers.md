@@ -2,9 +2,7 @@
 id: bindings-as-thin-wrappers
 kind: skill
 title: Bindings as Thin Wrappers
-description: >
-  Core library once. Per-platform bindings (Python, JS/WASM, Go, C-ABI) translate
-  types only. No logic reimplemented in bindings. One source of truth.
+description: "Core library once. Per-platform bindings (Python, JS/WASM, Go, C-ABI) translate types only. No logic reimplemented in bindings. One source of truth."
 applies_when:
   - exposing a library to multiple languages or runtimes
   - adding a new language binding to an existing core

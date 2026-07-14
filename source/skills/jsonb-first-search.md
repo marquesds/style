@@ -2,9 +2,7 @@
 id: jsonb-first-search
 kind: skill
 title: JSONB-First Search (Postgres)
-description: >
-  Default jsonb + GIN for v0 search-heavy or schema-fluid features.
-  Promote columns when schema stabilizes.
+description: "Default jsonb + GIN for v0 search-heavy or schema-fluid features. Promote columns when schema stabilizes."
 applies_when:
   - prototype ingest
   - unknown JSON shape

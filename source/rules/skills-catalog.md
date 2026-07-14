@@ -2,9 +2,7 @@
 id: skills-catalog
 kind: rule
 title: Skills Catalog
-description: >
-  Always-on index of every skill. Read catalog to match trigger; load exactly the
-  matching skill body on demand. Never preload all skills at once.
+description: "Always-on index of every skill. Read catalog to match trigger; load exactly the matching skill body on demand. Never preload all skills at once."
 always_apply: true
 globs: "**/*"
 agents:

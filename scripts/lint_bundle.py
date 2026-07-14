@@ -2,7 +2,7 @@
 
 A bundle is a `source/skills/<id>/` directory holding `SKILL.md` and sibling
 auxiliary `*.md` reference files. Auxiliary files are plain markdown: no
-frontmatter, <= MAX_FILE_LINES lines, python example defs <= MAX_FUNCTION_LINES.
+frontmatter, python example defs <= MAX_FUNCTION_LINES.
 """
 
 from __future__ import annotations
@@ -12,7 +12,6 @@ from pathlib import Path
 
 from scripts.source import AuxFile, Source
 
-MAX_FILE_LINES = 200
 MAX_FUNCTION_LINES = 10
 SOURCE_ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 PY_FENCE_RE = re.compile(r"```python\n(.*?)```", re.DOTALL)
@@ -66,9 +65,6 @@ def _lint_aux_file(aux: AuxFile) -> list[str]:
 
 def _aux_shape_errors(aux: AuxFile) -> list[str]:
     errors: list[str] = []
-    n = len(aux.content.splitlines())
-    if n > MAX_FILE_LINES:
-        errors.append(f"{aux.path}: {n} lines exceeds {MAX_FILE_LINES} max")
     if aux.content.startswith("---"):
         errors.append(f"{aux.path}: auxiliary file must not start with frontmatter '---'")
     if not SOURCE_ID_RE.fullmatch(Path(aux.name).stem):

@@ -2,10 +2,7 @@
 id: accessibility-and-inclusive-ui
 kind: skill
 title: Accessibility and Inclusive UI
-description: >
-  WCAG AA compliance, keyboard parity, and screen-reader contract for every
-  interactive surface. Semantic HTML first. axe-core in CI enforces zero
-  regressions.
+description: "WCAG AA compliance, keyboard parity, and screen-reader contract for every interactive surface. Semantic HTML first. axe-core in CI enforces zero regressions."
 applies_when:
   - building or reviewing a frontend UI
   - adding a form, modal, or interactive widget

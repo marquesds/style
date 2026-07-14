@@ -2,9 +2,7 @@
 id: snapshot-review
 kind: command
 title: Snapshot Review
-description: >
-  Read pending snapshot diffs, classify each as intended or unintended, accept
-  intentional only. Never bulk-accept. Hard stop on any unintended diff.
+description: "Read pending snapshot diffs, classify each as intended or unintended, accept intentional only. Never bulk-accept. Hard stop on any unintended diff."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

@@ -2,10 +2,7 @@
 id: canonical-reference-in-docstrings
 kind: skill
 title: Canonical Reference in Docstrings
-description: >
-  Cite the authoritative source in doc comments: math notation, RFC numbers, PEP
-  numbers, paper titles. Reduces translation ambiguity for reviewers and agents.
-  One-liner citation at the relevant point.
+description: "Cite the authoritative source in doc comments: math notation, RFC numbers, PEP numbers, paper titles. Reduces translation ambiguity for reviewers and agents. One-liner citation at the relevant point."
 applies_when:
   - documenting an algorithm, protocol, or formula
   - implementing a spec-defined behaviour

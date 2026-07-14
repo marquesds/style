@@ -2,10 +2,7 @@
 id: data-quality-and-analytics
 kind: skill
 title: Data Quality and Analytics
-description: >
-  Single canonical metric definitions, typed event schemas, declared lineage,
-  versioned definition changes, and pipeline assertions. Product correctness,
-  not telemetry observability.
+description: "Single canonical metric definitions, typed event schemas, declared lineage, versioned definition changes, and pipeline assertions. Product correctness, not telemetry observability."
 applies_when:
   - adding a tracking event or product metric
   - building or reviewing an analytics dashboard

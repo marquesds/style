@@ -2,9 +2,7 @@
 id: privacy-by-design
 kind: rule
 title: Privacy by Design
-description: >
-  Privacy and data protection baked in before code. Minimize, declare purpose,
-  enforce retention, honor subject rights. Opt-out only via dated ADR.
+description: "Privacy and data protection baked in before code. Minimize, declare purpose, enforce retention, honor subject rights. Opt-out only via dated ADR."
 applies_when:
   - any feature touching user or personal data
   - schema change adding a column that could hold PII

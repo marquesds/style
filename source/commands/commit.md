@@ -2,9 +2,7 @@
 id: commit
 kind: command
 title: Generate Conventional Commit
-description: >
-  Generate a Conventional Commit message for staged changes. Subject in imperative mood,
-  body leads with the cause (who hurts without this change), footer references issues.
+description: "Generate a Conventional Commit message for staged changes. Subject in imperative mood, body leads with the cause (who hurts without this change), footer references issues."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

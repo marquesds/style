@@ -2,9 +2,7 @@
 id: sql-app-discipline
 kind: skill
 title: SQL App Discipline
-description: >
-  Application-side SQL hygiene: surrogate key gaps are normal, handle DB
-  errors explicitly, SQL in version control, stored procs only where earned.
+description: "Application-side SQL hygiene: surrogate key gaps are normal, handle DB errors explicitly, SQL in version control, stored procs only where earned."
 applies_when:
   - surrogate key renumbering
   - error handling with DB calls

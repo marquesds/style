@@ -2,10 +2,7 @@
 id: liskov-and-design-by-contract
 kind: skill
 title: Liskov + Design by Contract
-description: >
-  Subtypes substitute base types without breaking callers.
-  Encode pre/post/invariants in types where possible. Asserts and property
-  tests fill the gaps. LSP first SOLID principle.
+description: "Subtypes substitute base types without breaking callers. Encode pre/post/invariants in types where possible. Asserts and property tests fill the gaps. LSP first SOLID principle."
 applies_when:
   - new abstract base / Protocol / interface / trait
   - new subclass / impl

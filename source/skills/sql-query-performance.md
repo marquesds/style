@@ -2,9 +2,7 @@
 id: sql-query-performance
 kind: skill
 title: SQL Query Performance
-description: >
-  Index shape, sargable predicates, join/order strategies, pagination,
-  and write cost. Vendor-agnostic mental model. Pair with ORM fan-out skill.
+description: "Index shape, sargable predicates, join/order strategies, pagination, and write cost. Vendor-agnostic mental model. Pair with ORM fan-out skill."
 applies_when:
   - slow queries
   - new indexes

@@ -2,9 +2,7 @@
 id: runnable-doc-examples
 kind: skill
 title: Runnable Doc Examples
-description: >
-  Public API examples that execute as tests. Go Example*, Rust doc fences,
-  Python doctest, JS vitest. Output asserted. Docs drift; tested examples don't.
+description: "Public API examples that execute as tests. Go Example*, Rust doc fences, Python doctest, JS vitest. Output asserted. Docs drift; tested examples don't."
 applies_when:
   - documenting a public API function
   - reviewing whether examples are up to date

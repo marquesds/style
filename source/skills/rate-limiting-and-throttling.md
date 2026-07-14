@@ -2,11 +2,7 @@
 id: rate-limiting-and-throttling
 kind: skill
 title: Rate Limiting and Throttling
-description: >
-  Token bucket (burst) vs sliding window (smooth) vs fixed window (lossy).
-  Per-tenant + per-endpoint dimensions. 429 + Retry-After headers. Redis counters.
-  Cost-based limiting. Backpressure: queue vs shed. Outbound counterpart in
-  resilience-retries; 429 semantics in restful-http-design.
+description: "Token bucket (burst) vs sliding window (smooth) vs fixed window (lossy). Per-tenant + per-endpoint dimensions. 429 + Retry-After headers. Redis counters. Cost-based limiting. Backpressure: queue vs shed. Outbound counterpart in resilience-retries; 429 semantics in restful-http-design."
 applies_when:
   - public API endpoint design
   - protecting a downstream dependency from overload

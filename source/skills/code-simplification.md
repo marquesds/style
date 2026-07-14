@@ -2,9 +2,7 @@
 id: code-simplification
 kind: skill
 title: Code Simplification
-description: >
-  Reduce complexity, preserve behavior. Chesterton's fence.
-  Scope to changed code only.
+description: "Reduce complexity, preserve behavior. Chesterton's fence. Scope to changed code only."
 applies_when:
   - code works but reads poorly
   - refactor pass after a feature lands

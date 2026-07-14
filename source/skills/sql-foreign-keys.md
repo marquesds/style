@@ -2,9 +2,7 @@
 id: sql-foreign-keys
 kind: skill
 title: SQL Foreign Keys
-description: >
-  Foreign key implementation mistakes: wrong direction, bad target shape,
-  type/collation mismatches, lifecycle gaps, operational conflicts.
+description: "Foreign key implementation mistakes: wrong direction, bad target shape, type/collation mismatches, lifecycle gaps, operational conflicts."
 applies_when:
   - schema review with FK constraints
   - FK error on migration

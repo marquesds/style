@@ -2,9 +2,7 @@
 id: xss-and-csp
 kind: skill
 title: XSS + CSP
-description: >
-  Reflected, stored, DOM XSS. Context-aware encoding. CSP depth. Cookie flags.
-  Dangerous sinks.
+description: "Reflected, stored, DOM XSS. Context-aware encoding. CSP depth. Cookie flags. Dangerous sinks."
 applies_when:
   - HTML or JS output
   - rich text / user HTML

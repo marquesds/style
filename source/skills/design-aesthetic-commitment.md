@@ -2,10 +2,7 @@
 id: design-aesthetic-commitment
 kind: skill
 title: Design Aesthetic Commitment
-description: >
-  Pick one aesthetic direction and hold it. Reject generic AI defaults. CSS tokens
-  for all design decisions. Honor prefers-reduced-motion. Consistency beats
-  imperfect-but-inconsistent.
+description: "Pick one aesthetic direction and hold it. Reject generic AI defaults. CSS tokens for all design decisions. Honor prefers-reduced-motion. Consistency beats imperfect-but-inconsistent."
 applies_when:
   - building or reviewing a frontend UI
   - setting up a design system or token file

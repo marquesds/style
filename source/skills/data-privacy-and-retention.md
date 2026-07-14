@@ -2,9 +2,7 @@
 id: data-privacy-and-retention
 kind: skill
 title: Data Privacy + Retention
-description: >
-  Data classification, retention windows and automated purge,
-  right-to-erasure workflows, pseudonymization, access audit logs, residency.
+description: "Data classification, retention windows and automated purge, right-to-erasure workflows, pseudonymization, access audit logs, residency."
 applies_when:
   - storing personal or sensitive data
   - designing a retention policy

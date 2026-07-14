@@ -2,9 +2,7 @@
 id: threat-model
 kind: command
 title: Threat model current diff or feature
-description: >
-  Walk STRIDE across trust boundaries in the current diff or feature. Produce a
-  flat threat list with element, category, abuse case, and mitigation.
+description: "Walk STRIDE across trust boundaries in the current diff or feature. Produce a flat threat list with element, category, abuse case, and mitigation."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

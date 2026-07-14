@@ -2,9 +2,7 @@
 id: llm-prompt-injection
 kind: skill
 title: LLM Prompt Injection
-description: >
-  Untrusted text vs system instructions. Tool and RAG boundaries.
-  Least-privilege tools. Do not pipe raw user into privileged prompt.
+description: "Untrusted text vs system instructions. Tool and RAG boundaries. Least-privilege tools. Do not pipe raw user into privileged prompt."
 applies_when:
   - LLM feature with user input
   - RAG over untrusted docs

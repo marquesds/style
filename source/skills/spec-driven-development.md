@@ -2,9 +2,7 @@
 id: spec-driven-development
 kind: skill
 title: Spec-Driven Development
-description: >
-  Create designs and specifications before code. Surface assumptions early.
-  Gated workflow: SPECIFY → PLAN → TASKS → IMPLEMENT.
+description: "Create designs and specifications before code. Surface assumptions early. Gated workflow: SPECIFY → PLAN → TASKS → IMPLEMENT."
 applies_when:
   - creating or updating a design or technical specification
   - writing a clear standalone implementation plan

@@ -2,9 +2,7 @@
 id: ai-collaboration-hygiene
 kind: skill
 title: AI Collaboration Hygiene
-description: >
-  When not to delegate. Reviewing AI-generated code differently.
-  Architectural decisions stay human. Citation requirement reaffirmed.
+description: "When not to delegate. Reviewing AI-generated code differently. Architectural decisions stay human. Citation requirement reaffirmed."
 applies_when:
   - AI-generated code is in review
   - deciding whether to delegate a task to an AI agent

@@ -2,9 +2,7 @@
 id: done
 kind: command
 title: Walk Definition of Done
-description: >
-  Run the Definition-of-Done checklist on the current change before pushing
-  or marking complete.
+description: "Run the Definition-of-Done checklist on the current change before pushing or marking complete."
 agents:
   claude: { kind: command }
   cursor: { kind: command }

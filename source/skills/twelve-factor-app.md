@@ -2,9 +2,7 @@
 id: twelve-factor-app
 kind: skill
 title: Twelve-Factor App
-description: >
-  Cloud-native shape for SaaS services. Ten of the twelve factors that still earn
-  their keep, with cross-refs to deeper skills. Navigation layer only.
+description: "Cloud-native shape for SaaS services. Ten of the twelve factors that still earn their keep, with cross-refs to deeper skills. Navigation layer only."
 applies_when:
   - new service shape
   - production readiness review

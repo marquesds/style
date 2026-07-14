@@ -2,9 +2,7 @@
 id: sql-antipatterns
 kind: skill
 title: SQL Antipatterns
-description: >
-  Relational traps: multi-valued scalars, naive trees, weak keys, missing FKs,
-  EAV, polymorphic soup, shredded columns, and wide flag matrices. Practical fixes.
+description: "Relational traps: multi-valued scalars, naive trees, weak keys, missing FKs, EAV, polymorphic soup, shredded columns, and wide flag matrices. Practical fixes."
 applies_when:
   - schema review
   - SQL smell
